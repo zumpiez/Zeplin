@@ -1,0 +1,130 @@
+﻿//Zeplin Engine - AnimationScript.cs
+//Jeff Hutchins 2009
+//Some rights reserved http://creativecommons.org/licenses/by-sa/3.0/us/
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Microsoft.Xna.Framework;
+
+namespace Zeplin
+{
+    /// <summary>
+    /// Defines a timed animation sequence
+    /// </summary>
+    public class AnimationScript
+    {
+        /// <summary>
+        /// Constructs an animation sequence
+        /// </summary>
+        /// <param name="frames">0-based list of frames in the animation</param>
+        /// <param name="duration">The amount of time, in seconds, the animation will take to play to completion</param>
+        public AnimationScript(int[] frames, float duration)
+        {
+            this.frames = frames.ToList<int>();
+            this.Duration = duration;
+        }
+        
+        List<int> frames;
+        double beginTime = 0;
+        
+        /// <summary>
+        /// Sets the animation to start from the beginning during the next draw.
+        /// </summary>
+        /// <param name="time">The current time</param>
+        public void PlayFromBeginning(GameTime time)
+        {
+            beginTime = time.TotalGameTime.TotalMilliseconds;
+        }
+
+        bool loop = false;
+        int animationIndex = 0;
+        /// <summary>
+        /// Gets or sets the animation's loop setting
+        /// </summary>
+        public bool Loop
+        {
+            get { return loop; }
+            set { loop = value; }
+        }
+        
+        /// <summary>
+        /// Gets whether the animation has reached the end of its playback.
+        /// </summary>
+        /// <remarks>This will always return false if the animation is looping at the time IsAnimationFinished is called.</remarks>
+        public bool IsAnimationFinished
+        {
+            get
+            {
+                if (loop == true)
+                    return false;
+                else if (animationIndex >= frames.Count)
+                    return true;
+                else 
+                    return false;
+            }
+        }
+
+        int totalMilliseconds;
+        /// <summary>
+        /// Gets or sets the amount of time (in seconds) that the animation should take to complete.
+        /// </summary>
+        public float Duration
+        {
+            get { return totalMilliseconds / 1000f; }
+            set { totalMilliseconds = (int)(value * 1000); }
+        }
+
+        int padding = 0;
+        /// <summary>
+        /// Gets or sets the number of pixels that are padding the animation frames.
+        /// </summary>
+        public int Padding
+        {
+            get { return padding; }
+            set { padding = value; }
+        }
+
+        /// <summary>
+        /// Computes a rectangle that contains the current animation frame in the passed sprite.
+        /// </summary>
+        /// <param name="time">The current GameTime</param>
+        /// <param name="sprite">The sprite being drawn</param>
+        /// <returns>A rectangle containing the correct frame</returns>
+        /// <remarks>You can use this method on any sprite and it will generate a result, but it for correct results the Sprite should have a framesize defined, and the order of animation frames should match those of the AnimationScript.</remarks>
+        internal Rectangle ProcessAnimation(GameTime time, Sprite sprite)
+        {
+            //Determine the frame number to use based on duration and current time
+            int frame;
+            animationIndex = (int)((time.TotalGameTime.TotalMilliseconds - beginTime) * frames.Count / totalMilliseconds);
+            if (loop)
+            {
+                animationIndex %= frames.Count;
+                frame = frames[animationIndex];
+            }
+            else
+            {
+                if (animationIndex >= frames.Count)
+                    frame = frames[frames.Count - 1]; //show last frame of animation until restarted.
+                else
+                    frame = frames[animationIndex];
+            }
+
+            //Locate the rectangle containing that frame number based on the sprite's frame size
+            Rectangle sourceRect = new Rectangle(0,0,(int)sprite.FrameSize.X, (int)sprite.FrameSize.Y);
+
+            sourceRect.X = frame * sourceRect.Width + (padding * frame) + padding;
+            int yOffsetFactor = 0;
+            while (sourceRect.X >= sprite.Image.Width)
+            {
+                sourceRect.X -= sprite.Image.Width - 1;
+                yOffsetFactor += 1;
+            }
+            sourceRect.Y = sourceRect.Height * yOffsetFactor + (padding * yOffsetFactor) + padding;
+
+            return sourceRect;
+        }
+    }
+}
