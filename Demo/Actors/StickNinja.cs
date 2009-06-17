@@ -13,7 +13,6 @@ namespace Demo.Actors
     {
         public StickNinja(Vector2 position) : base(new Sprite(@"Images\stickninja"), new Transformation(position, new Vector2(0.75f, 0.75f), 0, new Vector2(80,95)), new CollisionVolume(Vector2.Zero, new Vector2(99,77)))
         {
-            Size = new Vector2(156, 197);
             Scale = new Vector2(0.75f);
 
             //this.Sprite.color = Color.Chocolate;

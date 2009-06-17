@@ -13,7 +13,7 @@ namespace Zeplin
     /// <summary>
     /// Defines a Tile, which can be positioned and drawn in the world and is compatible with collision
     /// </summary>
-    public class Tile : IRenderable, ICollidable, ITransformable
+    public class Tile : IRenderable, ICollidable
     {
         /// <summary>
         /// Constructs a tile with a sprite, transformation and collision volume
@@ -24,7 +24,7 @@ namespace Zeplin
         public Tile(Sprite sprite, Transformation transformation, CollisionVolume collider)
         {
             this.msprite = sprite;
-            this.transformer = transformation;
+            this.transformation = transformation;
             this.collider = collider;
         }
 
@@ -48,11 +48,11 @@ namespace Zeplin
             if (currentAnimation != null)
             {
                 sourceRect = currentAnimation.ProcessAnimation(gameTime, msprite);
-                msprite.Draw(transformer, 1, sourceRect);
+                msprite.Draw(transformation, 1, sourceRect);
             }
             else
             {
-                msprite.Draw(transformer, 1, null);
+                msprite.Draw(transformation, 1, null);
             }
 
             collider.Draw();
@@ -107,7 +107,7 @@ namespace Zeplin
         /// </summary>
         internal void RefreshCollisionVolume()
         {
-            collider.TransformCollisionVolume(transformer);
+            collider.TransformCollisionVolume(transformation);
         }
 
         #endregion
@@ -119,11 +119,11 @@ namespace Zeplin
         /// </summary>
         public Vector2 Scale
         {
-            get { return transformer.Scale; }
+            get { return transformation.Scale; }
             set
             {
-                transformer.Scale = value;
-                collider.TransformCollisionVolume(transformer);
+                transformation.Scale = value;
+                collider.TransformCollisionVolume(transformation);
             }
         }
 
@@ -132,11 +132,11 @@ namespace Zeplin
         /// </summary>
         public float Rotation
         {
-            get { return transformer.Rotation; }
+            get { return transformation.Rotation; }
             set
             {
-                transformer.Rotation = value;
-                collider.TransformCollisionVolume(transformer);
+                transformation.Rotation = value;
+                collider.TransformCollisionVolume(transformation);
             }
         }
 
@@ -145,11 +145,11 @@ namespace Zeplin
         /// </summary>
         public Vector2 Pivot
         {
-            get { return transformer.Pivot; }
+            get { return transformation.Pivot; }
             set
             {
-                transformer.Pivot = value;
-                collider.TransformCollisionVolume(transformer);
+                transformation.Pivot = value;
+                collider.TransformCollisionVolume(transformation);
             }
         }
 
@@ -158,32 +158,18 @@ namespace Zeplin
         /// </summary>
         public Vector2 Translation
         {
-            get { return transformer.Position; }
+            get { return transformation.Position; }
             set
             {
-                transformer.Position = value;
-                collider.TransformCollisionVolume(transformer);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the size of the tile in world coordinates
-        /// </summary>
-        /// <remarks>I don't think this is actually used. TODO: investigate!</remarks>
-        public Vector2 Size
-        {
-            get { return transformer.Size; }
-            set
-            {
-                transformer.Size = value;
-                collider.TransformCollisionVolume(transformer);
+                transformation.Position = value;
+                collider.TransformCollisionVolume(transformation);
             }
         }
         
         #endregion
 
 
-        Transformation transformer;
+        Transformation transformation;
         /// <summary>
         /// Gets or sets the tile's transformation
         /// </summary>
@@ -191,12 +177,12 @@ namespace Zeplin
         {
             set
             {
-                transformer = value;
-                collider.TransformCollisionVolume(transformer);
+                transformation = value;
+                collider.TransformCollisionVolume(transformation);
             }
             get
             {
-                return transformer;
+                return transformation;
             }
         }
 

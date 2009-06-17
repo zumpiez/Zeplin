@@ -16,7 +16,6 @@ namespace Zeplin
     public interface IRenderable
     {
         void Draw(GameTime gameTime);
-        Sprite Sprite { get; }
     }
 
     /// <summary>
@@ -34,17 +33,5 @@ namespace Zeplin
     public interface IThinkable
     {
          void UpdateBehavior(GameTime time);
-    }
-
-    /// <summary>
-    /// Defines support for Zeplin's transformation class
-    /// </summary>
-    public interface ITransformable
-    {
-        Vector2 Scale { get; set; }
-        float Rotation { get; set; }
-        Vector2 Pivot { get; set; }
-        Vector2 Translation { get; set; }
-        Vector2 Size { get; set; }
     }
 }
