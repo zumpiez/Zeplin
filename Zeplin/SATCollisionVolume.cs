@@ -14,7 +14,7 @@ namespace Zeplin
     /// <summary>
     /// Defines a collidable boundary that can test intersection with all other instances of the same.
     /// </summary>
-    public class SATCollisionVolume
+    public class SATCollisionVolume : ICollisionVolume
     {
         /// <summary>
         /// Constructs an empty collision colume
@@ -327,5 +327,19 @@ namespace Zeplin
                 return testAxes;
             }
         }
+
+        #region ICollisionVolume Members
+
+        public bool TestCollisionCompatibility(ICollisionVolume other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICollisionVolume TestCollision(ICollisionVolume other)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

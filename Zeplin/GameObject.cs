@@ -9,11 +9,11 @@ namespace Zeplin
     class GameObject
     {
         public delegate void update(GameTime time);
-        public update OnUpdate = null;
+        public update OnUpdate;
 
         public delegate void draw(GameTime time);
-        public draw OnDraw = null;
+        public draw OnDraw;
 
-        public CollisionVolume collider;
+        public ICollisionVolume collider;
     }
 }

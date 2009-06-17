@@ -5,7 +5,10 @@ using System.Text;
 
 namespace Zeplin
 {
-    class CollisionVolume
+    public interface ICollisionVolume
     {
+        bool TestCollisionCompatibility(ICollisionVolume other);
+        ICollisionVolume TestCollision(ICollisionVolume other);
+
     }
 }

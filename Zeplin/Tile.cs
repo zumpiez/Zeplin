@@ -13,7 +13,7 @@ namespace Zeplin
     /// <summary>
     /// Defines a Tile, which can be positioned and drawn in the world and is compatible with collision
     /// </summary>
-    public class Tile : IRenderable, ICollidable
+    public class Tile
     {
         /// <summary>
         /// Constructs a tile with a sprite, transformation and collision volume
@@ -21,7 +21,7 @@ namespace Zeplin
         /// <param name="sprite"></param>
         /// <param name="transformation"></param>
         /// <param name="collider"></param>
-        public Tile(Sprite sprite, Transformation transformation, CollisionVolume collider)
+        public Tile(Sprite sprite, Transformation transformation, SATCollisionVolume collider)
         {
             this.msprite = sprite;
             this.transformation = transformation;
@@ -33,7 +33,7 @@ namespace Zeplin
         /// </summary>
         /// <param name="sprite"></param>
         /// <param name="transformation"></param>
-        public Tile(Sprite sprite, Transformation transformation) : this(sprite, transformation, new CollisionVolume())
+        public Tile(Sprite sprite, Transformation transformation) : this(sprite, transformation, new SATCollisionVolume())
         {
         }
 
@@ -81,16 +81,16 @@ namespace Zeplin
         /// </summary>
         /// <param name="otherCollider"></param>
         /// <returns></returns>
-        public bool TestCollision(ICollidable otherCollider)
+        public ICollisionVolume TestCollision(ICollisionVolume otherCollider)
         {
-            return collider.TestCollision(otherCollider.CollisionVolume);
+            return collider.TestCollision(otherCollider);
         }
 
-        CollisionVolume collider;
+        SATCollisionVolume collider;
         /// <summary>
         /// Gets the CollisionVolume associated with this tile
         /// </summary>
-        public CollisionVolume CollisionVolume
+        public SATCollisionVolume CollisionVolume
         {
             get
             {
