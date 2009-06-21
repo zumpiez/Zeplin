@@ -14,6 +14,6 @@ namespace Zeplin
         public delegate void draw(GameTime time);
         public draw OnDraw;
 
-        public ICollisionVolume collider;
+        public ICollisionVolume CollisionVolume;
     }
 }

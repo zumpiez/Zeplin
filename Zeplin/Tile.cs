@@ -16,6 +16,8 @@ namespace Zeplin
     /// </summary>
     public class Tile
     {
+        GameObject gameobject = new GameObject();
+
         /// <summary>
         /// Constructs a tile with a sprite, transformation and collision volume
         /// </summary>
