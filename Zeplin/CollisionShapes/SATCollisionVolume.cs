@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Zeplin.Utilities;
 
-namespace Zeplin
+namespace Zeplin.CollisionShapes
 {
     /// <summary>
     /// Defines a collidable boundary that can test intersection with all other instances of the same.

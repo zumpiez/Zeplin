@@ -94,7 +94,7 @@
     </Compile>
     <Compile Include="GameObject.cs" />
     <Compile Include="Input.cs" />
-    <Compile Include="SATCollisionVolume.cs" />
+    <Compile Include="CollisionShapes\SATCollisionVolume.cs" />
     <Compile Include="Layer.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Sound.cs" />
@@ -151,9 +151,6 @@
   <ItemGroup>
     <None Include="bin\x86\Release\Content\Images\whitesquare.xnb" />
     <None Include="Resources\whitesquare.xnb" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CollisionShapes\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
