@@ -14,9 +14,13 @@ namespace Zeplin
     /// <summary>
     /// Defines a Tile, which can be positioned and drawn in the world and is compatible with collision
     /// </summary>
-    public class Tile
+    public class Tile : IGameObjectProvider
     {
         GameObject gameobject = new GameObject();
+        public GameObject GameObject
+        {
+            get { return gameobject; }
+        }
 
         /// <summary>
         /// Constructs a tile with a sprite, transformation and collision volume
@@ -28,7 +32,9 @@ namespace Zeplin
         {
             this.msprite = sprite;
             this.transformation = transformation;
-            this.collider = collider;
+            gameobject.CollisionVolume = collider;
+
+            gameobject.OnDraw += this.Draw;
         }
 
         /// <summary>
@@ -40,7 +46,6 @@ namespace Zeplin
         {
         }
 
-        #region IRenderable Members
         /// <summary>
         /// Draws the contents of the tile using the tile's transformation
         /// </summary>
@@ -76,7 +81,6 @@ namespace Zeplin
                 msprite = value;
             }
         }
-        #endregion
 
         #region ICollidable Members
         /// <summary>

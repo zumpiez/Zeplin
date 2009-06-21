@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace Zeplin
 {
-    class GameObject
+    public class GameObject
     {
         public delegate void update(GameTime time);
         public update OnUpdate;

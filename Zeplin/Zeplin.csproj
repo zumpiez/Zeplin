@@ -93,6 +93,7 @@
       <DependentUpon>EngineResources.resx</DependentUpon>
     </Compile>
     <Compile Include="GameObject.cs" />
+    <Compile Include="IGameObjectProvider.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="CollisionShapes\SATCollisionVolume.cs" />
     <Compile Include="Layer.cs" />

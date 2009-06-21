@@ -7,6 +7,6 @@ namespace Zeplin
 {
     public interface IGameObjectProvider
     {
-        GameObject GameObject;
+        GameObject GameObject { get; }
     }
 }
