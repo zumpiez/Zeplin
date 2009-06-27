@@ -1,5 +1,6 @@
 using System;
 using Zeplin;
+using Zeplin.CollisionShapes;
 using Microsoft.Xna.Framework;
 
 namespace Demo

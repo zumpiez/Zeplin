@@ -82,7 +82,6 @@ namespace Zeplin
             }
         }
 
-        #region ICollidable Members
         /// <summary>
         /// Tests for collision between this tile and another ICollidable object
         /// </summary>
@@ -117,70 +116,12 @@ namespace Zeplin
             collider.TransformCollisionVolume(transformation);
         }
 
-        #endregion
-
-        #region ITransformable Members
-
-        /// <summary>
-        /// Gets or sets the scale dimensions of the tile
-        /// </summary>
-        public Vector2 Scale
-        {
-            get { return transformation.Scale; }
-            set
-            {
-                transformation.Scale = value;
-                collider.TransformCollisionVolume(transformation);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the rotation angle of the tile
-        /// </summary>
-        public float Rotation
-        {
-            get { return transformation.Rotation; }
-            set
-            {
-                transformation.Rotation = value;
-                collider.TransformCollisionVolume(transformation);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the tile's pivot's object space point
-        /// </summary>
-        public Vector2 Pivot
-        {
-            get { return transformation.Pivot; }
-            set
-            {
-                transformation.Pivot = value;
-                collider.TransformCollisionVolume(transformation);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the position of the tile's pivot point in world space
-        /// </summary>
-        public Vector2 Translation
-        {
-            get { return transformation.Position; }
-            set
-            {
-                transformation.Position = value;
-                collider.TransformCollisionVolume(transformation);
-            }
-        }
-        
-        #endregion
-
 
         Transformation transformation;
         /// <summary>
         /// Gets or sets the tile's transformation
         /// </summary>
-        protected Transformation Transformation
+        public Transformation Transformation
         {
             set
             {

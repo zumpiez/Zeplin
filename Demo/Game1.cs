@@ -54,33 +54,33 @@ namespace Demo
                 Tiles.GrassyMass gm = new Tiles.GrassyMass(new Vector2(100 + i * 75, 300f));
                 gm.SetRotation(((float)r.NextDouble() / 4) - ((float)r.NextDouble() / 4));
 
-                float scaleFactor = (float)(1.0 + (r.NextDouble() * 0.3 - r.NextDouble() * 0.3));
-                gm.SetScale(gm.GetScale().X * scaleFactor);
+                float Transformation.ScaleFactor = (float)(1.0 + (r.NextDouble() * 0.3 - r.NextDouble() * 0.3));
+                gm.SetTransformation.Scale(gm.GetTransformation.Scale().X * Transformation.ScaleFactor);
 
                 testMap.AddTile(gm);
             }*/
             #endregion
 
             Tiles.GrassBrick gb = new Tiles.GrassBrick(new Vector2(100, 200));
-            gb.Scale = new Vector2(0.75f);
+            gb.Transformation.Scale = new Vector2(0.75f);
             Engine.AddToMap(gb, 1);
 
             Tiles.GrassBrick behindgb2 = new Tiles.GrassBrick(new Vector2(550, 250));
-            behindgb2.Scale = new Vector2(0.75f);
+            behindgb2.Transformation.Scale = new Vector2(0.75f);
             Engine.AddToMap(behindgb2, 1);
 
             Tiles.GrassBrick gb2 = new Tiles.GrassBrick(new Vector2(550, 450));
-            gb2.Scale = new Vector2(1.25f);
+            gb2.Transformation.Scale = new Vector2(1.25f);
             Engine.AddToMap(gb2, 2);
 
             Actors.AnimationTestGuy animationGuy = new Actors.AnimationTestGuy();
-            animationGuy.Translation = new Vector2(550, 670);
-            animationGuy.Scale = new Vector2(3);
+            animationGuy.Transformation.Position = new Vector2(550, 670);
+            animationGuy.Transformation.Scale = new Vector2(3);
             Engine.AddToMap(animationGuy, 2);
 
             Tiles.GrassBrick distantGrassBrick = new Tiles.GrassBrick(new Vector2(350, 250));
             distantGrassBrick.Sprite.color = new Color(Color.White, 150);
-            distantGrassBrick.Scale = new Vector2(0.25f);
+            distantGrassBrick.Transformation.Scale = new Vector2(0.25f);
             Engine.AddToMap(distantGrassBrick, 0);
 
             Actors.StickNinja snactor = new Actors.StickNinja(new Vector2(100f, 600f));
@@ -90,7 +90,7 @@ namespace Demo
             Engine.SetLayerParallax(2, new Vector2(1.75f));
 
             Actors.Logo logo = new Actors.Logo(new Vector2(45,45));
-            logo.Scale = new Vector2(0.35f);
+            logo.Transformation.Scale = new Vector2(0.35f);
             logo.rotationSpeed = 0.05f;
             logo.offset = -0.5f;
             Engine.AddToMap(logo);
@@ -101,7 +101,7 @@ namespace Demo
             {
                 Actors.Logo l = new Actors.Logo(new Vector2(r.Next(-800, 800), r.Next(-600, 600)));
                 float scale = (float)r.NextDouble();
-                l.Scale = new Vector2(scale * 2.5f, scale * 2.5f);
+                l.Transformation.Scale = new Vector2(scale * 2.5f, scale * 2.5f);
                 l.rotationSpeed = (float)(r.NextDouble() * 2) + 0.5f;
                 if (r.Next(0, 2) == 1) l.rotationSpeed *= -1;
                 l.offset = (float)(r.NextDouble() * Math.PI * 2);
