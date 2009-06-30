@@ -1,2 +1,0 @@
-TODO: Actor/Tile HAVE A GameObject
-References to SATCollisionVolume replaced with ICollisionVolume
