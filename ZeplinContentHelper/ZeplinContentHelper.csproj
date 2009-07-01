@@ -125,4 +125,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>copy Content\*.xnb $(SolutionDir)Zeplin\Resources\</PostBuildEvent>
+  </PropertyGroup>
 </Project>
