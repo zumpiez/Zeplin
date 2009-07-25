@@ -85,6 +85,28 @@ namespace Zeplin
         }
 
         /// <summary>
+        /// Adds a GameObject to the specified layer.
+        /// </summary>
+        /// <param name="addedObject">The object to add</param>
+        /// <param name="layerIndex">The index of the layer the object will be added to</param>
+        /// <returns>True if successful, false if not.</returns>
+        public void AddGameObject(GameObject addedObject, int layerIndex)
+        {
+            try
+            {
+                layerList[layerIndex].ObjectList.Add(addedObject);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                for (int i = layerList.Count - 1; i < layerIndex; i++)
+                    layerList.Add(new Layer());
+
+                layerList[layerIndex].ObjectList.Add(addedObject);
+            }
+        }
+
+        /*
+        /// <summary>
         /// Adds an actor to the specified layer.
         /// </summary>
         /// <param name="addedActor">The actor to add</param>
@@ -103,9 +125,18 @@ namespace Zeplin
 
                 layerList[layerIndex].ActorList.Add(addedActor);
             }
-        }
+        }*/
 
         /// <summary>
+        /// Adds an actor to the default (back-most) layer.
+        /// </summary>
+        /// <param name="addedActor">The actor to be added to the layer.</param>
+        public void AddGameObject(GameObject addedObject)
+        {
+            layerList[0].ObjectList.Add(addedObject);
+        }
+
+        /*/// <summary>
         /// Adds an actor to the default (back-most) layer.
         /// </summary>
         /// <param name="addedActor">The actor to be added to the layer.</param>
@@ -136,7 +167,7 @@ namespace Zeplin
         public void AddTile(Tile addedTile)
         {
             layerList[0].TileList.Add(addedTile);
-        }
+        }*/
 
         /// <summary>
         /// Updates every layer owned by this map

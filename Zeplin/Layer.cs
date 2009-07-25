@@ -21,8 +21,8 @@ namespace Zeplin
         /// </summary>
         internal Layer()
         {
-            actorList = new List<Actor>();
-            tileList = new List<Tile>();
+            //actorList = new List<Actor>();
+            //tileList = new List<Tile>();
             objectList = new List<GameObject>();
         }
 
@@ -173,7 +173,7 @@ namespace Zeplin
         /// <param name="gameTime">Time passed since the last call to Update</param>
         public void Draw(GameTime gameTime)
         {
-            Engine.spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront, SaveStateMode.None, Engine.camera.ComputeViewMatrix(parallax));
+            Engine.spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront, SaveStateMode.None, Engine.camera.ComputeViewMatrix(Parallax));
             
             foreach (GameObject o in objectList)
                 o.OnDraw(gameTime);

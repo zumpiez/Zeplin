@@ -2,4 +2,4 @@ ENTITY OBJECT EXPERIMENTAL BRANCH TODO LIST
 
 Once the action items in this list are completed, test and merge with master
 
-Change Map/Layer/Etc collection objects to accept IGameObjectProvider instead of Actor/Tile
+Change engine.cs to be compatible with GameObject
