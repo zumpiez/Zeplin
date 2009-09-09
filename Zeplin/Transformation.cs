@@ -20,12 +20,8 @@ namespace Zeplin
         /// <param name="position">The object's position in world space</param>
         /// <param name="scale">The object's scale factors</param>
         /// <param name="rotation">Degrees rotated, in radians</param>
-        public Transformation(Vector2 position, Vector2 scale, float rotation)
+        public Transformation(Vector2 position, Vector2 scale, float rotation) : this(position, scale, rotation, Vector2.Zero)
         {
-            this.position = position;
-            this.scale = scale;
-            this.rotation = rotation;
-            this.pivot = Vector2.Zero;
         }
 
         /// <summary>
@@ -38,73 +34,30 @@ namespace Zeplin
         /// <param name="pivot">The pivot point, in object space</param>
         public Transformation(Vector2 position, Vector2 scale, float rotation, Vector2 pivot)
         {
-            this.position = position;
-            this.scale = scale;
-            this.rotation = rotation;
-            this.pivot = pivot;
+            this.Position = position;
+            this.Scale = scale;
+            this.Rotation = rotation;
+            this.Pivot = pivot;
         }
 
         /// <summary>
-        /// Gets or sets the object's position in world coordinates
+        /// The object's position in world coordinates
         /// </summary>
-        public Vector2 Position
-        {
-            get
-            {
-                return position;
-            }
-            set
-            {
-                position = value;
-            }
-        }
+        public Vector2 Position;
 
         /// <summary>
-        /// Gets or sets the object's scale factors
+        /// The object's X and Y scale factors
         /// </summary>
-        public Vector2 Scale
-        {
-            get
-            {
-                return scale;
-            }
-            set
-            {
-                scale = value;
-            }
-        }
+        public Vector2 Scale;
 
         /// <summary>
-        /// Gets or sets the object's rotaton in radians
+        /// The object's rotaton in radians
         /// </summary>
-        public float Rotation
-        {
-            get
-            {
-                return rotation;
-            }
-            set
-            {
-                rotation = value;
-            }
-        }
+        public float Rotation;
 
         /// <summary>
-        /// Gets or sets the object's pivot point in object space.
+        /// The object's pivot point in object space.
         /// </summary>
-        public Vector2 Pivot
-        {
-            get
-            {
-                return pivot;
-            }
-            set
-            {
-                pivot = value;
-            }
-        }
-        
-        Vector2 position, scale, pivot;
-        float rotation;
+        public Vector2 Pivot;
     }
 }

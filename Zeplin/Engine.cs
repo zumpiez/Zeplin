@@ -34,12 +34,13 @@ namespace Zeplin
         }
 
         /// <summary>
-        /// Draws a line in world coordinate space. Precondition: call this from inside a sprite batch draw sequence, i.e. inside actor.draw or tile.draw
+        /// Draws a line in world coordinate space.
         /// </summary>
         /// <param name="p1">The tail of the line (in world coords)</param>
         /// <param name="p2">The tip of the line (in world coords)</param>
         /// <param name="width">The thickness of the line (in pixels)</param>
         /// <param name="color">The color of the line</param>
+        /// <remarks>Precondition: call this from inside a sprite batch draw sequence, i.e. inside actor.draw or tile.draw</remarks>
         internal static void DrawLine(Vector2 p1, Vector2 p2, float width, Color color)
         {
             Vector2 scaleFactor = new Vector2();
@@ -68,52 +69,38 @@ namespace Zeplin
         {
             foreach (GameObject o in currentMap.ActiveLayer.ObjectList)
             {
+                if (o is GameObjectType && testedObject.CollisionVolume != null && testedObject.CollisionVolume.TestCollision(o.CollisionVolume) != null)
+                {
+                    return o;
+                }
+            }
+
+            /*foreach (Object o in currentMap.ActiveLayer.TileList)
+            {
                 if (o is GameObjectType && testedObject.TestCollision((ICollisionVolume)o) != null)
                 {
                     return o;
                 }
-            }
-            foreach (Object o in currentMap.ActiveLayer.TileList)
-            {
-                if (o is ColliderType && testedObject.TestCollision((ICollisionVolume)o) != null)
-                {
-                    return o;
-                }
-            }
+            }*/
 
             return null;
         }
 
         /// <summary>
-        /// Adds a Tile to the map on layer 0.
+        /// Adds a GameObject to the map on layer 0
         /// </summary>
-        public static void AddToMap(Tile t)
+        public static void AddToMap(IGameObjectProvider o)
         {
-            currentMap.AddTile(t);
+            currentMap.AddGameObject(o.GameObject);
         }
 
         /// <summary>
-        /// Adds a tile to the map on the specified layer.
+        /// Adds a GameObject to the map on a specified layer.
         /// </summary>
-        public static void AddToMap(Tile t, int layer)
+        /// <remarks>There is no process of layer creation per-se. You can add an object to any layer number.</remarks>
+        public static void AddToMap(IGameObjectProvider o, int layer)
         {
-            currentMap.AddTile(t, layer);
-        }
-
-        /// <summary>
-        /// Adds an actor to the map on layer 0.
-        /// </summary>
-        public static void AddToMap(Actor a)
-        {
-            currentMap.AddActor(a);
-        }
-
-        /// <summary>
-        /// Adds an actor to the map on the specified layer.
-        /// </summary>
-        public static void AddToMap(Actor a, int layer)
-        {
-            currentMap.AddActor(a, layer);
+            currentMap.AddGameObject(o.GameObject, layer);
         }
 
         /// <summary>

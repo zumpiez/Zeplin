@@ -126,6 +126,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy Content\*.xnb $(SolutionDir)Zeplin\Resources\</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)Content\*.xnb" "$(SolutionDir)Zeplin\Resources\"</PostBuildEvent>
   </PropertyGroup>
 </Project>
