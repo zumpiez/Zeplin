@@ -89,6 +89,9 @@ namespace Zeplin
         /// <returns></returns>
         public ICollisionVolume TestCollision(ICollisionVolume otherCollider)
         {
+            //TODO: CACHE THE PREVIOUS TRANSFORMATION USED AND TEST IT AGAINST THE CURRENT TRANSFORMATION
+            //IF THEY ARE DIFFERENT, UPDATE THE COLLISION VOLUME AND UPDATE THE CACHED TRANSFORMATION.
+            //THEN DO THE TODO INSIDE THE TRANSFORMATION PROPERTY'S SET METHOD.
             return collider.TestCollision(otherCollider);
         }
 
@@ -116,7 +119,7 @@ namespace Zeplin
             collider.TransformCollisionVolume(transformation);
         }
 
-
+        //TODO: CHANGE THIS TO A PUBLIC MEMBER, LOSE THE PROPERTY
         Transformation transformation;
         /// <summary>
         /// Gets or sets the tile's transformation
@@ -126,6 +129,8 @@ namespace Zeplin
             set
             {
                 transformation = value;
+                
+                //TODO: REMOVE THIS LINE AFTER DOING THE TODO IN TESTCOLLISION
                 collider.TransformCollisionVolume(transformation);
             }
             get
