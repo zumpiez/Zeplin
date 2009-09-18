@@ -25,6 +25,18 @@ namespace Zeplin
         {
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is Transformation)
+            {
+                Transformation other = (Transformation)obj;
+                return (this.Position == other.Position &&
+                    this.Rotation == other.Rotation &&
+                    this.Scale == other.Scale);
+            }
+            else return false;
+        }
+
         public static bool operator==(Transformation t1, Transformation t2)
         {
             return (

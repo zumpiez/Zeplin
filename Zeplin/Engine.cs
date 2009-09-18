@@ -65,23 +65,19 @@ namespace Zeplin
         /// <typeparam name="ColliderType">Any game object that implements ICollidable.</typeparam>
         /// <param name="testedObject">The game object that is being tested</param>
         /// <returns>A reference to the first positive collided object, or null</returns>
-        public static GameObject TestCollision<GameObjectType>(GameObject testedObject) where GameObjectType : GameObject
+        public static IGameObjectProvider TestCollision<GameObjectProviderType>(IGameObjectProvider tester) where GameObjectProviderType : IGameObjectProvider
         {
-            foreach (GameObject o in currentMap.ActiveLayer.ObjectList)
+            ICollisionVolume testerCV = tester.GameObject.CollisionVolume;
+            if (testerCV == null)
+                return null;
+
+            foreach (IGameObjectProvider o in currentMap.ActiveLayer.ObjectList)
             {
-                if (o is GameObjectType && testedObject.CollisionVolume != null && testedObject.CollisionVolume.TestCollision(o.CollisionVolume) != null)
+                if (o is GameObjectProviderType && testerCV.TestCollision(o.GameObject.CollisionVolume) != null)
                 {
                     return o;
                 }
             }
-
-            /*foreach (Object o in currentMap.ActiveLayer.TileList)
-            {
-                if (o is GameObjectType && testedObject.TestCollision((ICollisionVolume)o) != null)
-                {
-                    return o;
-                }
-            }*/
 
             return null;
         }

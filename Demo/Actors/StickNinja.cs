@@ -57,7 +57,7 @@ namespace Demo.Actors
                 Engine.camera.Rotation += 0.01f;
             }
 
-            if (Engine.TestCollision<SATCollisionVolume>(CollisionVolume) != null)
+            if (Engine.TestCollision<Tiles.GrassBrick>(this) != null)
             {
                 if(velocity.Y < 0) velocity.Y = 0;
             }
