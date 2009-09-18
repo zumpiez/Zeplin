@@ -20,8 +20,22 @@ namespace Zeplin
         /// <param name="position">The object's position in world space</param>
         /// <param name="scale">The object's scale factors</param>
         /// <param name="rotation">Degrees rotated, in radians</param>
-        public Transformation(Vector2 position, Vector2 scale, float rotation) : this(position, scale, rotation, Vector2.Zero)
+        public Transformation(Vector2 position, Vector2 scale, float rotation)
+            : this(position, scale, rotation, Vector2.Zero)
         {
+        }
+
+        public static bool operator==(Transformation t1, Transformation t2)
+        {
+            return (
+                t1.Position == t2.Position &&
+                t1.Rotation == t2.Rotation &&
+                t1.Scale == t2.Scale);
+        }
+
+        public static bool operator !=(Transformation t1, Transformation t2)
+        {
+            return !(t1 == t2);
         }
 
         /// <summary>
