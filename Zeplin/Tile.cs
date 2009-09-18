@@ -82,6 +82,7 @@ namespace Zeplin
             }
         }
 
+        Transformation lastTransformation = new Transformation();
         /// <summary>
         /// Tests for collision between this tile and another ICollidable object
         /// </summary>
@@ -89,9 +90,14 @@ namespace Zeplin
         /// <returns></returns>
         public ICollisionVolume TestCollision(ICollisionVolume otherCollider)
         {
-            //TODO: CACHE THE PREVIOUS TRANSFORMATION USED AND TEST IT AGAINST THE CURRENT TRANSFORMATION
-            //IF THEY ARE DIFFERENT, UPDATE THE COLLISION VOLUME AND UPDATE THE CACHED TRANSFORMATION.
-            //THEN DO THE TODO INSIDE THE TRANSFORMATION PROPERTY'S SET METHOD.
+            //Check to see if this object's transformation has changed and refresh the CV if it has
+            if (lastTransformation != transformation)
+            {
+                //Caches the current transformation
+                lastTransformation = transformation;
+                RefreshCollisionVolume();
+            }
+            
             return collider.TestCollision(otherCollider);
         }
 
@@ -119,25 +125,7 @@ namespace Zeplin
             collider.TransformCollisionVolume(transformation);
         }
 
-        //TODO: CHANGE THIS TO A PUBLIC MEMBER, LOSE THE PROPERTY
-        Transformation transformation;
-        /// <summary>
-        /// Gets or sets the tile's transformation
-        /// </summary>
-        public Transformation Transformation
-        {
-            set
-            {
-                transformation = value;
-                
-                //TODO: REMOVE THIS LINE AFTER DOING THE TODO IN TESTCOLLISION
-                collider.TransformCollisionVolume(transformation);
-            }
-            get
-            {
-                return transformation;
-            }
-        }
+        public Transformation transformation;
 
         AnimationScript currentAnimation = null;
         /// <summary>
