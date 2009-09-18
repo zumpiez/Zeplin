@@ -80,7 +80,7 @@ namespace Demo
 
             Tiles.GrassBrick distantGrassBrick = new Tiles.GrassBrick(new Vector2(350, 250));
             distantGrassBrick.Sprite.color = new Color(Color.White, 150);
-            distantGrassBrick.Transformation.Scale = new Vector2(0.25f);
+            distantGrassBrick.transformation.Scale = new Vector2(0.25f);
             Engine.AddToMap(distantGrassBrick, 0);
 
             Actors.StickNinja snactor = new Actors.StickNinja(new Vector2(100f, 600f));
@@ -101,7 +101,7 @@ namespace Demo
             {
                 Actors.Logo l = new Actors.Logo(new Vector2(r.Next(-800, 800), r.Next(-600, 600)));
                 float scale = (float)r.NextDouble();
-                l.Transformation.Scale = new Vector2(scale * 2.5f, scale * 2.5f);
+                l.transformation.Scale = new Vector2(scale * 2.5f, scale * 2.5f);
                 l.rotationSpeed = (float)(r.NextDouble() * 2) + 0.5f;
                 if (r.Next(0, 2) == 1) l.rotationSpeed *= -1;
                 l.offset = (float)(r.NextDouble() * Math.PI * 2);

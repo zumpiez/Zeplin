@@ -14,7 +14,7 @@ namespace Demo.Actors
     {
         public StickNinja(Vector2 position) : base(new Sprite(@"Images\stickninja"), new Transformation(position, new Vector2(0.75f, 0.75f), 0, new Vector2(80,95)), new SATCollisionVolume(Vector2.Zero, new Vector2(99,77)))
         {
-            Transformation.Scale = new Vector2(0.75f);
+            transformation.Scale = new Vector2(0.75f);
 
             //this.Sprite.color = Color.Chocolate;
 
@@ -30,11 +30,11 @@ namespace Demo.Actors
         {
             if (Input.IsKeyDown(Keys.Right))
             {
-                Transformation.Position = new Vector2(Transformation.Position.X + 4, Transformation.Position.Y);
+                transformation.Position = new Vector2(transformation.Position.X + 4, transformation.Position.Y);
             }
             else if (Input.IsKeyDown(Keys.Left))
             {
-                Transformation.Position = new Vector2(Transformation.Position.X - 4, Transformation.Position.Y);
+                transformation.Position = new Vector2(transformation.Position.X - 4, transformation.Position.Y);
             }
 
             if (Input.WasKeyPressed(Keys.Space))
@@ -62,11 +62,11 @@ namespace Demo.Actors
                 if(velocity.Y < 0) velocity.Y = 0;
             }
 
-            Transformation.Position += velocity;
+            transformation.Position += velocity;
 
             velocity += gravity;
 
-            Engine.camera.Center = Transformation.Position;
+            Engine.camera.Center = transformation.Position;
         }
 
         Vector2 velocity;
