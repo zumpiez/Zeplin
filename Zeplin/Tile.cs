@@ -63,7 +63,9 @@ namespace Zeplin
                 msprite.Draw(transformation, 1, null);
             }
 
-            collider.Draw();
+            if(collider != null)
+                collider.Draw();
+
         }
 
         Sprite msprite;

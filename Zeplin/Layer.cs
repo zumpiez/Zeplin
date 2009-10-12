@@ -147,7 +147,8 @@ namespace Zeplin
         {
             foreach (GameObject o in objectList)
             {
-                o.OnUpdate(gameTime);
+                if(o.OnUpdate != null)
+                    o.OnUpdate(gameTime);
             }
         }
 
