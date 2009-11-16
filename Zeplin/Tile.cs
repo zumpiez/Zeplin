@@ -84,13 +84,16 @@ namespace Zeplin
             }
         }
 
+
+        //WARNING THIS DOES NOT GET CALLED.
+        //THE TRANSFORMATION CHECK MUST OCCUR SOMEHOW TO REFRESH THE COLLISION VOLUME'S CACHED VERTICES.
         Transformation lastTransformation = new Transformation();
         /// <summary>
         /// Tests for collision between this tile and another ICollidable object
         /// </summary>
         /// <param name="otherCollider"></param>
         /// <returns></returns>
-        public ICollisionVolume TestCollision(ICollisionVolume otherCollider)
+        public bool TestCollision(ICollisionVolume otherCollider)
         {
             //Check to see if this object's transformation has changed and refresh the CV if it has
             if (lastTransformation != transformation)

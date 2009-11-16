@@ -21,6 +21,8 @@ namespace Demo.Actors
             gravity = new Vector2(0, -0.1f);
             velocity = Vector2.Zero;
 
+            GameObject.OnUpdate += UpdateBehavior;
+
             SATCollisionVolume mycollisionvolume = GameObject.CollisionVolume as SATCollisionVolume;
 
             mycollisionvolume.ShowCollisionBoundaries = true;

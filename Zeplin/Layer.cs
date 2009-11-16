@@ -23,16 +23,16 @@ namespace Zeplin
         {
             //actorList = new List<Actor>();
             //tileList = new List<Tile>();
-            objectList = new List<GameObject>();
+            gameObjectProviderList = new List<IGameObjectProvider>();
         }
 
         /// <summary>
         /// Adds a GameObject to this layer
         /// </summary>
-        /// <param name="addedObject">The added GameObject</param>
-        public void AddToLayer(GameObject addedObject)
+        /// <param name="addedObject">The added IGameObjectProvider</param>
+        public void AddToLayer(IGameObjectProvider addedObject)
         {
-            objectList.Add(addedObject);
+            gameObjectProviderList.Add(addedObject);
         }
 
         /*/// <summary>
@@ -56,11 +56,11 @@ namespace Zeplin
         /// <summary>
         /// Removes an object from this layer
         /// </summary>
-        /// <param name="removedObject">The object to be removed</param>
+        /// <param name="removedObject">The IGameObjectProvider to be removed</param>
         /// <returns>True if the object was removed, false if it was not found</returns>
-        public bool RemoveFromLayer(GameObject removedObject)
+        public bool RemoveFromLayer(IGameObjectProvider removedObject)
         {
-            return objectList.Remove(removedObject);
+            return gameObjectProviderList.Remove(removedObject);
         }
 
         /*/// <summary>
@@ -89,10 +89,10 @@ namespace Zeplin
         /// <param name="movedActor">The actor to be moved</param>
         /// <param name="destinationLayer">The layer to move the actor to</param>
         /// <returns>True if the operation was successful, otherwise false</returns>
-        public bool MoveToLayer(GameObject movedObject, Layer destinationLayer)
+        public bool MoveToLayer(IGameObjectProvider movedObject, Layer destinationLayer)
         {
-            bool result = objectList.Remove(movedObject);
-            if (result) destinationLayer.objectList.Add(movedObject);
+            bool result = gameObjectProviderList.Remove(movedObject);
+            if (result) destinationLayer.gameObjectProviderList.Add(movedObject);
             return result;
         }
         
@@ -145,10 +145,10 @@ namespace Zeplin
         /// <param name="gameTime">Time passed since the last call to Update</param>
         internal void Update(GameTime gameTime)
         {
-            foreach (GameObject o in objectList)
+            foreach (IGameObjectProvider o in gameObjectProviderList)
             {
-                if(o.OnUpdate != null)
-                    o.OnUpdate(gameTime);
+                if(o.GameObject.OnUpdate != null)
+                    o.GameObject.OnUpdate(gameTime);
             }
         }
 
@@ -175,9 +175,13 @@ namespace Zeplin
         public void Draw(GameTime gameTime)
         {
             Engine.spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront, SaveStateMode.None, Engine.camera.ComputeViewMatrix(Parallax));
-            
-            foreach (GameObject o in objectList)
-                o.OnDraw(gameTime);
+
+            foreach (IGameObjectProvider o in gameObjectProviderList)
+            {
+                if (o.GameObject.OnDraw != null)
+                    o.GameObject.OnDraw(gameTime);
+
+            }
 
             Engine.spriteBatch.End();
         }
@@ -201,13 +205,13 @@ namespace Zeplin
             get { return tileList; }
         }*/
 
-        List<GameObject> objectList;
+        List<IGameObjectProvider> gameObjectProviderList;
         /// <summary>
         /// Gets the list of GameObjects owned by this layer
         /// </summary>
-        public List<GameObject> ObjectList
+        public List<IGameObjectProvider> GameObjectProviderList
         {
-            get { return objectList; }
+            get { return gameObjectProviderList; }
         }
 
         /// <summary>

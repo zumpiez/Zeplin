@@ -67,13 +67,13 @@ namespace Zeplin
         /// <returns>A reference to the first positive collided object, or null</returns>
         public static IGameObjectProvider TestCollision<GameObjectProviderType>(IGameObjectProvider tester) where GameObjectProviderType : IGameObjectProvider
         {
-            ICollisionVolume testerCV = tester.GameObject.CollisionVolume;
+             ICollisionVolume testerCV = tester.GameObject.CollisionVolume;
             if (testerCV == null)
                 return null;
 
-            foreach (IGameObjectProvider o in currentMap.ActiveLayer.ObjectList)
+            foreach (IGameObjectProvider o in currentMap.ActiveLayer.GameObjectProviderList)
             {
-                if (o is GameObjectProviderType && testerCV.TestCollision(o.GameObject.CollisionVolume) != null)
+                if (o is GameObjectProviderType && testerCV.TestCollision(o.GameObject.CollisionVolume) == true)
                 {
                     return o;
                 }
@@ -87,7 +87,7 @@ namespace Zeplin
         /// </summary>
         public static void AddToMap(IGameObjectProvider o)
         {
-            currentMap.AddGameObject(o.GameObject);
+            currentMap.AddGameObject(o);
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Zeplin
         /// <remarks>There is no process of layer creation per-se. You can add an object to any layer number.</remarks>
         public static void AddToMap(IGameObjectProvider o, int layer)
         {
-            currentMap.AddGameObject(o.GameObject, layer);
+            currentMap.AddGameObject(o, layer);
         }
 
         /// <summary>

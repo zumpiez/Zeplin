@@ -90,84 +90,29 @@ namespace Zeplin
         /// <param name="addedObject">The object to add</param>
         /// <param name="layerIndex">The index of the layer the object will be added to</param>
         /// <returns>True if successful, false if not.</returns>
-        public void AddGameObject(GameObject addedObject, int layerIndex)
+        public void AddGameObject(IGameObjectProvider addedObject, int layerIndex)
         {
             try
             {
-                layerList[layerIndex].ObjectList.Add(addedObject);
+                layerList[layerIndex].GameObjectProviderList.Add(addedObject);
             }
             catch (ArgumentOutOfRangeException)
             {
                 for (int i = layerList.Count - 1; i < layerIndex; i++)
                     layerList.Add(new Layer());
 
-                layerList[layerIndex].ObjectList.Add(addedObject);
+                layerList[layerIndex].GameObjectProviderList.Add(addedObject);
             }
         }
-
-        /*
-        /// <summary>
-        /// Adds an actor to the specified layer.
-        /// </summary>
-        /// <param name="addedActor">The actor to add</param>
-        /// <param name="layerIndex">The index of the layer the actor will be added to</param>
-        /// <returns>True if successful, false if not.</returns>
-        public void AddActor(Actor addedActor, int layerIndex)
-        {
-            try
-            {
-                layerList[layerIndex].ActorList.Add(addedActor);
-            }
-            catch(ArgumentOutOfRangeException)
-            {
-                for (int i = layerList.Count - 1; i < layerIndex; i++)
-                    layerList.Add(new Layer());
-
-                layerList[layerIndex].ActorList.Add(addedActor);
-            }
-        }*/
 
         /// <summary>
         /// Adds an actor to the default (back-most) layer.
         /// </summary>
         /// <param name="addedActor">The actor to be added to the layer.</param>
-        public void AddGameObject(GameObject addedObject)
+        public void AddGameObject(IGameObjectProvider addedObject)
         {
-            layerList[0].ObjectList.Add(addedObject);
+            layerList[0].GameObjectProviderList.Add(addedObject);
         }
-
-        /*/// <summary>
-        /// Adds an actor to the default (back-most) layer.
-        /// </summary>
-        /// <param name="addedActor">The actor to be added to the layer.</param>
-        public void AddActor(Actor addedActor)
-        {
-            layerList[0].ActorList.Add(addedActor);
-        }
-
-        public void AddTile(Tile addedTile, int layerIndex)
-        {
-            try
-            {
-                layerList[layerIndex].TileList.Add(addedTile);
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                for (int i = layerList.Count - 1; i < layerIndex; i++)
-                    layerList.Add(new Layer());
-
-                layerList[layerIndex].TileList.Add(addedTile);
-            }
-        }
-
-        /// <summary>
-        /// Adds a tile to the default (back-most) layer.
-        /// </summary>
-        /// <param name="addedTile">The tile to be added to the layer.</param>
-        public void AddTile(Tile addedTile)
-        {
-            layerList[0].TileList.Add(addedTile);
-        }*/
 
         /// <summary>
         /// Updates every layer owned by this map

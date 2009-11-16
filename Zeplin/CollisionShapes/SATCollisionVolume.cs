@@ -58,9 +58,12 @@ namespace Zeplin.CollisionShapes
         /// </summary>
         /// <param name="otherCV">The collision volume to test against</param>
         /// <returns>True if there is an overlap.</returns>
-        public bool TestCollision(SATCollisionVolume otherCV)
+        public bool TestCollision(ICollisionVolume other)
         {
-            if (otherCV == this) return false;
+            if (other == this) return false;
+            if (TestCollisionCompatibility(other) == false) return false;
+            SATCollisionVolume otherCV = (SATCollisionVolume)other;
+            
 
             float thisMin, thisMax, otherMin, otherMax;
             float location; //projected location of the vertex along the axis
@@ -332,12 +335,8 @@ namespace Zeplin.CollisionShapes
 
         public bool TestCollisionCompatibility(ICollisionVolume other)
         {
-            throw new NotImplementedException();
-        }
-
-        public ICollisionVolume TestCollision(ICollisionVolume other)
-        {
-            throw new NotImplementedException();
+            if (other is SATCollisionVolume) return true;
+            else return false;
         }
 
         #endregion

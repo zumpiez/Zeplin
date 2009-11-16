@@ -19,6 +19,7 @@ namespace Demo.Actors
             transformation.Position = screenCenter;
             ball.SetLucency(0.25f);
             transformation.Pivot = ball.GetCenter();
+            GameObject.OnUpdate += UpdateBehavior;
         }
 
         public override void UpdateBehavior(GameTime time)

@@ -8,7 +8,6 @@ namespace Zeplin
     public interface ICollisionVolume
     {
         bool TestCollisionCompatibility(ICollisionVolume other);
-        ICollisionVolume TestCollision(ICollisionVolume other);
-
+        bool TestCollision(ICollisionVolume other);
     }
 }
