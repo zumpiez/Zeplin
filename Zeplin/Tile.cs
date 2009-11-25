@@ -35,6 +35,7 @@ namespace Zeplin
             gameobject.CollisionVolume = collider;
 
             gameobject.OnDraw += this.Draw;
+            gameobject.OnUpdate += delegate(GameTime time) { collider.TransformCollisionVolume(this.transformation); };
         }
 
         /// <summary>

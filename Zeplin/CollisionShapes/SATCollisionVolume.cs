@@ -189,8 +189,11 @@ namespace Zeplin.CollisionShapes
         /// Translates the vertices into world coordinate space from texture coordinate space
         /// </summary>
         /// <param name="t">The transformation of the object this collision volume belongs to</param>
+        Transformation lastTransformation;
         internal void TransformCollisionVolume(Transformation t)
         {
+            if (lastTransformation == t) return; //avoid re-doing this work
+
             List<Vector2> outputVertices = new List<Vector2>();
 
             foreach (Vector2 vertex in vertices)
@@ -200,6 +203,7 @@ namespace Zeplin.CollisionShapes
             }
 
             cachedWorldCoordinateVertices = outputVertices;
+            lastTransformation = t;
         }
 
         /// <summary>
