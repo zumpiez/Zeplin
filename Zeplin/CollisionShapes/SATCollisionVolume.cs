@@ -9,17 +9,17 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Zeplin.Utilities;
 
-namespace Zeplin
+namespace Zeplin.CollisionShapes
 {
     /// <summary>
     /// Defines a collidable boundary that can test intersection with all other instances of the same.
     /// </summary>
-    public class CollisionVolume
+    public class SATCollisionVolume : ICollisionVolume
     {
         /// <summary>
         /// Constructs an empty collision colume
         /// </summary>
-        public CollisionVolume()
+        public SATCollisionVolume()
         {
             vertices = new List<Vector2>();
             cachedWorldCoordinateVertices = new List<Vector2>();
@@ -41,7 +41,7 @@ namespace Zeplin
         /// <param name="origin">The bottom left corner of the collision volume</param>
         /// <param name="dimensions">The width and height of the collision volume</param>
         /// <remarks>The origin point assumes the lower left corner of the sprite is 0,0. This keeps confusing me when I use it to make demos, so I am considering changing it.</remarks>
-        public CollisionVolume(Vector2 origin, Vector2 dimensions) : this()
+        public SATCollisionVolume(Vector2 origin, Vector2 dimensions) : this()
         {
             Vector2 topRight = origin + dimensions;
             Vector2 topLeft = new Vector2(origin.X, topRight.Y);
@@ -58,9 +58,12 @@ namespace Zeplin
         /// </summary>
         /// <param name="otherCV">The collision volume to test against</param>
         /// <returns>True if there is an overlap.</returns>
-        public bool TestCollision(CollisionVolume otherCV)
+        public bool TestCollision(ICollisionVolume other)
         {
-            if (otherCV == this) return false;
+            if (other == this) return false;
+            if (TestCollisionCompatibility(other) == false) return false;
+            SATCollisionVolume otherCV = (SATCollisionVolume)other;
+            
 
             float thisMin, thisMax, otherMin, otherMax;
             float location; //projected location of the vertex along the axis
@@ -186,8 +189,11 @@ namespace Zeplin
         /// Translates the vertices into world coordinate space from texture coordinate space
         /// </summary>
         /// <param name="t">The transformation of the object this collision volume belongs to</param>
+        Transformation lastTransformation;
         internal void TransformCollisionVolume(Transformation t)
         {
+            if (lastTransformation == t) return; //avoid re-doing this work
+
             List<Vector2> outputVertices = new List<Vector2>();
 
             foreach (Vector2 vertex in vertices)
@@ -197,6 +203,7 @@ namespace Zeplin
             }
 
             cachedWorldCoordinateVertices = outputVertices;
+            lastTransformation = t;
         }
 
         /// <summary>
@@ -327,5 +334,15 @@ namespace Zeplin
                 return testAxes;
             }
         }
+
+        #region ICollisionVolume Members
+
+        public bool TestCollisionCompatibility(ICollisionVolume other)
+        {
+            if (other is SATCollisionVolume) return true;
+            else return false;
+        }
+
+        #endregion
     }
 }

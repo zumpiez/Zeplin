@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Zeplin;
+using Zeplin.CollisionShapes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,17 +12,20 @@ namespace Demo.Actors
 {
     public class StickNinja : Actor
     {
-        public StickNinja(Vector2 position) : base(new Sprite(@"Images\stickninja"), new Transformation(position, new Vector2(0.75f, 0.75f), 0, new Vector2(80,95)), new CollisionVolume(Vector2.Zero, new Vector2(99,77)))
+        public StickNinja(Vector2 position) : base(new Sprite(@"Images\stickninja"), new Transformation(position, new Vector2(0.75f, 0.75f), 0, new Vector2(80,95)), new SATCollisionVolume(Vector2.Zero, new Vector2(99,77)))
         {
-            Size = new Vector2(156, 197);
-            Scale = new Vector2(0.75f);
+            transformation.Scale = new Vector2(0.75f);
 
             //this.Sprite.color = Color.Chocolate;
 
             gravity = new Vector2(0, -0.1f);
             velocity = Vector2.Zero;
 
-            CollisionVolume.ShowCollisionBoundaries = true;
+            GameObject.OnUpdate += UpdateBehavior;
+
+            SATCollisionVolume mycollisionvolume = GameObject.CollisionVolume as SATCollisionVolume;
+
+            mycollisionvolume.ShowCollisionBoundaries = true;
             //lastState = new KeyboardState();
             //kb = Keyboard.GetState();
         }
@@ -30,11 +34,11 @@ namespace Demo.Actors
         {
             if (Input.IsKeyDown(Keys.Right))
             {
-                Translation = new Vector2(Translation.X + 4, Translation.Y);
+                transformation.Position = new Vector2(transformation.Position.X + 4, transformation.Position.Y);
             }
             else if (Input.IsKeyDown(Keys.Left))
             {
-                Translation = new Vector2(Translation.X - 4, Translation.Y);
+                transformation.Position = new Vector2(transformation.Position.X - 4, transformation.Position.Y);
             }
 
             if (Input.WasKeyPressed(Keys.Space))
@@ -57,16 +61,16 @@ namespace Demo.Actors
                 Engine.camera.Rotation += 0.01f;
             }
 
-            if (Engine.TestCollision<Tile>(this) != null)
+            if (Engine.TestCollision<Tiles.GrassBrick>(this) != null)
             {
                 if(velocity.Y < 0) velocity.Y = 0;
             }
 
-            Translation += velocity;
+            transformation.Position += velocity;
 
             velocity += gravity;
 
-            Engine.camera.Center = Translation;
+            Engine.camera.Center = transformation.Position;
         }
 
         Vector2 velocity;

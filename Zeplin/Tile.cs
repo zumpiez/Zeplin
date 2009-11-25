@@ -7,25 +7,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Zeplin.CollisionShapes;
 
 namespace Zeplin
 {
     /// <summary>
     /// Defines a Tile, which can be positioned and drawn in the world and is compatible with collision
     /// </summary>
-    public class Tile : IRenderable, ICollidable, ITransformable
+    public class Tile : IGameObjectProvider
     {
+        GameObject gameobject = new GameObject();
+        public GameObject GameObject
+        {
+            get { return gameobject; }
+        }
+
         /// <summary>
         /// Constructs a tile with a sprite, transformation and collision volume
         /// </summary>
         /// <param name="sprite"></param>
         /// <param name="transformation"></param>
         /// <param name="collider"></param>
-        public Tile(Sprite sprite, Transformation transformation, CollisionVolume collider)
+        public Tile(Sprite sprite, Transformation transformation, SATCollisionVolume collider)
         {
             this.msprite = sprite;
-            this.transformer = transformation;
-            this.collider = collider;
+            this.transformation = transformation;
+            gameobject.CollisionVolume = collider;
+
+            gameobject.OnDraw += this.Draw;
+            gameobject.OnUpdate += delegate(GameTime time) { collider.TransformCollisionVolume(this.transformation); };
         }
 
         /// <summary>
@@ -33,11 +43,10 @@ namespace Zeplin
         /// </summary>
         /// <param name="sprite"></param>
         /// <param name="transformation"></param>
-        public Tile(Sprite sprite, Transformation transformation) : this(sprite, transformation, new CollisionVolume())
+        public Tile(Sprite sprite, Transformation transformation) : this(sprite, transformation, new SATCollisionVolume())
         {
         }
 
-        #region IRenderable Members
         /// <summary>
         /// Draws the contents of the tile using the tile's transformation
         /// </summary>
@@ -48,14 +57,16 @@ namespace Zeplin
             if (currentAnimation != null)
             {
                 sourceRect = currentAnimation.ProcessAnimation(gameTime, msprite);
-                msprite.Draw(transformer, 1, sourceRect);
+                msprite.Draw(transformation, 1, sourceRect);
             }
             else
             {
-                msprite.Draw(transformer, 1, null);
+                msprite.Draw(transformation, 1, null);
             }
 
-            collider.Draw();
+            if(collider != null)
+                collider.Draw();
+
         }
 
         Sprite msprite;
@@ -73,24 +84,34 @@ namespace Zeplin
                 msprite = value;
             }
         }
-        #endregion
 
-        #region ICollidable Members
+
+        //WARNING THIS DOES NOT GET CALLED.
+        //THE TRANSFORMATION CHECK MUST OCCUR SOMEHOW TO REFRESH THE COLLISION VOLUME'S CACHED VERTICES.
+        Transformation lastTransformation = new Transformation();
         /// <summary>
         /// Tests for collision between this tile and another ICollidable object
         /// </summary>
         /// <param name="otherCollider"></param>
         /// <returns></returns>
-        public bool TestCollision(ICollidable otherCollider)
+        public bool TestCollision(ICollisionVolume otherCollider)
         {
-            return collider.TestCollision(otherCollider.CollisionVolume);
+            //Check to see if this object's transformation has changed and refresh the CV if it has
+            if (lastTransformation != transformation)
+            {
+                //Caches the current transformation
+                lastTransformation = transformation;
+                RefreshCollisionVolume();
+            }
+            
+            return collider.TestCollision(otherCollider);
         }
 
-        CollisionVolume collider;
+        SATCollisionVolume collider;
         /// <summary>
         /// Gets the CollisionVolume associated with this tile
         /// </summary>
-        public CollisionVolume CollisionVolume
+        public SATCollisionVolume CollisionVolume
         {
             get
             {
@@ -107,98 +128,10 @@ namespace Zeplin
         /// </summary>
         internal void RefreshCollisionVolume()
         {
-            collider.TransformCollisionVolume(transformer);
+            collider.TransformCollisionVolume(transformation);
         }
 
-        #endregion
-
-        #region ITransformable Members
-
-        /// <summary>
-        /// Gets or sets the scale dimensions of the tile
-        /// </summary>
-        public Vector2 Scale
-        {
-            get { return transformer.Scale; }
-            set
-            {
-                transformer.Scale = value;
-                collider.TransformCollisionVolume(transformer);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the rotation angle of the tile
-        /// </summary>
-        public float Rotation
-        {
-            get { return transformer.Rotation; }
-            set
-            {
-                transformer.Rotation = value;
-                collider.TransformCollisionVolume(transformer);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the tile's pivot's object space point
-        /// </summary>
-        public Vector2 Pivot
-        {
-            get { return transformer.Pivot; }
-            set
-            {
-                transformer.Pivot = value;
-                collider.TransformCollisionVolume(transformer);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the position of the tile's pivot point in world space
-        /// </summary>
-        public Vector2 Translation
-        {
-            get { return transformer.Position; }
-            set
-            {
-                transformer.Position = value;
-                collider.TransformCollisionVolume(transformer);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the size of the tile in world coordinates
-        /// </summary>
-        /// <remarks>I don't think this is actually used. TODO: investigate!</remarks>
-        public Vector2 Size
-        {
-            get { return transformer.Size; }
-            set
-            {
-                transformer.Size = value;
-                collider.TransformCollisionVolume(transformer);
-            }
-        }
-        
-        #endregion
-
-
-        Transformation transformer;
-        /// <summary>
-        /// Gets or sets the tile's transformation
-        /// </summary>
-        protected Transformation Transformation
-        {
-            set
-            {
-                transformer = value;
-                collider.TransformCollisionVolume(transformer);
-            }
-            get
-            {
-                return transformer;
-            }
-        }
+        public Transformation transformation;
 
         AnimationScript currentAnimation = null;
         /// <summary>

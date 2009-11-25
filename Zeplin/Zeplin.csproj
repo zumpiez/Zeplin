@@ -86,14 +86,16 @@
     <Compile Include="Actor.cs" />
     <Compile Include="AnimationScript.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="ICollisionVolume.cs" />
     <Compile Include="EngineResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EngineResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="GameObject.cs" />
+    <Compile Include="IGameObjectProvider.cs" />
     <Compile Include="Input.cs" />
-    <Compile Include="Interfaces.cs" />
-    <Compile Include="CollisionVolume.cs" />
+    <Compile Include="CollisionShapes\SATCollisionVolume.cs" />
     <Compile Include="Layer.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Sound.cs" />
@@ -148,8 +150,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\x86\Release\Content\Images\whitesquare.xnb" />
-    <None Include="Resources\whitesquare.xnb" />
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

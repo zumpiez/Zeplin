@@ -7,13 +7,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Zeplin.CollisionShapes;
 
 namespace Zeplin
 {
     /// <summary>
     /// Defines an interactive component in the game world
     /// </summary>
-    public class Actor : Tile, IThinkable
+    public class Actor : Tile
     {
         /// <summary>
         /// An Actor can be drawn on screen, translated around arbitrarily, collide with other game objects, and process update logic every frame.
@@ -21,7 +22,7 @@ namespace Zeplin
         /// <param name="sprite">The artwork the actor will use during Draw.</param>
         /// <param name="transformation">Positioning information.</param>
         /// <param name="collider">A collision shape that mirrors the transformation.</param>
-        public Actor(Sprite sprite, Transformation transformation, CollisionVolume collider) : base(sprite, transformation, collider)
+        public Actor(Sprite sprite, Transformation transformation, SATCollisionVolume collider) : base(sprite, transformation, collider)
         {
         }
 
@@ -30,9 +31,8 @@ namespace Zeplin
         /// </summary>
         /// <param name="sprite">The artwork the actor will use during Draw.</param>
         /// <param name="transformation">Positioning information.</param>
-        public Actor(Sprite sprite, Transformation transformation) : this(sprite, transformation, new CollisionVolume()) { }
+        public Actor(Sprite sprite, Transformation transformation) : this(sprite, transformation, new SATCollisionVolume()) { }
 
-        #region IThinkable members
         /// <summary>
         /// This is called for you once per map update by Zeplin. Do all collision checing, movement, etc here.
         /// </summary>
@@ -40,7 +40,7 @@ namespace Zeplin
         public virtual void UpdateBehavior(GameTime time)
         {
         }
-        #endregion
+
         
         #region IRenderable members
         /// <summary>
@@ -54,11 +54,11 @@ namespace Zeplin
             if (AnimationScript != null)
             {
                 sourceRect = AnimationScript.ProcessAnimation(gameTime, Sprite);
-                Sprite.Draw(Transformation, 0, sourceRect);
+                Sprite.Draw(transformation, 0, sourceRect);
             }
             else
             {
-                Sprite.Draw(Transformation, 0, null);
+                Sprite.Draw(transformation, 0, null);
             }
             CollisionVolume.Draw();
         }

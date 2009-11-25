@@ -12,19 +12,8 @@ namespace Zeplin
     /// <summary>
     /// Defines spatial properties for art assets
     /// </summary>
-    public class Transformation
+    public struct Transformation
     {
-        /// <summary>
-        /// Constructs a transformation with zeroed values
-        /// </summary>
-        public Transformation()
-        {
-            position = Vector2.Zero;
-            scale = Vector2.One;
-            rotation = 0;
-            pivot = Vector2.Zero;
-        }
-
         /// <summary>
         /// Constructs a transformation with the most common elements (position, scale, rotation)
         /// </summary>
@@ -32,11 +21,33 @@ namespace Zeplin
         /// <param name="scale">The object's scale factors</param>
         /// <param name="rotation">Degrees rotated, in radians</param>
         public Transformation(Vector2 position, Vector2 scale, float rotation)
+            : this(position, scale, rotation, Vector2.Zero)
         {
-            this.position = position;
-            this.scale = scale;
-            this.rotation = rotation;
-            this.pivot = Vector2.Zero;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Transformation)
+            {
+                Transformation other = (Transformation)obj;
+                return (this.Position == other.Position &&
+                    this.Rotation == other.Rotation &&
+                    this.Scale == other.Scale);
+            }
+            else return false;
+        }
+
+        public static bool operator==(Transformation t1, Transformation t2)
+        {
+            return (
+                t1.Position == t2.Position &&
+                t1.Rotation == t2.Rotation &&
+                t1.Scale == t2.Scale);
+        }
+
+        public static bool operator !=(Transformation t1, Transformation t2)
+        {
+            return !(t1 == t2);
         }
 
         /// <summary>
@@ -49,119 +60,30 @@ namespace Zeplin
         /// <param name="pivot">The pivot point, in object space</param>
         public Transformation(Vector2 position, Vector2 scale, float rotation, Vector2 pivot)
         {
-            this.position = position;
-            this.scale = scale;
-            this.rotation = rotation;
-            this.pivot = pivot;
+            this.Position = position;
+            this.Scale = scale;
+            this.Rotation = rotation;
+            this.Pivot = pivot;
         }
 
         /// <summary>
-        /// Gets or sets the object's position in world coordinates
+        /// The object's position in world coordinates
         /// </summary>
-        public Vector2 Position
-        {
-            get
-            {
-                return position;
-            }
-            set
-            {
-                position = value;
-            }
-        }
+        public Vector2 Position;
 
         /// <summary>
-        /// Gets or sets the object's X position value in world coordinates
+        /// The object's X and Y scale factors
         /// </summary>
-        public float X
-        {
-            get
-            {
-                return position.X;
-            }
-            set
-            {
-                position.X = value;
-            }
-        }
+        public Vector2 Scale;
 
         /// <summary>
-        /// Gets or sets the object's Y position value in world coordinates
+        /// The object's rotaton in radians
         /// </summary>
-        public float Y
-        {
-            get
-            {
-                return position.Y;
-            }
-            set
-            {
-                position.Y = value;
-            }
-        }
+        public float Rotation;
 
         /// <summary>
-        /// Gets or sets the object's scale factors
+        /// The object's pivot point in object space.
         /// </summary>
-        public Vector2 Scale
-        {
-            get
-            {
-                return scale;
-            }
-            set
-            {
-                scale = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the object's rotaton in radians
-        /// </summary>
-        public float Rotation
-        {
-            get
-            {
-                return rotation;
-            }
-            set
-            {
-                rotation = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the object's pivot point in object space.
-        /// </summary>
-        public Vector2 Pivot
-        {
-            get
-            {
-                return pivot;
-            }
-            set
-            {
-                pivot = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the object's size in the world
-        /// </summary>
-        /// <remarks>I don't think this is implemented anywhere, but it is intended to take a 0..1 texture coordinate space and translate it into n..m world coordinate space. Right now there is no 0..1 texture coordinate space, though. It's just measured in pixels.</remarks>
-        public Vector2 Size
-        {
-            get
-            {
-                return size;
-            }
-            set
-            {
-                size = value;
-            }
-        }
-        
-        Vector2 position, scale, pivot, size;
-        float rotation;
+        public Vector2 Pivot;
     }
 }

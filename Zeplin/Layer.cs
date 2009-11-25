@@ -21,11 +21,21 @@ namespace Zeplin
         /// </summary>
         internal Layer()
         {
-            actorList = new List<Actor>();
-            tileList = new List<Tile>();
+            //actorList = new List<Actor>();
+            //tileList = new List<Tile>();
+            gameObjectProviderList = new List<IGameObjectProvider>();
         }
 
         /// <summary>
+        /// Adds a GameObject to this layer
+        /// </summary>
+        /// <param name="addedObject">The added IGameObjectProvider</param>
+        public void AddToLayer(IGameObjectProvider addedObject)
+        {
+            gameObjectProviderList.Add(addedObject);
+        }
+
+        /*/// <summary>
         /// Adds an actor to this layer
         /// </summary>
         /// <param name="addedActor">The added actor</param>
@@ -41,9 +51,19 @@ namespace Zeplin
         public void AddToLayer(Tile addedTile)
         {
             tileList.Add(addedTile);
-        }
+        }*/
 
         /// <summary>
+        /// Removes an object from this layer
+        /// </summary>
+        /// <param name="removedObject">The IGameObjectProvider to be removed</param>
+        /// <returns>True if the object was removed, false if it was not found</returns>
+        public bool RemoveFromLayer(IGameObjectProvider removedObject)
+        {
+            return gameObjectProviderList.Remove(removedObject);
+        }
+
+        /*/// <summary>
         /// Removes an actor from this layer
         /// </summary>
         /// <param name="removedActor">The actor to be removed</param>
@@ -61,9 +81,22 @@ namespace Zeplin
         public bool RemoveFromLayer(Tile removedTile)
         {
             return tileList.Remove(removedTile);
-        }
+        }*/
 
         /// <summary>
+        /// Moves an actor to another layer
+        /// </summary>
+        /// <param name="movedActor">The actor to be moved</param>
+        /// <param name="destinationLayer">The layer to move the actor to</param>
+        /// <returns>True if the operation was successful, otherwise false</returns>
+        public bool MoveToLayer(IGameObjectProvider movedObject, Layer destinationLayer)
+        {
+            bool result = gameObjectProviderList.Remove(movedObject);
+            if (result) destinationLayer.gameObjectProviderList.Add(movedObject);
+            return result;
+        }
+        
+        /*/// <summary>
         /// Moves an actor to another layer
         /// </summary>
         /// <param name="movedActor">The actor to be moved</param>
@@ -87,9 +120,9 @@ namespace Zeplin
             bool result = tileList.Remove(movedTile);
             if (result) destinationLayer.tileList.Add(movedTile);
             return result;
-        }
+        }*/
 
-        /// <summary>
+        /*/// <summary>
         /// Causes the tiles and actors owned by this layer to update themselves
         /// </summary>
         /// <param name="gameTime">Time passed since the last call to Update</param>
@@ -104,9 +137,22 @@ namespace Zeplin
                 a.RefreshCollisionVolume();
                 a.UpdateBehavior(gameTime);
             }
-        }
+        }*/
 
         /// <summary>
+        /// Causes the tiles and actors owned by this layer to update themselves
+        /// </summary>
+        /// <param name="gameTime">Time passed since the last call to Update</param>
+        internal void Update(GameTime gameTime)
+        {
+            foreach (IGameObjectProvider o in gameObjectProviderList)
+            {
+                if(o.GameObject.OnUpdate != null)
+                    o.GameObject.OnUpdate(gameTime);
+            }
+        }
+
+        /*/// <summary>
         /// Causes the tiles and actors drawn by this layer to draw themselves
         /// </summary>
         /// <param name="gameTime">Time passed since the last call to Update</param>
@@ -120,8 +166,27 @@ namespace Zeplin
                 a.Draw(gameTime);
 
             Engine.spriteBatch.End();
+        }*/
+
+        /// <summary>
+        /// Causes the game objects on this layer to draw themselves.
+        /// </summary>
+        /// <param name="gameTime">Time passed since the last call to Update</param>
+        public void Draw(GameTime gameTime)
+        {
+            Engine.spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront, SaveStateMode.None, Engine.camera.ComputeViewMatrix(Parallax));
+
+            foreach (IGameObjectProvider o in gameObjectProviderList)
+            {
+                if (o.GameObject.OnDraw != null)
+                    o.GameObject.OnDraw(gameTime);
+
+            }
+
+            Engine.spriteBatch.End();
         }
 
+        /*
         List<Actor> actorList;
         /// <summary>
         /// Returns the list of actors owned by this layer
@@ -138,16 +203,29 @@ namespace Zeplin
         public List<Tile> TileList
         {
             get { return tileList; }
+        }*/
+
+        List<IGameObjectProvider> gameObjectProviderList;
+        /// <summary>
+        /// Gets the list of GameObjects owned by this layer
+        /// </summary>
+        public List<IGameObjectProvider> GameObjectProviderList
+        {
+            get { return gameObjectProviderList; }
         }
 
-        Vector2 parallax = Vector2.One;
         /// <summary>
+        /// The parallax factor for the layer.
+        /// </summary>
+        public Vector2 Parallax = Vector2.One;
+        
+        /*/// <summary>
         /// Gets or sets the parallax factor of this matrix
         /// </summary>
         public Vector2 Parallax
         {
             get { return parallax; }
             set { parallax = value; }
-        }
+        }*/
     }
 }
