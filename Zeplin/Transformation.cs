@@ -25,6 +25,23 @@ namespace Zeplin
         {
         }
 
+        /// <summary>
+        /// Constructs a transformation with position, scale, rotation and custom pivot
+        /// </summary>
+        /// <remarks>There are some problems that occur with non-centered pivots. Looking into this.</remarks>
+        /// <param name="position">The object's position in world space</param>
+        /// <param name="scale">The object's scale factors</param>
+        /// <param name="rotation">Degrees rotated, in radians</param>
+        /// <param name="pivot">The pivot point, in object space</param>
+        public Transformation(Vector2 position, Vector2 scale, float rotation, Vector2 pivot)
+        {
+            this.Position = position;
+            this.Scale = scale;
+            this.Rotation = rotation;
+            this.Pivot = pivot;
+            this.depth = 1;
+        }
+
         public override bool Equals(object obj)
         {
             if (obj is Transformation)
@@ -51,22 +68,6 @@ namespace Zeplin
         }
 
         /// <summary>
-        /// Constructs a transformation with position, scale, rotation and custom pivot
-        /// </summary>
-        /// <remarks>There are some problems that occur with non-centered pivots. Looking into this.</remarks>
-        /// <param name="position">The object's position in world space</param>
-        /// <param name="scale">The object's scale factors</param>
-        /// <param name="rotation">Degrees rotated, in radians</param>
-        /// <param name="pivot">The pivot point, in object space</param>
-        public Transformation(Vector2 position, Vector2 scale, float rotation, Vector2 pivot)
-        {
-            this.Position = position;
-            this.Scale = scale;
-            this.Rotation = rotation;
-            this.Pivot = pivot;
-        }
-
-        /// <summary>
         /// The object's position in world coordinates
         /// </summary>
         public Vector2 Position;
@@ -85,5 +86,17 @@ namespace Zeplin
         /// The object's pivot point in object space.
         /// </summary>
         public Vector2 Pivot;
+
+        float depth;
+        public float Depth
+        {
+            get { return depth; }
+            set
+            {
+                if (value > 1) value = 1;
+                else if (value < 0) value = 0;
+                depth = value;
+            }
+        }
     }
 }

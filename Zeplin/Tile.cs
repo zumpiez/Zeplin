@@ -57,11 +57,11 @@ namespace Zeplin
             if (currentAnimation != null)
             {
                 sourceRect = currentAnimation.ProcessAnimation(gameTime, msprite);
-                msprite.Draw(transformation, 1, sourceRect);
+                msprite.Draw(transformation, sourceRect);
             }
             else
             {
-                msprite.Draw(transformation, 1, null);
+                msprite.Draw(transformation, null);
             }
 
             if(collider != null)
