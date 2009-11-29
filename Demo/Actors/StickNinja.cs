@@ -49,16 +49,16 @@ namespace Demo.Actors
 
             if (Input.IsKeyDown(Keys.Q))
             {
-                Engine.camera.Zoom += new Vector2(0.01f);
+                Engine.Camera.Zoom += new Vector2(0.01f);
             }
             if (Input.IsKeyDown(Keys.E))
             {
-                Engine.camera.Zoom -= new Vector2(0.01f);
+                Engine.Camera.Zoom -= new Vector2(0.01f);
             }
 
             if (Input.IsKeyDown(Keys.R))
             {
-                Engine.camera.Rotation += 0.01f;
+                Engine.Camera.Rotation += 0.01f;
             }
 
             if (Engine.TestCollision<Tiles.GrassBrick>(this) != null)
@@ -70,7 +70,7 @@ namespace Demo.Actors
 
             velocity += gravity;
 
-            Engine.camera.Center = transformation.Position;
+            Engine.Camera.Center = transformation.Position;
         }
 
         Vector2 velocity;

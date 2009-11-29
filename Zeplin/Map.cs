@@ -84,6 +84,11 @@ namespace Zeplin
             layerList[layer].Parallax = parallax;
         }
 
+        public void PinLayer(int layer, bool pin)
+        {
+            layerList[layer].Pinned = pin;
+        }
+
         /// <summary>
         /// Adds a GameObject to the specified layer.
         /// </summary>
@@ -94,14 +99,14 @@ namespace Zeplin
         {
             try
             {
-                layerList[layerIndex].GameObjectProviderList.Add(addedObject);
+                layerList[layerIndex].AddToLayer(addedObject);
             }
             catch (ArgumentOutOfRangeException)
             {
                 for (int i = layerList.Count - 1; i < layerIndex; i++)
                     layerList.Add(new Layer());
 
-                layerList[layerIndex].GameObjectProviderList.Add(addedObject);
+                layerList[layerIndex].AddToLayer(addedObject);
             }
         }
 
@@ -111,7 +116,7 @@ namespace Zeplin
         /// <param name="addedActor">The actor to be added to the layer.</param>
         public void AddGameObject(IGameObjectProvider addedObject)
         {
-            layerList[0].GameObjectProviderList.Add(addedObject);
+            layerList[0].AddToLayer(addedObject);
         }
 
         /// <summary>

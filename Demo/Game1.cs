@@ -29,8 +29,6 @@ namespace Demo
             game.Run();
         }
 
-        int test;
-
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
@@ -45,8 +43,8 @@ namespace Demo
             
             World.worldDimensions = new Vector2(10000, 10000);
 
-            Engine.camera.SetDimensions(1280, 720);
-            Engine.camera.Mode = CameraCropMode.MaintainHeight;
+            Engine.Camera.SetDimensions(1280, 720);
+            Engine.Camera.Mode = CameraCropMode.MaintainHeight;
             
             #region random grassymass tiles
             /*for (int i = 0; i < 10; i++)
@@ -107,6 +105,8 @@ namespace Demo
                 l.offset = (float)(r.NextDouble() * Math.PI * 2);
                 Engine.AddToMap(l, 0);
             }
+
+            Engine.PinLayer(0, true);
 
             #endregion
         }

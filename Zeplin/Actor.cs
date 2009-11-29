@@ -63,8 +63,5 @@ namespace Zeplin
             CollisionVolume.Draw();
         }
         #endregion
-
-        //For skeletal stuff. THis is stubbed in right now, it doesn't actually do anything.
-        List<Actor> children;
     }
 }

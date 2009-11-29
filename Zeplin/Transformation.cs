@@ -46,10 +46,7 @@ namespace Zeplin
         {
             if (obj is Transformation)
             {
-                Transformation other = (Transformation)obj;
-                return (this.Position == other.Position &&
-                    this.Rotation == other.Rotation &&
-                    this.Scale == other.Scale);
+                return (Transformation)obj == this;
             }
             else return false;
         }
@@ -65,6 +62,12 @@ namespace Zeplin
         public static bool operator !=(Transformation t1, Transformation t2)
         {
             return !(t1 == t2);
+        }
+
+        public override int GetHashCode()
+        {
+            // this isn't the best hash code method ever written, but whatever
+            return (((Position.GetHashCode() << 4) ^ Rotation.GetHashCode()) << 4) ^ Scale.GetHashCode();
         }
 
         /// <summary>

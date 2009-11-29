@@ -28,7 +28,7 @@ namespace Zeplin
             World.gameResolution = new Vector2(gdm.PreferredBackBufferWidth, gdm.PreferredBackBufferHeight);
             
             //camera defaults to the size of the world. User can set this to the desired dimensions.
-            Engine.camera = new Camera(World.worldDimensions);
+            Engine.Camera = new Camera(World.worldDimensions);
 
             currentMap = map;
         }
@@ -71,7 +71,7 @@ namespace Zeplin
             if (testerCV == null)
                 return null;
 
-            foreach (IGameObjectProvider o in currentMap.ActiveLayer.GameObjectProviderList)
+            foreach (IGameObjectProvider o in currentMap.ActiveLayer.GameObjectProviders)
             {
                 if (o is GameObjectProviderType && testerCV.TestCollision(o.GameObject.CollisionVolume) == true)
                 {
@@ -99,6 +99,11 @@ namespace Zeplin
             currentMap.AddGameObject(o, layer);
         }
 
+        public static void PinLayer(int layer, bool pin)
+        {
+            currentMap.PinLayer(layer, pin);
+        }
+
         /// <summary>
         /// There will be a mechanism for switching between maps.
         /// </summary>
@@ -117,8 +122,8 @@ namespace Zeplin
 
         internal static ContentManager Content;
         internal static SpriteBatch spriteBatch;
-        
 
-        public static Camera camera;
+
+        public static Camera Camera { get; private set; }
     }
 }
