@@ -29,7 +29,7 @@ namespace Zeplin
         public Sprite(string resource)
         {
             image = Engine.Content.Load<Texture2D>(resource);
-            color = Color.White;
+            Color = Color.White;
             //these will be different from image width/height when using a sprite sheet.
             //until animation is implemented, this is stubbed.
             frameSize.Width = image.Width;
@@ -40,18 +40,25 @@ namespace Zeplin
         /// Gets the center point of the sprite's frame
         /// </summary>
         /// <returns>The vector point of the sprite frame's center point in texture space.</returns>
-        public Vector2 GetCenter()
+        public Vector2 Center
         {
-            return new Vector2(frameSize.Width / 2, frameSize.Height/2);
+            get { return new Vector2(frameSize.Width / 2, frameSize.Height / 2); }
         }
 
         /// <summary>
-        /// Sets the transparency of the sprite
+        /// Gets or sets the opacity of the sprite
         /// </summary>
-        /// <param name="lucency">The transparency of the sprite, from 0 (invisible) to 1 (opaque)</param>
-        public void SetLucency(float lucency)
+        public float Opacity
         {
-            color = new Color(1.0f, 1.0f, 1.0f, lucency);
+            get { return Color.A; }
+            set 
+            {
+                //clamp between 0 and 1
+                if (value > 1) value = 1;
+                else if (value < 0) value = 0;
+
+                color.A = (byte)(value * 256);
+            }
         }
 
         /// <summary>
@@ -95,10 +102,18 @@ namespace Zeplin
             }
         }
 
+
+        private Color color;
         /// <summary>
         /// Gets or sets the color tinting of the sprite
         /// </summary>
-        public Color color;
+        public Color Color
+        {
+            get { return color; }
+            set { color = value; }
+        }
+        
+        
         
         Rectangle frameSize = new Rectangle();
         /// <summary>

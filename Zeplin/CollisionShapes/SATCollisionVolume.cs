@@ -144,7 +144,7 @@ namespace Zeplin.CollisionShapes
                     //Gets the edge between two vertices
                     edge = vertices[nextVertex] - vertices[i];
                 }
-                catch 
+                catch(ArgumentOutOfRangeException)
                 {
                     //This gets the edge between the nth vertex and the 0th vertex.
                     nextVertex = 0;

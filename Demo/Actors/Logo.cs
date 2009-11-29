@@ -17,8 +17,8 @@ namespace Demo.Actors
         public Logo(Vector2 screenCenter) : base(ball, new Transformation())
         {
             transformation.Position = screenCenter;
-            ball.SetLucency(0.25f);
-            transformation.Pivot = ball.GetCenter();
+            ball.Opacity = 0.25f;
+            transformation.Pivot = ball.Center;
             GameObject.OnUpdate += UpdateBehavior;
         }
 

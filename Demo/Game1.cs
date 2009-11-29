@@ -77,7 +77,7 @@ namespace Demo
             Engine.AddToMap(animationGuy, 2);
 
             Tiles.GrassBrick distantGrassBrick = new Tiles.GrassBrick(new Vector2(350, 250));
-            distantGrassBrick.Sprite.color = new Color(Color.White, 150);
+            distantGrassBrick.Sprite.Color = new Color(Color.White, 150);
             distantGrassBrick.transformation.Scale = new Vector2(0.25f);
             Engine.AddToMap(distantGrassBrick, 0);
 
