@@ -31,11 +31,11 @@ namespace Zeplin
         public Tile(Sprite sprite, Transformation transformation, SATCollisionVolume collider)
         {
             this.msprite = sprite;
-            this.transformation = transformation;
+            this.Transformation = transformation;
             gameobject.CollisionVolume = collider;
 
             gameobject.OnDraw += this.Draw;
-            gameobject.OnUpdate += delegate(GameTime time) { collider.TransformCollisionVolume(this.transformation); };
+            gameobject.OnUpdate += delegate(GameTime time) { collider.TransformCollisionVolume(this.Transformation); };
         }
 
         /// <summary>
@@ -57,11 +57,11 @@ namespace Zeplin
             if (currentAnimation != null)
             {
                 sourceRect = currentAnimation.ProcessAnimation(gameTime, msprite);
-                msprite.Draw(transformation, sourceRect);
+                msprite.Draw(Transformation, sourceRect);
             }
             else
             {
-                msprite.Draw(transformation, null);
+                msprite.Draw(Transformation, null);
             }
 
             if(collider != null)
@@ -86,27 +86,6 @@ namespace Zeplin
         }
 
 
-        //WARNING THIS DOES NOT GET CALLED.
-        //THE TRANSFORMATION CHECK MUST OCCUR SOMEHOW TO REFRESH THE COLLISION VOLUME'S CACHED VERTICES.
-        Transformation lastTransformation = new Transformation();
-        /// <summary>
-        /// Tests for collision between this tile and another ICollidable object
-        /// </summary>
-        /// <param name="otherCollider"></param>
-        /// <returns></returns>
-        public bool TestCollision(ICollisionVolume otherCollider)
-        {
-            //Check to see if this object's transformation has changed and refresh the CV if it has
-            if (lastTransformation != transformation)
-            {
-                //Caches the current transformation
-                lastTransformation = transformation;
-                RefreshCollisionVolume();
-            }
-            
-            return collider.TestCollision(otherCollider);
-        }
-
         SATCollisionVolume collider;
         /// <summary>
         /// Gets the CollisionVolume associated with this tile
@@ -128,10 +107,10 @@ namespace Zeplin
         /// </summary>
         internal void RefreshCollisionVolume()
         {
-            collider.TransformCollisionVolume(transformation);
+            collider.TransformCollisionVolume(Transformation);
         }
 
-        public Transformation transformation;
+        public Transformation Transformation;
 
         AnimationScript currentAnimation = null;
         /// <summary>

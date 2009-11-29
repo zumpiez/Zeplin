@@ -210,7 +210,7 @@ namespace Zeplin.CollisionShapes
         /// Gets or sets a flag that flips the collision volume horizontally.
         /// </summary>
         /// <remarks>This was added to facilitate horizontally flipping sprites (like left and right walking cycles) in the demo game. There is probably a better solution, so this might be deprecated in the next version of Zeplin.</remarks>
-        public bool HorizontalFlip = false;
+        public bool HorizontalFlip { get; set; }
 
         /// <summary>
         /// Rotates a point in texture coordinate space around 0,0 by a specified angle.
@@ -313,7 +313,7 @@ namespace Zeplin.CollisionShapes
                 {
                     Engine.DrawLine(cachedWorldCoordinateVertices[i], cachedWorldCoordinateVertices[nextVertex], 2, Color.Chartreuse);
                 }
-                catch 
+                catch (ArgumentOutOfRangeException)
                 {
                     nextVertex = 0;
                     Engine.DrawLine(cachedWorldCoordinateVertices[i], cachedWorldCoordinateVertices[nextVertex], 2, Color.Chartreuse);

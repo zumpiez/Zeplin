@@ -54,11 +54,11 @@ namespace Zeplin
             if (AnimationScript != null)
             {
                 sourceRect = AnimationScript.ProcessAnimation(gameTime, Sprite);
-                Sprite.Draw(transformation, sourceRect);
+                Sprite.Draw(Transformation, sourceRect);
             }
             else
             {
-                Sprite.Draw(transformation, null);
+                Sprite.Draw(Transformation, null);
             }
             CollisionVolume.Draw();
         }

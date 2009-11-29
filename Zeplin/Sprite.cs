@@ -86,8 +86,8 @@ namespace Zeplin
         /// <summary>
         /// Allows the sprite to be flipped horizontally or vertically.
         /// </summary>
-        /// <remarks>Hacked in late. This will be changed to a property and wrapped into ITransformable and not require importing XNA.Graphics to set.</remarks>
-        public SpriteEffects Facing = SpriteEffects.None;
+        /// <remarks>Hacked in late. This will be changed to a property and wrapped into Transformation and not require importing XNA.Graphics to set.</remarks>
+        public SpriteEffects Facing { get; set; }
 
         Texture2D image;
         /// <summary>

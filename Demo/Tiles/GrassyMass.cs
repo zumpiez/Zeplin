@@ -13,8 +13,8 @@ namespace Demo.Tiles
     {
         public GrassyMass(Vector2 position) : base(new Sprite(@"Images/grassymass"), new Transformation(position, Vector2.One, 0), new SATCollisionVolume())
         {
-            transformation.Scale = new Vector2(0.50f);
-            transformation.Pivot = Sprite.Center;
+            Transformation.Scale = new Vector2(0.50f);
+            Transformation.Pivot = Sprite.Center;
         }
 
         //static Sprite grassyMassSprite = new Sprite(@"Images/grassymass");
@@ -24,7 +24,7 @@ namespace Demo.Tiles
     {
         public GrassBrick(Vector2 position) : base(new Sprite(@"Images/grassbrick3"), new Transformation(position, Vector2.One, 0), new SATCollisionVolume(new Vector2(5,18), new Vector2(392, 163)))
         {
-            transformation.Pivot = Sprite.Center;
+            Transformation.Pivot = Sprite.Center;
         }
     }
 }

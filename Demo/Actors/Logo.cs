@@ -16,15 +16,15 @@ namespace Demo.Actors
 
         public Logo(Vector2 screenCenter) : base(ball, new Transformation())
         {
-            transformation.Position = screenCenter;
+            Transformation.Position = screenCenter;
             ball.Opacity = 0.25f;
-            transformation.Pivot = ball.Center;
+            Transformation.Pivot = ball.Center;
             GameObject.OnUpdate += UpdateBehavior;
         }
 
         public override void UpdateBehavior(GameTime time)
         {
-            transformation.Rotation = offset + (float)time.TotalGameTime.TotalMilliseconds / (2000f / rotationSpeed);
+            Transformation.Rotation = offset + (float)time.TotalGameTime.TotalMilliseconds / (2000f / rotationSpeed);
         }
     }
 }

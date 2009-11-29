@@ -85,18 +85,18 @@ namespace Zeplin
         /// <summary>
         /// Adds a GameObject to the map on layer 0
         /// </summary>
-        public static void AddToMap(IGameObjectProvider o)
+        public static void AddToMap(IGameObjectProvider gameObjectProvider)
         {
-            currentMap.AddGameObject(o);
+            currentMap.AddGameObject(gameObjectProvider);
         }
 
         /// <summary>
         /// Adds a GameObject to the map on a specified layer.
         /// </summary>
         /// <remarks>There is no process of layer creation per-se. You can add an object to any layer number.</remarks>
-        public static void AddToMap(IGameObjectProvider o, int layer)
+        public static void AddToMap(IGameObjectProvider gameObjectProvider, int layer)
         {
-            currentMap.AddGameObject(o, layer);
+            currentMap.AddGameObject(gameObjectProvider, layer);
         }
 
         public static void PinLayer(int layer, bool pin)

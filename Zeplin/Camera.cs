@@ -107,11 +107,11 @@ namespace Zeplin
         /// <summary>
         /// Sets the dimensions of the camera
         /// </summary>
-        /// <param name="w">The width of the camera</param>
-        /// <param name="h">The height of the camera</param>
-        public void SetDimensions(float w, float h)
+        /// <param name="width">The width of the camera</param>
+        /// <param name="height">The height of the camera</param>
+        public void SetDimensions(float width, float height)
         {
-            this.dimensions = new Vector2(w, h);
+            this.dimensions = new Vector2(width, height);
         }
 
         Vector2 zoom = new Vector2(1, 1);
