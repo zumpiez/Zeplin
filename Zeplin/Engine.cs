@@ -30,7 +30,7 @@ namespace Zeplin
             //camera defaults to the size of the world. User can set this to the desired dimensions.
             Engine.Camera = new Camera(World.worldDimensions);
 
-            currentMap = map;
+            CurrentMap = map;
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Zeplin
             if (testerCV == null)
                 return null;
 
-            foreach (IGameObjectProvider o in currentMap.ActiveLayer.GameObjectProviders)
+            foreach (IGameObjectProvider o in CurrentMap.ActiveLayer.GameObjectProviders)
             {
                 if (o is GameObjectProviderType && testerCV.TestCollision(o.GameObject.CollisionVolume) == true)
                 {
@@ -83,42 +83,9 @@ namespace Zeplin
         }
 
         /// <summary>
-        /// Adds a GameObject to the map on layer 0
-        /// </summary>
-        public static void AddToMap(IGameObjectProvider o)
-        {
-            currentMap.AddGameObject(o);
-        }
-
-        /// <summary>
-        /// Adds a GameObject to the map on a specified layer.
-        /// </summary>
-        /// <remarks>There is no process of layer creation per-se. You can add an object to any layer number.</remarks>
-        public static void AddToMap(IGameObjectProvider o, int layer)
-        {
-            currentMap.AddGameObject(o, layer);
-        }
-
-        public static void PinLayer(int layer, bool pin)
-        {
-            currentMap.PinLayer(layer, pin);
-        }
-
-        /// <summary>
         /// There will be a mechanism for switching between maps.
         /// </summary>
-        internal static Map currentMap;
-
-        /// <summary>
-        /// Sets the scroll speed factor of the specified layer.
-        /// </summary>
-        /// <param name="layer"></param>
-        /// <param name="parallax">X and Y affect the scrolling speed along each respective axis.</param>
-        /// <remarks>Setting X and Y independently in the parallax value can allow for some interesting effects but can also be disorienting. Use wisely.</remarks>
-        public static void SetLayerParallax(int layer, Vector2 parallax)
-        {
-            currentMap.SetLayerParallax(layer, parallax);
-        }
+        public static Map CurrentMap { get; private set; }
 
         internal static ContentManager Content;
         internal static SpriteBatch spriteBatch;

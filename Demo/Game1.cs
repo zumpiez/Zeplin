@@ -35,63 +35,54 @@ namespace Demo
         /// </summary>
         void LoadContent()
         {   
-            //spriteBatch = new SpriteBatch(GraphicsDevice);
-            //Zeplin.Engine.Initialize(Content, spriteBatch, graphics, testMap);
-            
-
             Random r = new Random();
             
             World.worldDimensions = new Vector2(10000, 10000);
 
-            Engine.Camera.SetDimensions(1280, 720);
+            Engine.Camera.Dimensions = new Vector2(1280, 720);
             Engine.Camera.Mode = CameraCropMode.MaintainHeight;
-            
-            #region random grassymass tiles
-            /*for (int i = 0; i < 10; i++)
-            {
-                Tiles.GrassyMass gm = new Tiles.GrassyMass(new Vector2(100 + i * 75, 300f));
-                gm.SetRotation(((float)r.NextDouble() / 4) - ((float)r.NextDouble() / 4));
 
-                float Transformation.ScaleFactor = (float)(1.0 + (r.NextDouble() * 0.3 - r.NextDouble() * 0.3));
-                gm.SetTransformation.Scale(gm.GetTransformation.Scale().X * Transformation.ScaleFactor);
+            Layer skybox = Engine.CurrentMap.NewLayer();
+            skybox.Parallax = new Vector2(0.25f);
 
-                testMap.AddTile(gm);
-            }*/
-            #endregion
+            Layer world = Engine.CurrentMap.NewLayer();
+            Layer near = Engine.CurrentMap.NewLayer();
+            near.Parallax = new Vector2(1.75f);
+
+            HeadsUpDisplay hud = new HeadsUpDisplay();
+            Engine.CurrentMap.PutLayer(hud, 1000);
+            hud.Pinned = true;
 
             Tiles.GrassBrick gb = new Tiles.GrassBrick(new Vector2(100, 200));
             gb.transformation.Scale = new Vector2(0.75f);
-            Engine.AddToMap(gb, 1);
+            world.Add(gb);
 
             Tiles.GrassBrick behindgb2 = new Tiles.GrassBrick(new Vector2(550, 250));
             behindgb2.transformation.Scale = new Vector2(0.75f);
-            Engine.AddToMap(behindgb2, 1);
+            world.Add(behindgb2);
 
             Tiles.GrassBrick gb2 = new Tiles.GrassBrick(new Vector2(550, 450));
             gb2.transformation.Scale = new Vector2(1.25f);
-            Engine.AddToMap(gb2, 2);
+            near.Add(gb2);
 
             Actors.AnimationTestGuy animationGuy = new Actors.AnimationTestGuy();
             animationGuy.transformation.Position = new Vector2(550, 670);
             animationGuy.transformation.Scale = new Vector2(3);
-            Engine.AddToMap(animationGuy, 2);
+            near.Add(animationGuy);
 
             Tiles.GrassBrick distantGrassBrick = new Tiles.GrassBrick(new Vector2(350, 250));
             distantGrassBrick.Sprite.color = new Color(Color.White, 150);
             distantGrassBrick.transformation.Scale = new Vector2(0.25f);
-            Engine.AddToMap(distantGrassBrick, 0);
+            skybox.Add(distantGrassBrick);
 
             Actors.StickNinja snactor = new Actors.StickNinja(new Vector2(100f, 600f));
-            Engine.AddToMap(snactor, 1);
+            world.Add(snactor);
 
-            Engine.SetLayerParallax(0, new Vector2(0.25f));
-            Engine.SetLayerParallax(2, new Vector2(1.75f));
-
-            Actors.Logo logo = new Actors.Logo(new Vector2(45,45));
+            Actors.Logo logo = new Actors.Logo(new Vector2(55,-55));
             logo.transformation.Scale = new Vector2(0.35f);
             logo.rotationSpeed = 0.05f;
             logo.offset = -0.5f;
-            Engine.AddToMap(logo);
+            hud.Add(logo);
             
             #region spinnydemo
 
@@ -103,10 +94,8 @@ namespace Demo
                 l.rotationSpeed = (float)(r.NextDouble() * 2) + 0.5f;
                 if (r.Next(0, 2) == 1) l.rotationSpeed *= -1;
                 l.offset = (float)(r.NextDouble() * Math.PI * 2);
-                Engine.AddToMap(l, 0);
+                skybox.Add(l);
             }
-
-            Engine.PinLayer(0, true);
 
             #endregion
         }

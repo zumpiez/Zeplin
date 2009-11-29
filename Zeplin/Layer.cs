@@ -19,7 +19,7 @@ namespace Zeplin
         /// <summary>
         /// Constructs a layer with empty actor and tile collections
         /// </summary>
-        internal Layer()
+        public Layer()
         {
             gameObjectProviderList = new List<IGameObjectProvider>();
             Parallax = Vector2.One;
@@ -29,7 +29,7 @@ namespace Zeplin
         /// Adds a GameObject to this layer
         /// </summary>
         /// <param name="addedObject">The added IGameObjectProvider</param>
-        internal void AddToLayer(IGameObjectProvider addedObject)
+        public virtual void Add(IGameObjectProvider addedObject)
         {
             gameObjectProviderList.Add(addedObject);
         }
@@ -39,7 +39,7 @@ namespace Zeplin
         /// </summary>
         /// <param name="removedObject">The IGameObjectProvider to be removed</param>
         /// <returns>True if the object was removed, false if it was not found</returns>
-        internal bool RemoveFromLayer(IGameObjectProvider removedObject)
+        internal virtual bool Remove(IGameObjectProvider removedObject)
         {
             return gameObjectProviderList.Remove(removedObject);
         }
@@ -50,10 +50,10 @@ namespace Zeplin
         /// <param name="movedActor">The actor to be moved</param>
         /// <param name="destinationLayer">The layer to move the actor to</param>
         /// <returns>True if the operation was successful, otherwise false</returns>
-        internal bool MoveToLayer(IGameObjectProvider movedObject, Layer destinationLayer)
+        internal bool MoveTo(IGameObjectProvider movedObject, Layer destinationLayer)
         {
-            bool result = gameObjectProviderList.Remove(movedObject);
-            if (result) destinationLayer.gameObjectProviderList.Add(movedObject);
+            bool result = Remove(movedObject);
+            if (result) destinationLayer.Add(movedObject);
             return result;
         }
 
@@ -63,7 +63,7 @@ namespace Zeplin
         /// <param name="gameTime">Time passed since the last call to Update</param>
         internal void Update(GameTime gameTime)
         {
-            foreach (IGameObjectProvider o in gameObjectProviderList)
+            foreach (IGameObjectProvider o in GameObjectProviders)
             {
                 if(o.GameObject.OnUpdate != null)
                     o.GameObject.OnUpdate(gameTime);
@@ -85,7 +85,7 @@ namespace Zeplin
 
             Engine.spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront, SaveStateMode.None, viewMatrix);
 
-            foreach (IGameObjectProvider o in gameObjectProviderList)
+            foreach (IGameObjectProvider o in GameObjectProviders)
             {
                 if (o.GameObject.OnDraw != null)
                     o.GameObject.OnDraw(gameTime);
@@ -98,13 +98,13 @@ namespace Zeplin
         /// <summary>
         /// Gets the list of GameObjects owned by this layer
         /// </summary>
-        internal IEnumerable<IGameObjectProvider> GameObjectProviders { get { return gameObjectProviderList; } }
+        internal virtual IEnumerable<IGameObjectProvider> GameObjectProviders { get { return gameObjectProviderList; } }
         private List<IGameObjectProvider> gameObjectProviderList;
 
         /// <summary>
         /// The parallax factor for the layer.
         /// </summary>
-        internal Vector2 Parallax { get; set; }
+        public Vector2 Parallax { get; set; }
 
         public bool Pinned { get; set; }
     }

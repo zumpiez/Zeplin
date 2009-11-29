@@ -138,18 +138,9 @@ namespace Zeplin.CollisionShapes
                 if (vertices.Count < 2)
                     break;
 
-                nextVertex = i + 1;
-                try
-                {
-                    //Gets the edge between two vertices
-                    edge = vertices[nextVertex] - vertices[i];
-                }
-                catch 
-                {
-                    //This gets the edge between the nth vertex and the 0th vertex.
-                    nextVertex = 0;
-                    edge = vertices[nextVertex] - vertices[i];
-                }
+                nextVertex = (i == vertices.Count - 1) ? 0 : i + 1;
+                //Gets the edge between two vertices
+                edge = vertices[nextVertex] - vertices[i];
 
                 if (edge != Vector2.Zero)
                 {
@@ -308,16 +299,9 @@ namespace Zeplin.CollisionShapes
                 if (cachedWorldCoordinateVertices.Count < 2)
                     break;
 
-                nextVertex = i + 1;
-                try
-                {
-                    Engine.DrawLine(cachedWorldCoordinateVertices[i], cachedWorldCoordinateVertices[nextVertex], 2, Color.Chartreuse);
-                }
-                catch 
-                {
-                    nextVertex = 0;
-                    Engine.DrawLine(cachedWorldCoordinateVertices[i], cachedWorldCoordinateVertices[nextVertex], 2, Color.Chartreuse);
-                }
+                nextVertex = (i == cachedWorldCoordinateVertices.Count - 1) ? 0 : i + 1;
+                
+                Engine.DrawLine(cachedWorldCoordinateVertices[i], cachedWorldCoordinateVertices[nextVertex], 2, Color.Chartreuse);
             }
         }
 
