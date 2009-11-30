@@ -19,7 +19,8 @@ namespace Zeplin
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        public static ResourceContentManager ResourceContent;
+        
+        public static ResourceContentManager ResourceContent { get; private set; }
 
         /// <summary>
         /// A ZeplinGame encapsulates the XNA Framework.
