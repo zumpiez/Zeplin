@@ -16,33 +16,26 @@ namespace Zeplin
     {
         #region Constructors
         /// <summary>
+        /// Initializes a camera centered at 0,0 with a width of 0 and a height of 0.
+        /// </summary>
+        public Camera() : this(Vector2.Zero, Vector2.Zero) { }
+
+        /// <summary>
+        /// Initializes a camera with given dimensions
+        /// </summary>
+        /// <param name="dimensions">The width and height of the camera</param>
+        public Camera(Vector2 dimensions) : this(dimensions, Vector2.Zero) { }
+
+        /// <summary>
         /// Initializes a camera with given dimensions, centered at the given point.
         /// </summary>
         /// <param name="center">The point in the world on which the camera will be centered</param>
         /// <param name="dimensions">The width and height of the camera</param>
         public Camera(Vector2 center, Vector2 dimensions)
         {
-            this.dimensions = dimensions;
-            this.center = center;
-        }
-
-        /// <summary>
-        /// Initializes a camera with given dimensions
-        /// </summary>
-        /// <param name="dimensions">The width and height of the camera</param>
-        public Camera(Vector2 dimensions)
-        {
-            this.dimensions = dimensions;
-            this.center = Vector2.Zero;
-        }
-
-        /// <summary>
-        /// Initializes a camera centered at 0,0 with a width of 0 and a height of 0.
-        /// </summary>
-        public Camera()
-        {
-            this.dimensions = Vector2.Zero;
-            this.center = Vector2.Zero;
+            Dimensions = dimensions;
+            Center = center;
+            Zoom = new Vector2(1, 1);
         }
         #endregion
 
@@ -54,19 +47,19 @@ namespace Zeplin
         internal Matrix ComputeViewMatrix(Vector2 parallax)
         {
             //maybe switch this out to use lazy initialization if it's too slow
-            Vector3 matrixRotationOrigin = new Vector3(this.center.X, -this.center.Y, 0);
+            Vector3 matrixRotationOrigin = new Vector3(Center.X, -Center.Y, 0);
             Vector3 screenPosition = new Vector3(World.gameResolution.X / 2, World.gameResolution.Y / 2, 0);
 
             //calculate scaling based on crop mode
             float scaleFactor = 1;
-            switch (mode)
+            switch (Mode)
             {
                 case CameraCropMode.MaintainWidth:
-                    scaleFactor = World.gameResolution.X / this.dimensions.X;
+                    scaleFactor = World.gameResolution.X / Dimensions.X;
                     break;
 
                 case CameraCropMode.MaintainHeight:
-                    scaleFactor = World.gameResolution.Y / this.dimensions.Y;
+                    scaleFactor = World.gameResolution.Y / Dimensions.Y;
                     break;
 
                 case CameraCropMode.NoCorrection:
@@ -75,64 +68,38 @@ namespace Zeplin
             }
 
             Matrix translateToCameraCenter = Matrix.CreateTranslation(-matrixRotationOrigin * new Vector3(parallax, 0));
-            Matrix scale = Matrix.CreateScale(new Vector3(zoom * scaleFactor, 1.0f));
-            Matrix rotation = Matrix.CreateRotationZ(this.rotation);
+            Matrix scale = Matrix.CreateScale(new Vector3(Zoom * scaleFactor, 1.0f));
+            Matrix rotation = Matrix.CreateRotationZ(Rotation);
             Matrix translateToScreenPosition = Matrix.CreateTranslation(screenPosition);
 
             //Composite these matrices
             return translateToCameraCenter * rotation * scale * translateToScreenPosition;
         }
 
-        CameraCropMode mode;
         /// <summary>
         /// Gets or sets the cropping mode for the camera.
         /// </summary>
-        public CameraCropMode Mode
-        {
-            get { return mode; }
-            set { mode = value; }
-        }
+        public CameraCropMode Mode { get; set; }
 
-        Vector2 center;
         /// <summary>
         /// Gets or sets the location of the camera in the world.
         /// </summary>
-        public Vector2 Center
-        {
-            get { return center; }
-            set { center = value; }
-        }
+        public Vector2 Center { get; set; }
 
-        Vector2 dimensions;
         /// <summary>
-        /// Sets the dimensions of the camera
+        /// Gets or sets the dimensions of the camera view volume.
         /// </summary>
-        /// <param name="width">The width of the camera</param>
-        /// <param name="height">The height of the camera</param>
-        public void SetDimensions(float width, float height)
-        {
-            this.dimensions = new Vector2(width, height);
-        }
+        public Vector2 Dimensions { get; set; }
 
-        Vector2 zoom = new Vector2(1, 1);
         /// <summary>
         /// Gets or sets the zoom amount in both dimensions.
         /// </summary>
-        public Vector2 Zoom
-        {
-            get { return zoom; }
-            set { zoom = value; }
-        }
+        public Vector2 Zoom { get; set; }
 
-        float rotation;
         /// <summary>
         /// Gets or sets the rotation of the camera in radians.
         /// </summary>
-        public float Rotation
-        {
-            get { return rotation; }
-            set { rotation = value; }
-        }
+        public float Rotation { get; set; }
     }
 
     /// <summary>
