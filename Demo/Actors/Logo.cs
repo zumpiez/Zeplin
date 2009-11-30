@@ -22,6 +22,13 @@ namespace Demo.Actors
             GameObject.OnUpdate += UpdateBehavior;
         }
 
+        public void FollowMouse(GameTime time)
+        {
+            this.Transformation.Position = Input.MousePosition;
+            if (Input.IsMouseButtonDown(MouseButtons.LeftButton)) rotationSpeed += 0.01f;
+            else if (Input.IsMouseButtonDown(MouseButtons.RightButton)) rotationSpeed -= 0.01f;
+        }
+
         public override void UpdateBehavior(GameTime time)
         {
             Transformation.Rotation = offset + (float)time.TotalGameTime.TotalMilliseconds / (2000f / rotationSpeed);

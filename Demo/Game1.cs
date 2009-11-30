@@ -82,6 +82,7 @@ namespace Demo
             logo.Transformation.Scale = new Vector2(0.35f);
             logo.rotationSpeed = 0.05f;
             logo.offset = -0.5f;
+            logo.GameObject.OnUpdate += logo.FollowMouse;
             hud.Add(logo);
             
             #region spinnydemo
