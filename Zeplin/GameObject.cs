@@ -6,14 +6,15 @@ using Microsoft.Xna.Framework;
 
 namespace Zeplin
 {
+    public delegate void Update(GameTime time);
+    public delegate void Draw(GameTime time);
+
     public class GameObject
     {
-        public delegate void Update(GameTime time);
-        public Update OnUpdate;
+        public Update OnUpdate { get; set; }
 
-        public delegate void Draw(GameTime time);
-        public Draw OnDraw;
+        public Draw OnDraw { get; set; }
 
-        public ICollisionVolume CollisionVolume;
+        public ICollisionVolume CollisionVolume { get; set; }
     }
 }
