@@ -16,21 +16,17 @@ namespace Demo.Actors
         {
             Transformation.Scale = new Vector2(0.75f);
             Transformation.Depth = 0;
-            //this.Sprite.color = Color.Chocolate;
 
             gravity = new Vector2(0, -0.1f);
             velocity = Vector2.Zero;
 
-            GameObject.OnUpdate += UpdateBehavior;
+            OnUpdate += UpdateBehavior;
 
-            SATCollisionVolume mycollisionvolume = GameObject.CollisionVolume as SATCollisionVolume;
 
-            mycollisionvolume.ShowCollisionBoundaries = true;
-            //lastState = new KeyboardState();
-            //kb = Keyboard.GetState();
+            (CollisionVolume as SATCollisionVolume).ShowCollisionBoundaries = true;
         }
 
-        public override void UpdateBehavior(GameTime time)
+        public void UpdateBehavior(GameTime time)
         {
             if (Input.IsKeyDown(Keys.Right))
             {

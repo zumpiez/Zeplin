@@ -25,6 +25,7 @@ namespace Demo.Tiles
         public GrassBrick(Vector2 position) : base(new Sprite(@"Images/grassbrick3"), new Transformation(position, Vector2.One, 0), new SATCollisionVolume(new Vector2(5,18), new Vector2(392, 163)))
         {
             Transformation.Pivot = Sprite.Center;
+            (CollisionVolume as SATCollisionVolume).ShowCollisionBoundaries = true;
         }
     }
 }

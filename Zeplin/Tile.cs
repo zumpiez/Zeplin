@@ -14,14 +14,8 @@ namespace Zeplin
     /// <summary>
     /// Defines a Tile, which can be positioned and drawn in the world and is compatible with collision
     /// </summary>
-    public class Tile : IGameObjectProvider
+    public class Tile : GameObject, ICollisionVolumeProvider
     {
-        GameObject gameobject = new GameObject();
-        public GameObject GameObject
-        {
-            get { return gameobject; }
-        }
-
         /// <summary>
         /// Constructs a tile with a sprite, transformation and collision volume
         /// </summary>
@@ -32,10 +26,10 @@ namespace Zeplin
         {
             this.msprite = sprite;
             this.Transformation = transformation;
-            gameobject.CollisionVolume = collider;
+            CollisionVolume = collider;
 
-            gameobject.OnDraw += this.Draw;
-            gameobject.OnUpdate += delegate(GameTime time) { collider.TransformCollisionVolume(this.Transformation); };
+            OnDraw += this.Draw;
+            OnUpdate += delegate(GameTime time) { collider.TransformCollisionVolume(this.Transformation); };
         }
 
         /// <summary>
@@ -64,9 +58,8 @@ namespace Zeplin
                 msprite.Draw(Transformation, null);
             }
 
-            if(collider != null)
-                collider.Draw();
-
+            if(CollisionVolume != null)
+                (CollisionVolume as SATCollisionVolume).Draw();
         }
 
         Sprite msprite;
@@ -82,23 +75,6 @@ namespace Zeplin
             protected set
             {
                 msprite = value;
-            }
-        }
-
-
-        SATCollisionVolume collider;
-        /// <summary>
-        /// Gets the CollisionVolume associated with this tile
-        /// </summary>
-        public SATCollisionVolume CollisionVolume
-        {
-            get
-            {
-                return collider;
-            }
-            protected set
-            {
-                collider = value;
             }
         }
 
@@ -127,5 +103,25 @@ namespace Zeplin
                 this.currentAnimation = value;
             }
         }
+
+        #region ICollisionVolumeProvider Members
+
+        /// <summary>
+        /// Gets the CollisionVolume associated with this tile
+        /// </summary>
+        public ICollisionVolume CollisionVolume
+        {
+            get
+            {
+                return collider;
+            }
+            set
+            {
+                collider = (SATCollisionVolume)value;
+            }
+        }
+        SATCollisionVolume collider;
+
+        #endregion
     }
 }

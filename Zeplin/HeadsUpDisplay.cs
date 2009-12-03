@@ -12,14 +12,14 @@ namespace Zeplin
         {
             Parallax = Vector2.Zero;
             Pinned = true;
-            widgets = new Dictionary<string, IGameObjectProvider>();
+            widgets = new Dictionary<string, GameObject>();
         }
 
         /// <summary>
         /// Adds a GameObject to this layer
         /// </summary>
         /// <param name="addedObject">The added IGameObjectProvider</param>
-        public override void Add(IGameObjectProvider addedObject)
+        public override void Add(GameObject addedObject)
         {
             widgets.Add(GenerateDefaultName(addedObject), addedObject);
         }
@@ -29,11 +29,11 @@ namespace Zeplin
         /// </summary>
         /// <param name="removedObject">The IGameObjectProvider to be removed</param>
         /// <returns>True if the object was removed, false if it was not found</returns>
-        internal override bool Remove(IGameObjectProvider removedObject)
+        internal override bool Remove(GameObject removedObject)
         {
             bool result = false;
 
-            foreach (KeyValuePair<string, IGameObjectProvider> kvp in widgets)
+            foreach (KeyValuePair<string, GameObject> kvp in widgets)
             {
                 if (kvp.Value == removedObject)
                 {
@@ -45,7 +45,7 @@ namespace Zeplin
             return result;
         }
 
-        public IGameObjectProvider this[string widgetName]
+        public GameObject this[string widgetName]
         {
             get
             {
@@ -57,12 +57,12 @@ namespace Zeplin
             }
         }
 
-        private string GenerateDefaultName(IGameObjectProvider gameObject)
+        private string GenerateDefaultName(GameObject gameObject)
         {
             return String.Format("{0}_{1}", gameObject.GetType().ToString(), gameObject.GetHashCode());
         }
 
-        internal override IEnumerable<IGameObjectProvider> GameObjectProviders { get { return widgets.Values; } }
-        private Dictionary<string, IGameObjectProvider> widgets;
+        internal override IEnumerable<GameObject> GameObjects { get { return widgets.Values; } }
+        private Dictionary<string, GameObject> widgets;
     }
 }

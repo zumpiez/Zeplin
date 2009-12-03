@@ -18,10 +18,10 @@ namespace Demo.Actors
             Sprite.FrameSize = new Vector2(48, 48);
             AnimationScript = new AnimationScript(new int[] { 0, 1, 2, 3, 2, 1, 0, 4, 5, 6, 7, 8, 7, 6, 5, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 }, 2.5f);
             AnimationScript.Padding = 1;
-            GameObject.OnUpdate += UpdateBehavior;
+            OnUpdate += UpdateBehavior;
         }
 
-        public override void UpdateBehavior(GameTime time)
+        public void UpdateBehavior(GameTime time)
         {
             if (AnimationScript.IsAnimationFinished)
                 AnimationScript.PlayFromBeginning(time);

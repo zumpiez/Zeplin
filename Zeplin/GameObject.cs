@@ -14,7 +14,5 @@ namespace Zeplin
         public Update OnUpdate { get; set; }
 
         public Draw OnDraw { get; set; }
-
-        public ICollisionVolume CollisionVolume { get; set; }
     }
 }

@@ -5,8 +5,8 @@ using System.Text;
 
 namespace Zeplin
 {
-    public interface IGameObjectProvider
+    public interface ICollisionVolumeProvider
     {
-        GameObject GameObject { get; }
+        ICollisionVolume CollisionVolume { get; set; }
     }
 }
