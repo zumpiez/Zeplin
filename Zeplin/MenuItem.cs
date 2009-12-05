@@ -18,6 +18,28 @@ namespace Zeplin
         }
 
         /// <summary>
+        /// Creates a MenuItem with a Sprite and Transformation
+        /// </summary>
+        /// <param name="spriteResource">A path to an art resource</param>
+        /// <param name="transformation"></param>
+        public MenuItem(String spriteResource, Transformation transformation)
+        {
+            this.Sprite = new Sprite(spriteResource);
+            this.Transformation = transformation;
+        }
+
+        /// <summary>
+        /// Creates a MenuItem with a Sprite and Transformation
+        /// </summary>
+        /// <param name="sprite"></param>
+        /// <param name="transformation"></param>
+        public MenuItem(Sprite sprite, Transformation transformation)
+        {
+            this.Sprite = sprite;
+            this.Transformation = transformation;
+        }
+
+        /// <summary>
         /// Draws the MenuItem.
         /// </summary>
         /// <param name="time"></param>
