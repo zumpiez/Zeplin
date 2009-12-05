@@ -45,7 +45,7 @@ namespace Zeplin
         /// <param name="time"></param>
         internal void Draw(GameTime time)
         {
-            throw new NotImplementedException();
+            Sprite.Draw(Transformation);
         }
 
         /// <summary>
@@ -60,6 +60,21 @@ namespace Zeplin
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        String name = null;
+        public String Name
+        {
+            get
+            {
+                if (name == null) return DefaultName;
+                else return name;
+            }
+
+            set
+            {
+                name = value;
+            }
         }
 
         /// <summary>

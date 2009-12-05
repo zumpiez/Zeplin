@@ -20,17 +20,18 @@ namespace Zeplin
         /// <param name="item">A MenuItem that will belong to this menu.</param>
         public void Add(MenuItem item)
         {
-            throw new NotImplementedException();
+            menuItemCollection.Add(item);
         }
 
         /// <summary>
         /// Adds a MenuItem to the Menu using a specified name.
         /// </summary>
-        /// <param name="item">A MenuItem that will belong to this menu.</param>
         /// <param name="name">The MenuItem can be referenced by this name.</param>
-        public void Add(MenuItem item, String name)
+        /// <param name="item">A MenuItem that will belong to this menu.</param>
+        public void Add(String name, MenuItem item)
         {
-            throw new NotImplementedException();
+            item.Name = name;
+            menuItemCollection.Add(item);
         }
 
         /// <summary>
@@ -39,16 +40,26 @@ namespace Zeplin
         /// <param name="item">A MenuItem that currently belongs to the Menu.</param>
         public void Remove(MenuItem item)
         {
-            throw new NotImplementedException();
+            menuItemCollection.Remove(item);
         }
 
         /// <summary>
-        /// Removes a MenuItem from the Menu by name
+        /// Removes a MenuItem from the Menu by name. If there are several name matches, it removes the first one found.
         /// </summary>
         /// <param name="name">the name of a MenuItem</param>
         public void Remove(String name)
         {
-            throw new NotImplementedException();
+            MenuItem result; //menuitem with a matching name
+            foreach (MenuItem m in menuItemCollection)
+            {
+                if (m.Name == name)
+                {
+                    result = m;
+                    break;
+                }
+            }
+
+            if(result != null) menuItemCollection.Remove(result);
         }
 
         /// <summary>
@@ -57,7 +68,10 @@ namespace Zeplin
         /// <param name="time"></param>
         internal void Draw(GameTime time)
         {
-            throw new NotImplementedException();
+            foreach (MenuItem m in menuItemCollection.Values)
+            {
+                m.Draw(time);
+            }
         }
 
         /// <summary>
@@ -71,6 +85,6 @@ namespace Zeplin
 
         public IEnumerable<MenuItem> MenuItems { get; set; }
 
-        KeyValuePair<String, MenuItem> menuItemCollection;
+        List<MenuItem> menuItemCollection;
     }
 }
