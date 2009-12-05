@@ -33,6 +33,7 @@ namespace Zeplin
 
         //public member until struct properties are figured out
         public Transformation Transformation;
+        public Sprite Sprite { get; set; }
 
         public override int GetHashCode()
         {
