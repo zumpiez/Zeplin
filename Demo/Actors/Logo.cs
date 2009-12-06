@@ -19,10 +19,17 @@ namespace Demo.Actors
             Transformation.Position = screenCenter;
             ball.Opacity = 0.25f;
             Transformation.Pivot = ball.Center;
-            GameObject.OnUpdate += UpdateBehavior;
+            OnUpdate += UpdateBehavior;
         }
 
-        public override void UpdateBehavior(GameTime time)
+        public void FollowMouse(GameTime time)
+        {
+            this.Transformation.Position = Input.MousePosition;
+            if (Input.IsMouseButtonDown(MouseButtons.LeftButton)) rotationSpeed += 0.01f;
+            else if (Input.IsMouseButtonDown(MouseButtons.RightButton)) rotationSpeed -= 0.01f;
+        }
+
+        public void UpdateBehavior(GameTime time)
         {
             Transformation.Rotation = offset + (float)time.TotalGameTime.TotalMilliseconds / (2000f / rotationSpeed);
         }

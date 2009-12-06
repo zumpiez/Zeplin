@@ -9,6 +9,9 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace Zeplin
 {
+    public delegate void LoadHook();
+    public delegate void UpdateHook(GameTime gameTime);
+    
     /// <summary>
     /// Encapsulates the XNA framework's Game object
     /// </summary>
@@ -16,7 +19,8 @@ namespace Zeplin
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        public static ResourceContentManager ResourceContent;
+        
+        public static ResourceContentManager ResourceContent { get; private set; }
 
         /// <summary>
         /// A ZeplinGame encapsulates the XNA Framework.
@@ -55,8 +59,7 @@ namespace Zeplin
             if (OnLoad != null) OnLoad();
         }
 
-        public delegate void LoadHook();
-        public LoadHook OnLoad = null;
+        public LoadHook OnLoad { get; set; }
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -80,8 +83,7 @@ namespace Zeplin
             base.Update(gameTime);
         }
 
-        public delegate void UpdateHook(GameTime gameTime);
-        public UpdateHook OnUpdate = null;
+        public UpdateHook OnUpdate { get; set; }
 
         /// <summary>
         /// This is called when the game should draw itself.

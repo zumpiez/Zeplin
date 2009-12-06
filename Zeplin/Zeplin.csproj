@@ -94,11 +94,18 @@
       <DependentUpon>EngineResources.resx</DependentUpon>
     </Compile>
     <Compile Include="GameObject.cs" />
-    <Compile Include="IGameObjectProvider.cs" />
+    <Compile Include="ICollisionVolumeProvider.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="CollisionShapes\SATCollisionVolume.cs" />
     <Compile Include="Layer.cs" />
     <Compile Include="Map.cs" />
+    <Compile Include="Menu.cs" />
+    <Compile Include="MenuItem.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Sound.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -149,6 +156,12 @@
       <LastGenOutput>EngineResources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

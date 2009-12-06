@@ -51,17 +51,17 @@ namespace Zeplin
             else return false;
         }
 
-        public static bool operator==(Transformation t1, Transformation t2)
+        public static bool operator==(Transformation left, Transformation right)
         {
             return (
-                t1.Position == t2.Position &&
-                t1.Rotation == t2.Rotation &&
-                t1.Scale == t2.Scale);
+                left.Position == right.Position &&
+                left.Rotation == right.Rotation &&
+                left.Scale == right.Scale);
         }
 
-        public static bool operator !=(Transformation t1, Transformation t2)
+        public static bool operator !=(Transformation left, Transformation right)
         {
-            return !(t1 == t2);
+            return !(left == right);
         }
 
         public override int GetHashCode()

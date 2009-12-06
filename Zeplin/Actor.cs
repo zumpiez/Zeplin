@@ -34,16 +34,6 @@ namespace Zeplin
         public Actor(Sprite sprite, Transformation transformation) : this(sprite, transformation, new SATCollisionVolume()) { }
 
         /// <summary>
-        /// This is called for you once per map update by Zeplin. Do all collision checing, movement, etc here.
-        /// </summary>
-        /// <param name="time">A time structure that can be used to determine how much time has elapsed between updates.</param>
-        public virtual void UpdateBehavior(GameTime time)
-        {
-        }
-
-        
-        #region IRenderable members
-        /// <summary>
         /// This is called for you once per map draw by Zeplin. 
         /// </summary>
         /// <param name="gameTime"></param>
@@ -60,8 +50,7 @@ namespace Zeplin
             {
                 Sprite.Draw(Transformation, null);
             }
-            CollisionVolume.Draw();
+            ((SATCollisionVolume)CollisionVolume).Draw();
         }
-        #endregion
     }
 }
