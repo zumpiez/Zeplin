@@ -51,7 +51,6 @@ namespace Demo
 
             HeadsUpDisplay hud = new HeadsUpDisplay();
             Engine.CurrentMap.PutLayer(hud, 1000);
-            hud.Pinned = true;
 
             Tiles.GrassBrick gb = new Tiles.GrassBrick(new Vector2(100, 200));
             gb.Transformation.Scale = new Vector2(0.75f);
