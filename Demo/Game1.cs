@@ -37,7 +37,7 @@ namespace Demo
         {   
             Random r = new Random();
             
-            World.worldDimensions = new Vector2(10000, 10000);
+            //World.worldDimensions = new Vector2(10000, 10000);
 
             Engine.Camera.Dimensions = new Vector2(1280, 720);
             Engine.Camera.Mode = CameraCropMode.MaintainHeight;
