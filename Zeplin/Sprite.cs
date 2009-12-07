@@ -19,7 +19,6 @@ namespace Zeplin
     /// <summary>
     /// Defines a texture resource, animation data, and drawing instructions. Wraps a Texture2D.
     /// </summary>
-    /// <remarks>Some of the things in here were written early on, and I would like to refactor things to use properties rather than get and set methods.</remarks>
     public class Sprite
     {
         /// <summary>
@@ -30,8 +29,16 @@ namespace Zeplin
         {
             image = Engine.Content.Load<Texture2D>(resource);
             Color = Color.White;
-            //these will be different from image width/height when using a sprite sheet.
-            //until animation is implemented, this is stubbed.
+
+            frameSize.Width = image.Width;
+            frameSize.Height = image.Height;
+        }
+
+        public Sprite(Texture2D texture)
+        {
+            image = texture;
+            Color = Color.White;
+
             frameSize.Width = image.Width;
             frameSize.Height = image.Height;
         }

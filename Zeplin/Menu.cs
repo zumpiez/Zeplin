@@ -49,7 +49,7 @@ namespace Zeplin
         /// <param name="name">the name of a MenuItem</param>
         public void Remove(String name)
         {
-            MenuItem result; //menuitem with a matching name
+            MenuItem result = null; //menuitem with a matching name
             foreach (MenuItem m in menuItemCollection)
             {
                 if (m.Name == name)
@@ -68,7 +68,7 @@ namespace Zeplin
         /// <param name="time"></param>
         internal void Draw(GameTime time)
         {
-            foreach (MenuItem m in menuItemCollection.Values)
+            foreach (MenuItem m in menuItemCollection)
             {
                 m.Draw(time);
             }
