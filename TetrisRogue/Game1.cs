@@ -25,7 +25,7 @@ namespace TetrisRogue
         void Load()
         {
             Sprite characters = new Sprite(@"characters");
-            RenderTarget2D scaledCharacters = new RenderTarget2D(game.GraphicsDevice, characters.Image.Width * 3, characters.Image.Height * 3, 0, game.GraphicsDevice.DisplayMode.Format);
+            RenderTarget2D scaledCharacters = new RenderTarget2D(game.GraphicsDevice, characters.Image.Width * 3, characters.Image.Height * 3, 0, SurfaceFormat.Color);
             DepthStencilBuffer dsb = new DepthStencilBuffer(scaledCharacters.GraphicsDevice, scaledCharacters.Width, scaledCharacters.Height, scaledCharacters.GraphicsDevice.DepthStencilBuffer.Format);
             game.GraphicsDevice.SetRenderTarget(0, scaledCharacters);
 
@@ -34,6 +34,7 @@ namespace TetrisRogue
 
             TextureFilter originalFilter = game.GraphicsDevice.SamplerStates[0].MagFilter;
 
+            //game.GraphicsDevice.Clear(Color.Magenta);
             SpriteBatch batch = new SpriteBatch(game.GraphicsDevice);
             batch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
             game.GraphicsDevice.SamplerStates[0].MagFilter = TextureFilter.None;
