@@ -5,7 +5,8 @@ using System.Text;
 
 namespace TetrisRogue
 {
-    class chunk
+    class Chunk
     {
+
     }
 }
