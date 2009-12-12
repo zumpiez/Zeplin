@@ -9,7 +9,7 @@ namespace TetrisRogue
         /// </summary>
         static void Main(string[] args)
         {
-            Game1 game = new Game1();
+            TetrisRogue game = new TetrisRogue();
         }
     }
 }

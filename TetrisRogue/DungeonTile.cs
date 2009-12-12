@@ -12,16 +12,15 @@ namespace TetrisRogue {
         Wall
     }
 
-    struct DungeonTile 
+    class DungeonTile : Tile
     {
-        public DungeonTile(Sprite sprite, Rectangle extent, Navigability nav) 
+        public DungeonTile(Sprite sprite, Rectangle extent, Navigability nav) : base(sprite, (AnimationScript)null)
         {
-            _sprite = sprite;
+            SubRect = extent;
             _extent = extent;
             _navigability = nav;
         }
 
-        public Sprite Sprite { get { return _sprite; } }
         public Rectangle Extent { get { return _extent; } }
         public Navigability Navigability { get { return _navigability; } }
 

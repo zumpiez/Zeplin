@@ -7,7 +7,7 @@ namespace TetrisRogue
 {
     class StupidChunkGenerator : ChunkGenerator 
     {
-        Chunk GenerateChunk(IEnumerable<DungeonTile> tileDatabase, long seed) 
+        public Chunk GenerateChunk(IList<DungeonTile> tileDatabase, long seed) 
         {
             Chunk c = new Chunk(4, 4);
             Random r = new Random((int)seed);
@@ -16,7 +16,7 @@ namespace TetrisRogue
             {
                 for (int y = 0; y < 4; y++)
                 {
-                    c[x, y] = tileDatabase.Skip(r.Next(tileDatabase.Count())).First();
+                    c[x, y] = tileDatabase[r.Next(tileDatabase.Count)];
                 }
             }
 

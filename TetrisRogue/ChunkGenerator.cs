@@ -7,6 +7,6 @@ namespace TetrisRogue
 {
     interface ChunkGenerator 
     {
-        Chunk GenerateChunk(IEnumerable<Chunk> chunkDatabase, long seed);
+        Chunk GenerateChunk(IList<DungeonTile> chunkDatabase, long seed);
     }
 }

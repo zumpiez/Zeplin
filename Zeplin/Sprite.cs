@@ -87,7 +87,18 @@ namespace Zeplin
         /// <remarks>If on a layer, depth only applies within that layer.</remarks>
         internal void Draw(Transformation transformation, Rectangle? sourceRectangle)
         {
-            Engine.spriteBatch.Draw(image, new Vector2(transformation.Position.X, -transformation.Position.Y), sourceRectangle, color, transformation.Rotation, transformation.Pivot, transformation.Scale, Facing, transformation.Depth);
+            if (sourceRectangle.HasValue)
+            {
+                Rectangle texelRect = sourceRectangle.Value;
+
+                Engine.spriteBatch.Draw(image, new Vector2(transformation.Position.X, -transformation.Position.Y), texelRect, 
+                    color, transformation.Rotation, transformation.Pivot, transformation.Scale, Facing, transformation.Depth);
+            }
+            else
+            {
+                Engine.spriteBatch.Draw(image, new Vector2(transformation.Position.X, -transformation.Position.Y), null, 
+                    color, transformation.Rotation, transformation.Pivot, transformation.Scale, Facing, transformation.Depth);
+            }
         }
 
         /// <summary>

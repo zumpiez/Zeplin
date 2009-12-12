@@ -12,8 +12,10 @@ namespace Zeplin
     /// <summary>
     /// Defines spatial properties for art assets
     /// </summary>
-    public struct Transformation
+    public class Transformation
     {
+        public Transformation() : this(Vector2.Zero, Vector2.One, 0) { }
+
         /// <summary>
         /// Constructs a transformation with the most common elements (position, scale, rotation)
         /// </summary>
