@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Zeplin;
+using Zeplin.Utilities;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
@@ -26,8 +27,8 @@ namespace TetrisRogue
         {
             Sprite characters = new Sprite(@"characters");
             Sprite environment = new Sprite(@"environment");
-            RenderTarget2D scaledCharacters = new RenderTarget2D(game.GraphicsDevice, characters.Image.Width * 3, characters.Image.Height * 3, 0, characters.Image.Format);
-            RenderTarget2D scaledEnvironment = new RenderTarget2D(game.GraphicsDevice, environment.Image.Width * 3, environment.Image.Height * 3, 0, environment.Image.Format);
+            RenderTarget2D scaledCharacters = GraphicsHelper.CreateRenderTarget(game.GraphicsDevice, characters.Image.Width * 3, characters.Image.Height * 3);
+            RenderTarget2D scaledEnvironment = GraphicsHelper.CreateRenderTarget(game.GraphicsDevice, environment.Image.Width * 3, environment.Image.Height * 3);
             DepthStencilBuffer dsb = new DepthStencilBuffer(scaledCharacters.GraphicsDevice, scaledCharacters.Width, scaledCharacters.Height, scaledCharacters.GraphicsDevice.DepthStencilBuffer.Format);
             game.GraphicsDevice.SetRenderTarget(0, scaledCharacters);
 
