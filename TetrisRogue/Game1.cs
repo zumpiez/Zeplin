@@ -18,14 +18,14 @@ namespace TetrisRogue
         {
             game = new ZeplinGame();
             game.OnLoad += Load;
-            game.OnUpdate += OnUpdate;
+            game.OnUpdate += Update;
             game.Run();
         }
 
         void Load()
         {
             Sprite characters = new Sprite(@"characters");
-            RenderTarget2D scaledCharacters = new RenderTarget2D(game.GraphicsDevice, characters.Image.Width * 3, characters.Image.Height * 3, 0, SurfaceFormat.Color);
+            RenderTarget2D scaledCharacters = new RenderTarget2D(game.GraphicsDevice, characters.Image.Width * 3, characters.Image.Height * 3, 0, characters.Image.Format);
             DepthStencilBuffer dsb = new DepthStencilBuffer(scaledCharacters.GraphicsDevice, scaledCharacters.Width, scaledCharacters.Height, scaledCharacters.GraphicsDevice.DepthStencilBuffer.Format);
             game.GraphicsDevice.SetRenderTarget(0, scaledCharacters);
 
@@ -54,10 +54,35 @@ namespace TetrisRogue
 
             Engine.Camera.Dimensions = new Vector2(800, 600);
             Engine.Camera.Center = new Vector2(400, -300);
+
+            brick = GetTileFromSpritesheet(characters, new Rectangle(144, 144, 24, 24));
+            brick.Transformation.Position = new Vector2(0, 0);
+            l.Add(brick);
         }
 
-        void OnUpdate(GameTime time)
+        Tile brick;
+        void Update(GameTime time)
         {
+            //brick.Transformation.Position = Input.MousePosition;
+        }
+
+        public static Tile GetTileFromSpritesheet(Sprite sourceArt, Rectangle rect)
+        {
+            /*int framex;
+            if (rect.X == 0) framex = 0;
+            else framex = rect.X / rect.Width; 
+            
+            int framey;
+            if (rect.Y == 0) framey = 0;
+            else framey = rect.Y / rect.Height; 
+
+            int frame = framey * (sourceArt.Image.Width / rect.Width) + framex;*/
+
+            Tile result = new Tile(sourceArt, new Transformation());
+
+            result.SubRect = rect;
+
+            return result;
         }
     }
 }

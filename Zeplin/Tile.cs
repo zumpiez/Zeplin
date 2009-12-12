@@ -41,6 +41,17 @@ namespace Zeplin
         {
         }
 
+        public Tile(Sprite sprite, AnimationScript animation)
+        {
+            this.AnimationScript = animation;
+            this.Sprite = sprite;
+            this.Transformation = new Transformation();
+            this.collider = new SATCollisionVolume();
+
+            OnDraw += this.Draw;
+            OnUpdate += delegate(GameTime time) { collider.TransformCollisionVolume(this.Transformation); };
+        }
+
         /// <summary>
         /// Draws the contents of the tile using the tile's transformation
         /// </summary>
@@ -50,12 +61,12 @@ namespace Zeplin
             Rectangle sourceRect;
             if (currentAnimation != null)
             {
-                sourceRect = currentAnimation.ProcessAnimation(gameTime, msprite);
+                sourceRect = currentAnimation.ProcessAnimation(gameTime, FrameSize, msprite);
                 msprite.Draw(Transformation, sourceRect);
             }
             else
             {
-                msprite.Draw(Transformation, null);
+                msprite.Draw(Transformation, SubRect);
             }
 
             if(CollisionVolume != null)
@@ -103,6 +114,11 @@ namespace Zeplin
                 this.currentAnimation = value;
             }
         }
+
+        public Vector2 FrameSize { get; set; }
+
+        public Rectangle SubRect { get; set; }
+
 
         #region ICollisionVolumeProvider Members
 
