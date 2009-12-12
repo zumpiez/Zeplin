@@ -112,6 +112,7 @@
     <Compile Include="Tile.cs" />
     <Compile Include="Transformation.cs" />
     <Compile Include="Utilities\ExtensionMethods.cs" />
+    <Compile Include="Utilities\GraphicsHelper.cs" />
     <Compile Include="Utilities\RectangleF.cs" />
     <Compile Include="World.cs" />
     <Compile Include="Engine.cs" />
