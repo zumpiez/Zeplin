@@ -94,7 +94,7 @@ namespace Zeplin
         /// <param name="sprite">The sprite being drawn</param>
         /// <returns>A rectangle containing the correct frame</returns>
         /// <remarks>You can use this method on any sprite and it will generate a result, but it for correct results the Sprite should have a framesize defined, and the order of animation frames should match those of the AnimationScript.</remarks>
-        internal Rectangle ProcessAnimation(GameTime time, Sprite sprite)
+        internal Rectangle ProcessAnimation(GameTime time, Vector2 framesize, Sprite sprite)
         {
             //Determine the frame number to use based on duration and current time
             int frame;
@@ -113,7 +113,7 @@ namespace Zeplin
             }
 
             //Locate the rectangle containing that frame number based on the sprite's frame size
-            Rectangle sourceRect = new Rectangle(0,0,(int)sprite.FrameSize.X, (int)sprite.FrameSize.Y);
+            Rectangle sourceRect = new Rectangle(0,0,(int)framesize.X, (int)framesize.Y);
 
             sourceRect.X = frame * sourceRect.Width + (padding * frame) + padding;
             int yOffsetFactor = 0;
