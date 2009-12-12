@@ -25,45 +25,10 @@ namespace TetrisRogue
 
         void Load()
         {
-            Sprite characters = new Sprite(@"characters");
-            Sprite environment = new Sprite(@"environment");
-            RenderTarget2D scaledCharacters = GraphicsHelper.CreateRenderTarget(game.GraphicsDevice, characters.Image.Width * 3, characters.Image.Height * 3);
-            RenderTarget2D scaledEnvironment = GraphicsHelper.CreateRenderTarget(game.GraphicsDevice, environment.Image.Width * 3, environment.Image.Height * 3);
-            DepthStencilBuffer dsb = new DepthStencilBuffer(scaledCharacters.GraphicsDevice, scaledCharacters.Width, scaledCharacters.Height, scaledCharacters.GraphicsDevice.DepthStencilBuffer.Format);
-            game.GraphicsDevice.SetRenderTarget(0, scaledCharacters);
+            Sprite characters = new Sprite(PointScale(3, game.Content.Load<Texture2D>(@"characters")));
+            Sprite environment = new Sprite(PointScale(3, game.Content.Load<Texture2D>(@"environment")));            
+            
 
-            DepthStencilBuffer old = game.GraphicsDevice.DepthStencilBuffer;
-            game.GraphicsDevice.DepthStencilBuffer = dsb;
-
-            TextureFilter originalFilter = game.GraphicsDevice.SamplerStates[0].MagFilter;
-
-            //game.GraphicsDevice.Clear(Color.Magenta);
-            SpriteBatch batch = new SpriteBatch(game.GraphicsDevice);
-            batch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
-            game.GraphicsDevice.SamplerStates[0].MagFilter = TextureFilter.None;
-            batch.Draw(characters.Image, new Rectangle(0, 0, scaledCharacters.Width, scaledCharacters.Height), Color.White);
-            batch.End();
-            
-            game.GraphicsDevice.SetRenderTarget(0, null);
-            game.GraphicsDevice.DepthStencilBuffer = old;
-            game.GraphicsDevice.SamplerStates[0].MagFilter = originalFilter;
-            
-            characters = new Sprite(scaledCharacters.GetTexture());
-            
-            game.GraphicsDevice.SetRenderTarget(0, scaledEnvironment);
-            batch = new SpriteBatch(game.GraphicsDevice);
-            batch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
-            game.GraphicsDevice.SamplerStates[0].MagFilter = TextureFilter.None;
-            batch.Draw(environment.Image, new Rectangle(0, 0, scaledEnvironment.Width, scaledEnvironment.Height), Color.White);
-            batch.End();
-            
-            game.GraphicsDevice.SetRenderTarget(0, null);
-            game.GraphicsDevice.DepthStencilBuffer = old;
-            game.GraphicsDevice.SamplerStates[0].MagFilter = originalFilter;
-            
-            environment = new Sprite(scaledEnvironment.GetTexture());
-
-            
             Layer l = Engine.CurrentMap.NewLayer();
             
             Engine.Camera.Dimensions = new Vector2(800, 600);
@@ -110,6 +75,35 @@ namespace TetrisRogue
             result.SubRect = rect;
 
             return result;
+        }
+
+        public Texture2D PointScale(int scale, Texture2D sourceImage)
+        {
+            RenderTarget2D scaled = GraphicsHelper.CreateRenderTarget(game.GraphicsDevice, sourceImage.Width * scale, sourceImage.Height * scale);
+            DepthStencilBuffer dsb = new DepthStencilBuffer(scaled.GraphicsDevice, scaled.Width, scaled.Height, scaled.GraphicsDevice.DepthStencilBuffer.Format);
+
+            //stash the original graphics settings
+            DepthStencilBuffer stashedDepthStencilBuffer = game.GraphicsDevice.DepthStencilBuffer;
+            TextureFilter stashedFilter = game.GraphicsDevice.SamplerStates[0].MagFilter;
+
+            //cram in the new settings
+            game.GraphicsDevice.SetRenderTarget(0, scaled);
+            game.GraphicsDevice.DepthStencilBuffer = dsb;
+            game.GraphicsDevice.SamplerStates[0].MagFilter = TextureFilter.None;
+
+            //draw to the render surface
+            SpriteBatch batch = new SpriteBatch(game.GraphicsDevice);
+            batch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
+            game.GraphicsDevice.SamplerStates[0].MagFilter = TextureFilter.None;
+            batch.Draw(sourceImage, new Rectangle(0, 0, scaled.Width, scaled.Height), Color.White);
+            batch.End();
+
+            //restore original settings
+            game.GraphicsDevice.SetRenderTarget(0, null);
+            game.GraphicsDevice.DepthStencilBuffer = stashedDepthStencilBuffer;
+            game.GraphicsDevice.SamplerStates[0].MagFilter = stashedFilter;
+
+            return scaled.GetTexture();
         }
     }
 }
