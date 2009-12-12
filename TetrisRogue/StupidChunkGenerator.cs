@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace TetrisRogue 
+{
+    class StupidChunkGenerator : ChunkGenerator 
+    {
+        Chunk GenerateChunk(IEnumerable<DungeonTile> tileDatabase, long seed) 
+        {
+            Chunk c = new Chunk(4, 4);
+            Random r = new Random((int)seed);
+
+            for (int x = 0; x < 4; x++)
+            {
+                for (int y = 0; y < 4; y++)
+                {
+                    c[x, y] = tileDatabase.Skip(r.Next(tileDatabase.Count())).First();
+                }
+            }
+
+            return c;
+        }
+    }
+}
