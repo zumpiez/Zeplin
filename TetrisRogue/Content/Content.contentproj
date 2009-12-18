@@ -74,8 +74,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="zaratustra_assemblee.ttf">
+    <Compile Include="zaratustra_assemblee.spritefont">
       <Name>zaratustra_assemblee</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v3.0\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

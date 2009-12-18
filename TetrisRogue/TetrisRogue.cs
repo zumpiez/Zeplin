@@ -28,7 +28,6 @@ namespace TetrisRogue
             Sprite characters = new Sprite(PointScale(3, game.Content.Load<Texture2D>(@"characters")));
             Sprite environment = new Sprite(PointScale(3, game.Content.Load<Texture2D>(@"environment")));            
             
-
             Layer l = Engine.CurrentMap.NewLayer();
             
             Engine.Camera.Dimensions = new Vector2(800, 600);
@@ -40,22 +39,25 @@ namespace TetrisRogue
                 new DungeonTile(environment, new Rectangle(144, 0, 24, 24), Navigability.Navigable),
             };
 
-            Chunk c = new StupidChunkGenerator().GenerateChunk(tiles, 9999);
+            c = new StupidChunkGenerator().GenerateChunk(tiles, 9999);
 
-            for (int x = 0; x < 4; x++)
+            //Chunk will be responsible for drawing its own DungeonTile set.
+            /*for (int x = 0; x < 4; x++)
             {
                 for (int y = 0; y < 4; y++)
                 {
                     c[x, y].Transformation.Position = new Vector2(40 + 24 * x, -60 - 24 * y);
                     l.Add(c[x, y]);
                 }
-            }
+            }*/
+            l.Add(c);
         }
+        Chunk c;
 
-        Tile brick;
         void Update(GameTime time)
         {
-            //brick.Transformation.Position = Input.MousePosition;
+            if (Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.R))
+                c.Rotate(Direction.Clockwise);
         }
 
         public static Tile GetTileFromSpritesheet(Sprite sourceArt, Rectangle rect)
