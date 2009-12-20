@@ -39,39 +39,36 @@ namespace TetrisRogue
                 new DungeonTile(environment, new Rectangle(144, 0, 24, 24), Navigability.Navigable),
             };
 
-            c = new StupidChunkGenerator().GenerateChunk(tiles, 9999);
+            Chunk c = new StupidChunkGenerator().GenerateChunk(tiles, 9999);
 
             //Chunk will be responsible for drawing its own DungeonTile set.
-            /*for (int x = 0; x < 4; x++)
+            l.Add(c);
+
+            //this will go away after Chunk has an OnDraw implemented.
+            for (int x = 0; x < 4; x++)
             {
                 for (int y = 0; y < 4; y++)
                 {
                     c[x, y].Transformation.Position = new Vector2(40 + 24 * x, -60 - 24 * y);
                     l.Add(c[x, y]);
                 }
-            }*/
-            l.Add(c);
+            }
+
+            Console.WriteLine(c.ToString() + "\n\n");
+
+            for (int i = 0; i < 3; i++)
+            {
+                c.Rotate(Direction.Counterclockwise);
+                Console.WriteLine(c.ToString() + "\n\n");
+            }
         }
-        Chunk c;
 
         void Update(GameTime time)
         {
-            if (Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.R))
-                c.Rotate(Direction.Clockwise);
         }
 
         public static Tile GetTileFromSpritesheet(Sprite sourceArt, Rectangle rect)
         {
-            /*int framex;
-            if (rect.X == 0) framex = 0;
-            else framex = rect.X / rect.Width; 
-            
-            int framey;
-            if (rect.Y == 0) framey = 0;
-            else framey = rect.Y / rect.Height; 
-
-            int frame = framey * (sourceArt.Image.Width / rect.Width) + framex;*/
-
             Tile result = new Tile(sourceArt, new Transformation(new Vector2(40, 60), new Vector2(1, 1), 0));
 
             result.SubRect = rect;

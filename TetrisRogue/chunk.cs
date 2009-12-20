@@ -32,41 +32,61 @@ namespace TetrisRogue
             switch(direction)
             {
                 case Direction.Clockwise:
-                    _rotation = (Rotation)(((int)_rotation + 1) % 4);
+                    this._rotation = (Rotation)(((int)_rotation + 1) % 4);
                     break;
 
                 case Direction.Counterclockwise:
-                    _rotation = (Rotation)(((int)_rotation - 1) % 4);
+                    if (_rotation == Rotation.None) _rotation = Rotation.Cw270;
+                    else _rotation = (Rotation)((int)_rotation - 1);
                     break;
             }
         }
 
         public void RotateCoordinates(ref int x, ref int y)
         {
+            int newX, newY;
             switch (_rotation)
             {
                 case Rotation.Cw90:
-                    y = x;
-                    x = 3 - y;
+                    newX = y;
+                    newY = 3 - x;
                     break;
 
                 case Rotation.Cw180:
-                    x = 3 - x;
-                    y = 3 - y;
+                    newX = 3 - x;
+                    newY = 3 - y;
                     break;
 
                 case Rotation.Cw270:
-                    x = y;
-                    y = 3 - x;
+                    newY = x;
+                    newX = 3 - y;
                     break;
                     
                 default:
+                    newX = x;
+                    newY = y;
                     break;
             }
+            x = newX;
+            y = newY;
         }
 
-        private DungeonTile[,] _tiles;
-        private Rotation _rotation;
+        public override string ToString()
+        {
+            String result = String.Empty;
+            for (int y = 0; y < 4; y++)
+            {
+                for (int x = 0; x < 4; x++)
+                {
+                    result += String.Format("{0},{1}\t", this[x, y].SubRect.X.ToString(), this[x, y].SubRect.Y.ToString());
+                }
+                result += "\n";
+            }
+            return result;
+        }
+
+        protected DungeonTile[,] _tiles;
+        protected Rotation _rotation;
     }
 
     public enum Direction
