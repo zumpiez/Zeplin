@@ -42,8 +42,6 @@ namespace TetrisRogue
                 new DungeonTile(environment, new Rectangle(144, 0, 24, 24), Navigability.Navigable),
             };
 
-<<<<<<< HEAD:TetrisRogue/TetrisRogue.cs
-            Chunk c = new StupidChunkGenerator().GenerateChunk(tiles, 9999);
             TextWidget tw = new TextWidget("whoa I'm some text");
             tw.Position = new Vector2(100, 100);
             tw.HorizontalAlignment = Alignment.Near;
@@ -52,9 +50,8 @@ namespace TetrisRogue
             tw.FontSize = 32;
             tw.Foreground = Color.White;
             hud.Add(tw);
-=======
+
             activeChunk = new StupidChunkGenerator().GenerateChunk(tiles, 9999);
->>>>>>> ffb19b3b5423b1be65f9f8145a7975e9eab4de81:TetrisRogue/TetrisRogue.cs
 
             //Chunk will be responsible for drawing its own DungeonTile set.
             l.Add(activeChunk);
