@@ -6,33 +6,41 @@ using Microsoft.Xna.Framework;
 using Zeplin;
 
 namespace TetrisRogue {
-    enum Navigability 
+    enum TileType 
     {
-        Navigable,
-        Wall
+        Floor,
+        Wall,
+        StairsUp,
+        StairsDown,
+        Pit,
+        TrapDoorClosed,
+        TrapDoorOpen,
+        Threshold,
     }
 
     class DungeonTile : Tile
     {
-        public DungeonTile(Sprite sprite, Rectangle extent, Navigability nav) : base(sprite, (AnimationScript)null)
+        public DungeonTile(Sprite sprite, Rectangle extent, TileType type)
+            : this(sprite, extent, type, (AnimationScript)null) { }
+
+        public DungeonTile(Sprite sprite, Rectangle extent, TileType type, AnimationScript script) : base(sprite, script)
         {
             SubRect = extent;
             _extent = extent;
-            _navigability = nav;
+            _type = type;
+            if (script != null) script.Loop = true; // hack: this really shouldn't beee heeeeere
         }
 
-        public DungeonTile(DungeonTile copy) : base(copy.Sprite, copy.AnimationScript)
+        public DungeonTile(DungeonTile copy) : base(copy)
         {
-            SubRect = copy._extent;
             this._extent = copy._extent;
-            this._navigability = copy._navigability;
+            this._type = copy._type;
         }
 
         public Rectangle Extent { get { return _extent; } }
-        public Navigability Navigability { get { return _navigability; } }
+        public TileType Type { get { return _type; } }
 
-        private readonly Sprite _sprite;
         private readonly Rectangle _extent;
-        private readonly Navigability _navigability;
+        private readonly TileType _type;
     }
 }

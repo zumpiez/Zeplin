@@ -47,33 +47,54 @@ namespace TetrisRogue
             Engine.Camera.Center = new Vector2(640, -360);
             Engine.Camera.Mode = CameraCropMode.MaintainWidth;
 
-            Tile debug = new Tile(new Sprite(@"debug"));
+            //Tile debug = new Tile(new Sprite(@"debug"));
 
-            l.Add(debug);
+            //l.Add(debug);
 
             DungeonTile[] tiles = 
             {
-                new DungeonTile(environment, new Rectangle(120, 0, 24, 24), Navigability.Navigable),
-                new DungeonTile(environment, new Rectangle(144, 0, 24, 24), Navigability.Navigable),
+                new DungeonTile(environment, OryxTile(0, 0), TileType.Wall),
+                //new DungeonTile(environment, OryxTile(1, 0), TileType.Wall),
+                new DungeonTile(environment, OryxTile(1, 0, 2, 1), TileType.Wall, new AnimationScript(new int[]{0, 1}, 1)),
+                new DungeonTile(environment, OryxTile(3, 0), TileType.Wall),
+                new DungeonTile(environment, OryxTile(5, 0), TileType.Floor),
+                new DungeonTile(environment, OryxTile(6, 0), TileType.Floor),
             };
+
+            tiles[1].FrameSize = new Vector2(24, 24);
 
             TextWidget tw = new TextWidget("whoa I'm some text");
             tw.Position = new Vector2(100, 100);
             tw.HorizontalAlignment = Alignment.Near;
             tw.VerticalAlignment = Alignment.Near;
             tw.FontFace = za;
-            tw.FontSize = 32;
+            tw.FontSize = 48;
             tw.Foreground = Color.White;
             hud.Add(tw);
 
-            activeChunk = new StupidChunkGenerator().GenerateChunk(tiles, 9999);
+            activeChunk = new StupidChunkGenerator().GenerateChunk(tiles, DateTime.Now.Ticks);
 
-            //l.Add(activeChunk);
+            l.Add(activeChunk);
 
             activeChunk.Position = Vector2.Zero;
         }
 
         Chunk activeChunk;
+
+        Rectangle OryxTile(int left, int top) { return OryxTile(left, top, 1, 1, 3); }
+        Rectangle OryxTile(int left, int top, int width, int height) { return OryxTile(left, top, width, height, 3); }
+
+        Rectangle OryxTile(int left, int top, int width, int height, int scale)
+        {
+            Rectangle subrect = new Rectangle();
+
+            subrect.X = left * 8 * scale;
+            subrect.Y = top * 8 * scale;
+            subrect.Width = width * 8 * scale;
+            subrect.Height = height * 8 * scale;
+
+            return subrect;
+        }
 
         void Update(GameTime time)
         {
@@ -100,15 +121,6 @@ namespace TetrisRogue
                 else game.SetDefaultResolution();
             }
             
-        }
-
-        public static Tile GetTileFromSpritesheet(Sprite sourceArt, Rectangle rect)
-        {
-            Tile result = new Tile(sourceArt, new Transformation(new Vector2(40, 60), new Vector2(1, 1), 0));
-
-            result.SubRect = rect;
-
-            return result;
         }
 
         public Texture2D PointScale(int scale, Texture2D sourceImage)

@@ -7,7 +7,8 @@ using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Zeplin {
+namespace Zeplin 
+{
     public class MetaFont
     {
         public MetaFont(String faceName, String searchDir) 
@@ -56,8 +57,8 @@ namespace Zeplin {
                 else if (kvp.Key == size) 
                 {
                     scale = 1.0f;
-                    Console.WriteLine("MetaFont returning {0} as best font for size {1} (ex)",
-                        kvp.Key, size);
+                    //Console.WriteLine("MetaFont returning {0} as best font for size {1} (ex)",
+                    //    kvp.Key, size);
                     return kvp.Value;
                 }
             }
@@ -65,15 +66,15 @@ namespace Zeplin {
             if (smallestBiggerFont.HasValue) 
             {
                 scale = size / smallestBiggerFont.Value.Key;
-                Console.WriteLine("MetaFont returning {0} @ {1}x as best font for size {2} (sb)",
-                    smallestBiggerFont.Value.Key, scale, size);
+                //Console.WriteLine("MetaFont returning {0} @ {1}x as best font for size {2} (sb)",
+                //    smallestBiggerFont.Value.Key, scale, size);
                 return smallestBiggerFont.Value.Value;
             } 
             else 
             {
                 scale = size / biggestSmallerFont.Value.Key;
-                Console.WriteLine("MetaFont returning {0} @ {1}x as best font for size {2} (bs)",
-                    biggestSmallerFont.Value.Key, scale, size);
+                //Console.WriteLine("MetaFont returning {0} @ {1}x as best font for size {2} (bs)",
+                //    biggestSmallerFont.Value.Key, scale, size);
                 return biggestSmallerFont.Value.Value;
             }
         }

@@ -44,6 +44,8 @@ namespace Zeplin
             this.depth = 1;
         }
 
+        public Transformation(Transformation old) : this(old.Position, old.Scale, old.Rotation, old.Pivot) { Depth = old.Depth; }
+
         public override bool Equals(object obj)
         {
             if (obj is Transformation)
