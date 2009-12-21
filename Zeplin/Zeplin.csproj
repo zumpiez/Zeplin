@@ -99,12 +99,14 @@
     <Compile Include="CollisionShapes\SATCollisionVolume.cs" />
     <Compile Include="Layer.cs" />
     <Compile Include="Map.cs" />
+    <Compile Include="MetaFont.cs" />
     <Compile Include="Sound.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TextHudWidget.cs" />
+    <Compile Include="TextWidget.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="Transformation.cs" />
+    <Compile Include="UIMiscellany.cs" />
     <Compile Include="Utilities\ExtensionMethods.cs" />
     <Compile Include="Utilities\GraphicsHelper.cs" />
     <Compile Include="Utilities\RectangleF.cs" />

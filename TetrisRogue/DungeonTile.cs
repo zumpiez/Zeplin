@@ -21,6 +21,13 @@ namespace TetrisRogue {
             _navigability = nav;
         }
 
+        public DungeonTile(DungeonTile copy) : base(copy.Sprite, copy.AnimationScript)
+        {
+            SubRect = copy._extent;
+            this._extent = copy._extent;
+            this._navigability = copy._navigability;
+        }
+
         public Rectangle Extent { get { return _extent; } }
         public Navigability Navigability { get { return _navigability; } }
 

@@ -26,10 +26,12 @@ namespace TetrisRogue
         void Load()
         {
             Sprite characters = new Sprite(PointScale(3, game.Content.Load<Texture2D>(@"characters")));
-            Sprite environment = new Sprite(PointScale(3, game.Content.Load<Texture2D>(@"environment")));            
-            
+            Sprite environment = new Sprite(PointScale(3, game.Content.Load<Texture2D>(@"environment")));
+
+            MetaFont za = new MetaFont("Zaratustra Assemblee", game.Content.RootDirectory);
 
             Layer l = Engine.CurrentMap.NewLayer();
+            Layer hud = Engine.CurrentMap.NewLayer(100);
             
             Engine.Camera.Dimensions = new Vector2(800, 600);
             Engine.Camera.Center = new Vector2(400, -300);
@@ -41,7 +43,19 @@ namespace TetrisRogue
             };
 
             Chunk c = new StupidChunkGenerator().GenerateChunk(tiles, 9999);
+            TextWidget tw = new TextWidget("whoa I'm some text");
+            tw.Position = new Vector2(100, 100);
+            tw.HorizontalAlignment = Alignment.Near;
+            tw.VerticalAlignment = Alignment.Near;
+            tw.FontFace = za;
+            tw.FontSize = 32;
+            tw.Foreground = Color.White;
+            hud.Add(tw);
 
+            //Chunk will be responsible for drawing its own DungeonTile set.
+            l.Add(c);
+
+            //this will go away after Chunk has an OnDraw implemented.
             for (int x = 0; x < 4; x++)
             {
                 for (int y = 0; y < 4; y++)
@@ -50,26 +64,22 @@ namespace TetrisRogue
                     l.Add(c[x, y]);
                 }
             }
+
+            Console.WriteLine(c.ToString() + "\n\n");
+
+            for (int i = 0; i < 3; i++)
+            {
+                c.Rotate(Direction.Counterclockwise);
+                Console.WriteLine(c.ToString() + "\n\n");
+            }
         }
 
-        Tile brick;
         void Update(GameTime time)
         {
-            //brick.Transformation.Position = Input.MousePosition;
         }
 
         public static Tile GetTileFromSpritesheet(Sprite sourceArt, Rectangle rect)
         {
-            /*int framex;
-            if (rect.X == 0) framex = 0;
-            else framex = rect.X / rect.Width; 
-            
-            int framey;
-            if (rect.Y == 0) framey = 0;
-            else framey = rect.Y / rect.Height; 
-
-            int frame = framey * (sourceArt.Image.Width / rect.Width) + framex;*/
-
             Tile result = new Tile(sourceArt, new Transformation(new Vector2(40, 60), new Vector2(1, 1), 0));
 
             result.SubRect = rect;

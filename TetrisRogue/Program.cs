@@ -10,6 +10,7 @@ namespace TetrisRogue
         static void Main(string[] args)
         {
             TetrisRogue game = new TetrisRogue();
+            
         }
     }
 }
