@@ -38,8 +38,10 @@ namespace TetrisRogue
 
             characters = new Sprite(PointScale(3, Engine.Content.Load<Texture2D>(@"characters")));
             environment = new Sprite(PointScale(3, Engine.Content.Load<Texture2D>(@"environment")));            
+            MetaFont za = new MetaFont("Zaratustra Assemblee", game.Content.RootDirectory);
             
             Layer l = Engine.CurrentMap.NewLayer();
+            Layer hud = Engine.CurrentMap.NewLayer(100);
             
             Engine.Camera.Dimensions = new Vector2(1280, 720);
             Engine.Camera.Center = new Vector2(640, -360);
@@ -54,6 +56,15 @@ namespace TetrisRogue
                 new DungeonTile(environment, new Rectangle(120, 0, 24, 24), Navigability.Navigable),
                 new DungeonTile(environment, new Rectangle(144, 0, 24, 24), Navigability.Navigable),
             };
+
+            TextWidget tw = new TextWidget("whoa I'm some text");
+            tw.Position = new Vector2(100, 100);
+            tw.HorizontalAlignment = Alignment.Near;
+            tw.VerticalAlignment = Alignment.Near;
+            tw.FontFace = za;
+            tw.FontSize = 32;
+            tw.Foreground = Color.White;
+            hud.Add(tw);
 
             activeChunk = new StupidChunkGenerator().GenerateChunk(tiles, 9999);
 
