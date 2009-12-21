@@ -16,52 +16,40 @@ namespace Zeplin
     /// </summary>
     public class Tile : GameObject, ICollisionVolumeProvider
     {
-        public Tile()
-        {
-            Transformation = new Transformation();
-            this.OnDraw += this.Draw;
-        }
-
-        public Tile(Sprite sprite) : this()
-        {
-            this.Sprite = sprite;
-            SubRect = new Rectangle(0, 0, sprite.Image.Width, sprite.Image.Height);
-        }
-
-        /// <summary>
-        /// Constructs a tile with a sprite, transformation and collision volume
-        /// </summary>
-        /// <param name="sprite"></param>
-        /// <param name="transformation"></param>
-        /// <param name="collider"></param>
-        public Tile(Sprite sprite, Transformation transformation, SATCollisionVolume collider)
-        {
-            this.msprite = sprite;
-            this.Transformation = transformation;
-            CollisionVolume = collider;
-
-            OnDraw += this.Draw;
-            OnUpdate += delegate(GameTime time) { collider.TransformCollisionVolume(this.Transformation); };
-        }
+        public Tile() : this(null, new Transformation(), null, null) { }
+        public Tile(Sprite sprite) : this(sprite, new Transformation(), null, null) { }
 
         /// <summary>
         /// Constructs a tile with a sprite and a transformation
         /// </summary>
         /// <param name="sprite"></param>
         /// <param name="transformation"></param>
-        public Tile(Sprite sprite, Transformation transformation) : this(sprite, transformation, new SATCollisionVolume())
-        {
-        }
+        public Tile(Sprite sprite, Transformation transformation) : this(sprite, transformation, null, null) {}
+        public Tile(Sprite sprite, AnimationScript animation) : this(sprite, new Transformation(), animation, null) {}
+        public Tile(Sprite sprite, Transformation transformation, SATCollisionVolume collider) : this(sprite, transformation, null, collider) { }
 
-        public Tile(Sprite sprite, AnimationScript animation)
+        public Tile(Sprite sprite, Transformation transformation, AnimationScript animation, SATCollisionVolume collider)
         {
-            this.AnimationScript = animation;
             this.Sprite = sprite;
-            this.Transformation = new Transformation();
-            this.collider = new SATCollisionVolume();
+            SubRect = new Rectangle(0, 0, sprite.Image.Width, sprite.Image.Height);
+
+            this.Transformation = new Transformation(transformation);
+            this.AnimationScript = animation;
+            this.CollisionVolume = collider;
 
             OnDraw += this.Draw;
-            OnUpdate += delegate(GameTime time) { collider.TransformCollisionVolume(this.Transformation); };
+
+            if (CollisionVolume != null)
+            {
+                OnUpdate += delegate(GameTime time) { collider.TransformCollisionVolume(this.Transformation); };
+            }
+        }
+
+        public Tile(Tile oldTile) : this(oldTile.Sprite, oldTile.Transformation, oldTile.AnimationScript, oldTile.collider)
+        {
+            this.FrameSize = oldTile.FrameSize;
+            this.SubRect = oldTile.SubRect;
+
         }
 
         /// <summary>
@@ -71,34 +59,21 @@ namespace Zeplin
         public void Draw(GameTime gameTime)
         {
             Rectangle sourceRect;
-            if (currentAnimation != null)
+            if (AnimationScript != null)
             {
-                sourceRect = currentAnimation.ProcessAnimation(gameTime, FrameSize, msprite);
-                msprite.Draw(Transformation, sourceRect);
+                Console.WriteLine("going into ProcessAnimation with {0} {1} {2}", gameTime, FrameSize, Sprite);
+                sourceRect = AnimationScript.ProcessAnimation(gameTime, FrameSize, Sprite, SubRect);
+                Console.WriteLine("drawing tile with subrect {0}", sourceRect);
+
+                Sprite.Draw(Transformation, sourceRect);
             }
             else
             {
-                msprite.Draw(Transformation, SubRect);
+                Sprite.Draw(Transformation, SubRect);
             }
 
             if(CollisionVolume != null)
                 (CollisionVolume as SATCollisionVolume).Draw();
-        }
-
-        Sprite msprite;
-        /// <summary>
-        /// Gets or sets the sprite asset associated with this tile
-        /// </summary>
-        public Sprite Sprite
-        {
-            get
-            {
-                return msprite;
-            }
-            protected set
-            {
-                msprite = value;
-            }
         }
 
         /// <summary>
@@ -109,23 +84,17 @@ namespace Zeplin
             collider.TransformCollisionVolume(Transformation);
         }
 
+        /// <summary>
+        /// Gets or sets the sprite asset associated with this tile
+        /// </summary>
+        public Sprite Sprite { get; protected set; }
+        
         public Transformation Transformation;
 
-        AnimationScript currentAnimation = null;
         /// <summary>
         /// Gets or sets the current AnimationScript being played by this tile.
         /// </summary>
-        protected AnimationScript AnimationScript
-        {
-            get
-            {
-                return currentAnimation;
-            }
-            set
-            {
-                this.currentAnimation = value;
-            }
-        }
+        protected AnimationScript AnimationScript { get; set; }
 
         public Vector2 FrameSize { get; set; }
 
