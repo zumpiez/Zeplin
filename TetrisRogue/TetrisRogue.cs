@@ -21,7 +21,6 @@ namespace TetrisRogue
             game.OnLoad += Load;
             game.OnUpdate += Update;
             game.Run();
-            game.GraphicsDevice.DeviceReset += new EventHandler(GraphicsDevice_DeviceReset);
         }
 
         void GraphicsDevice_DeviceReset(object sender, EventArgs e)
@@ -37,6 +36,7 @@ namespace TetrisRogue
         {
             //Engine.ChangeResolution(1280, 1024, true);
             //Engine.SetDefaultResolution();
+            game.GraphicsDeviceManager.DeviceReset += new EventHandler(GraphicsDevice_DeviceReset);
 
             characters = new Sprite(PointScale(3, Engine.Content.Load<Texture2D>(@"characters")));
             environment = new Sprite(PointScale(3, Engine.Content.Load<Texture2D>(@"environment")));            
@@ -68,10 +68,10 @@ namespace TetrisRogue
                 activeChunk.Rotate(Direction.Clockwise);
 
             if (Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.M))
-                Engine.ChangeResolution(1024, 768, false);
+                game.ChangeResolution(1024, 768, false);
 
             if (Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.N))
-                Engine.ChangeResolution(800, 600, false);
+                game.ChangeResolution(800, 600, false);
         }
 
         public static Tile GetTileFromSpritesheet(Sprite sourceArt, Rectangle rect)

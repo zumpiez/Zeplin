@@ -18,6 +18,11 @@ namespace Zeplin
     public class ZeplinGame : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
+        public GraphicsDeviceManager GraphicsDeviceManager
+        {
+            get { return graphics; }
+        }
+
         SpriteBatch spriteBatch;
         
         public static ResourceContentManager ResourceContent { get; private set; }
@@ -96,6 +101,21 @@ namespace Zeplin
             testMap.Draw(gameTime);
 
             base.Draw(gameTime);
+        }
+
+        public void ChangeResolution(int width, int height, bool fullscreen)
+        {
+            graphics.PreferredBackBufferWidth = width;
+            graphics.PreferredBackBufferHeight = height;
+            graphics.IsFullScreen = fullscreen;
+            graphics.ApplyChanges();
+        }
+
+        public void SetDefaultResolution()
+        {
+            int width = GraphicsDevice.DisplayMode.Width;
+            int height = GraphicsDevice.DisplayMode.Height;
+            ChangeResolution(width, height, true);
         }
     }
 }

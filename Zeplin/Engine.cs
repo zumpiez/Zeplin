@@ -59,21 +59,6 @@ namespace Zeplin
             spriteBatch.Draw(square, new Vector2(p1.X, -p1.Y), null, color, -rotation, Vector2.Zero, scaleFactor, SpriteEffects.None, 0);
         }
 
-        public static void ChangeResolution(int width, int height, bool fullscreen)
-        {
-            graphicsDeviceManager.PreferredBackBufferWidth = width;
-            graphicsDeviceManager.PreferredBackBufferHeight = height;
-            graphicsDeviceManager.IsFullScreen = fullscreen;
-            graphicsDeviceManager.ApplyChanges();
-        }
-
-        public static void SetDefaultResolution()
-        {
-            int width = graphicsDeviceManager.GraphicsDevice.DisplayMode.Width;
-            int height = graphicsDeviceManager.GraphicsDevice.DisplayMode.Height;
-            ChangeResolution(width, height, true);
-        }
-
         /// <summary>
         /// Tests the specified game object instance against all objects of the specified type on the same map layer.
         /// </summary>
