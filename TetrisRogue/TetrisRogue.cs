@@ -42,6 +42,7 @@ namespace TetrisRogue
                 new DungeonTile(environment, new Rectangle(144, 0, 24, 24), Navigability.Navigable),
             };
 
+<<<<<<< HEAD:TetrisRogue/TetrisRogue.cs
             Chunk c = new StupidChunkGenerator().GenerateChunk(tiles, 9999);
             TextWidget tw = new TextWidget("whoa I'm some text");
             tw.Position = new Vector2(100, 100);
@@ -51,31 +52,32 @@ namespace TetrisRogue
             tw.FontSize = 32;
             tw.Foreground = Color.White;
             hud.Add(tw);
+=======
+            activeChunk = new StupidChunkGenerator().GenerateChunk(tiles, 9999);
+>>>>>>> ffb19b3b5423b1be65f9f8145a7975e9eab4de81:TetrisRogue/TetrisRogue.cs
 
             //Chunk will be responsible for drawing its own DungeonTile set.
-            l.Add(c);
+            l.Add(activeChunk);
 
             //this will go away after Chunk has an OnDraw implemented.
-            for (int x = 0; x < 4; x++)
+            /*for (int x = 0; x < 4; x++)
             {
                 for (int y = 0; y < 4; y++)
                 {
                     c[x, y].Transformation.Position = new Vector2(40 + 24 * x, -60 - 24 * y);
                     l.Add(c[x, y]);
                 }
-            }
+            }*/
 
-            Console.WriteLine(c.ToString() + "\n\n");
-
-            for (int i = 0; i < 3; i++)
-            {
-                c.Rotate(Direction.Counterclockwise);
-                Console.WriteLine(c.ToString() + "\n\n");
-            }
+            activeChunk.Position = new Vector2(100, -100);
         }
+
+        Chunk activeChunk;
 
         void Update(GameTime time)
         {
+            if (Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.R))
+                activeChunk.Rotate(Direction.Clockwise);
         }
 
         public static Tile GetTileFromSpritesheet(Sprite sourceArt, Rectangle rect)
