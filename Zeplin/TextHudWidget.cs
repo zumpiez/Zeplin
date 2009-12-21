@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace Zeplin
 {
-    class TextHudWidget : IGameObjectProvider
+    class TextHudWidget
     {
         private GameObject gameObject = new GameObject();
         public GameObject GameObject
