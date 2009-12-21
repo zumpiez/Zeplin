@@ -21,17 +21,31 @@ namespace TetrisRogue
             game.OnLoad += Load;
             game.OnUpdate += Update;
             game.Run();
+            game.GraphicsDevice.DeviceReset += new EventHandler(GraphicsDevice_DeviceReset);
         }
 
+        void GraphicsDevice_DeviceReset(object sender, EventArgs e)
+        {
+            characters.Image = PointScale(3, Engine.Content.Load<Texture2D>(@"characters"));
+            environment.Image = PointScale(3, Engine.Content.Load<Texture2D>(@"environment"));
+        }
+
+        //doing this lazy-style to get it working. we can engineer something if we care to.
+        Sprite characters;
+        Sprite environment;
         void Load()
         {
-            Sprite characters = new Sprite(PointScale(3, game.Content.Load<Texture2D>(@"characters")));
-            Sprite environment = new Sprite(PointScale(3, game.Content.Load<Texture2D>(@"environment")));            
+            //Engine.ChangeResolution(1280, 1024, true);
+            //Engine.SetDefaultResolution();
+
+            characters = new Sprite(PointScale(3, Engine.Content.Load<Texture2D>(@"characters")));
+            environment = new Sprite(PointScale(3, Engine.Content.Load<Texture2D>(@"environment")));            
             
             Layer l = Engine.CurrentMap.NewLayer();
             
-            Engine.Camera.Dimensions = new Vector2(800, 600);
-            Engine.Camera.Center = new Vector2(400, -300);
+            Engine.Camera.Dimensions = new Vector2(1280, 720);
+            Engine.Camera.Center = new Vector2(600, -400);
+            Engine.Camera.Mode = CameraCropMode.MaintainWidth;
 
             DungeonTile[] tiles = 
             {
@@ -41,20 +55,9 @@ namespace TetrisRogue
 
             activeChunk = new StupidChunkGenerator().GenerateChunk(tiles, 9999);
 
-            //Chunk will be responsible for drawing its own DungeonTile set.
             l.Add(activeChunk);
 
-            //this will go away after Chunk has an OnDraw implemented.
-            /*for (int x = 0; x < 4; x++)
-            {
-                for (int y = 0; y < 4; y++)
-                {
-                    c[x, y].Transformation.Position = new Vector2(40 + 24 * x, -60 - 24 * y);
-                    l.Add(c[x, y]);
-                }
-            }*/
-
-            activeChunk.Position = new Vector2(100, -100);
+            activeChunk.Position = Vector2.Zero;
         }
 
         Chunk activeChunk;
@@ -63,6 +66,12 @@ namespace TetrisRogue
         {
             if (Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.R))
                 activeChunk.Rotate(Direction.Clockwise);
+
+            if (Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.M))
+                Engine.ChangeResolution(1024, 768, false);
+
+            if (Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.N))
+                Engine.ChangeResolution(800, 600, false);
         }
 
         public static Tile GetTileFromSpritesheet(Sprite sourceArt, Rectangle rect)

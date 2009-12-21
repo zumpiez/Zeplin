@@ -118,6 +118,10 @@ namespace Zeplin
             {
                 return image;
             }
+            set
+            {
+                image = value;
+            }
         }
 
 

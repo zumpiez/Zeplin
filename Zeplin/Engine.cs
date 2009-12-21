@@ -25,6 +25,7 @@ namespace Zeplin
         {
             Engine.Content = contentManager;
             Engine.spriteBatch = spriteBatch;
+            Engine.graphicsDeviceManager = gdm;
             World.gameResolution = new Vector2(gdm.PreferredBackBufferWidth, gdm.PreferredBackBufferHeight);
             
             //camera defaults to the size of the world. User can set this to the desired dimensions.
@@ -58,6 +59,20 @@ namespace Zeplin
             spriteBatch.Draw(square, new Vector2(p1.X, -p1.Y), null, color, -rotation, Vector2.Zero, scaleFactor, SpriteEffects.None, 0);
         }
 
+        public static void ChangeResolution(int width, int height, bool fullscreen)
+        {
+            graphicsDeviceManager.PreferredBackBufferWidth = width;
+            graphicsDeviceManager.PreferredBackBufferHeight = height;
+            graphicsDeviceManager.IsFullScreen = fullscreen;
+            graphicsDeviceManager.ApplyChanges();
+        }
+
+        public static void SetDefaultResolution()
+        {
+            int width = graphicsDeviceManager.GraphicsDevice.DisplayMode.Width;
+            int height = graphicsDeviceManager.GraphicsDevice.DisplayMode.Height;
+            ChangeResolution(width, height, true);
+        }
 
         /// <summary>
         /// Tests the specified game object instance against all objects of the specified type on the same map layer.
@@ -94,9 +109,9 @@ namespace Zeplin
         /// </summary>
         public static Map CurrentMap { get; private set; }
 
-        internal static ContentManager Content;
+        public static ContentManager Content;
         internal static SpriteBatch spriteBatch;
-
+        public static GraphicsDeviceManager graphicsDeviceManager;
 
         public static Camera Camera { get; private set; }
     }

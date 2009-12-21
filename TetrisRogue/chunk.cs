@@ -29,7 +29,7 @@ namespace TetrisRogue
             {
                 for (int y = 0; y < 4; y++)
                 {
-                    this[x, y].Transformation.Position = this.Position + new Vector2(24 * x, 24 * y);
+                    this[x, y].Transformation.Position = this.Position + new Vector2(24 * x, -24 * y);
                 }
             }
         }
@@ -72,8 +72,8 @@ namespace TetrisRogue
             switch (_rotation)
             {
                 case Rotation.Cw90:
-                    newY = x;
-                    newX = 3 - y;
+                    newX = y;
+                    newY = 3 - x;
                     break;
 
                 case Rotation.Cw180:
@@ -82,8 +82,8 @@ namespace TetrisRogue
                     break;
 
                 case Rotation.Cw270:
-                    newX = y;
-                    newY = 3 - x;
+                    newY = x;
+                    newX = 3 - y;
                     break;
                     
                 default:
