@@ -109,6 +109,7 @@ namespace Zeplin
             graphics.PreferredBackBufferHeight = height;
             graphics.IsFullScreen = fullscreen;
             graphics.ApplyChanges();
+            World.gameResolution = new Vector2(width, height);
         }
 
         public void SetDefaultResolution()

@@ -16,6 +16,18 @@ namespace Zeplin
     /// </summary>
     public class Tile : GameObject, ICollisionVolumeProvider
     {
+        public Tile()
+        {
+            Transformation = new Transformation();
+            this.OnDraw += this.Draw;
+        }
+
+        public Tile(Sprite sprite) : this()
+        {
+            this.Sprite = sprite;
+            SubRect = new Rectangle(0, 0, sprite.Image.Width, sprite.Image.Height);
+        }
+
         /// <summary>
         /// Constructs a tile with a sprite, transformation and collision volume
         /// </summary>

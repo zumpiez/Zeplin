@@ -34,8 +34,6 @@ namespace TetrisRogue
         Sprite environment;
         void Load()
         {
-            //Engine.ChangeResolution(1280, 1024, true);
-            //Engine.SetDefaultResolution();
             game.GraphicsDeviceManager.DeviceReset += new EventHandler(GraphicsDevice_DeviceReset);
 
             characters = new Sprite(PointScale(3, Engine.Content.Load<Texture2D>(@"characters")));
@@ -44,8 +42,12 @@ namespace TetrisRogue
             Layer l = Engine.CurrentMap.NewLayer();
             
             Engine.Camera.Dimensions = new Vector2(1280, 720);
-            Engine.Camera.Center = new Vector2(600, -400);
+            Engine.Camera.Center = new Vector2(640, -360);
             Engine.Camera.Mode = CameraCropMode.MaintainWidth;
+
+            Tile debug = new Tile(new Sprite(@"debug"));
+
+            l.Add(debug);
 
             DungeonTile[] tiles = 
             {
@@ -55,7 +57,7 @@ namespace TetrisRogue
 
             activeChunk = new StupidChunkGenerator().GenerateChunk(tiles, 9999);
 
-            l.Add(activeChunk);
+            //l.Add(activeChunk);
 
             activeChunk.Position = Vector2.Zero;
         }
@@ -68,10 +70,25 @@ namespace TetrisRogue
                 activeChunk.Rotate(Direction.Clockwise);
 
             if (Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.M))
-                game.ChangeResolution(1024, 768, false);
+            {
+                if(!game.GraphicsDeviceManager.IsFullScreen)
+                {
+                    if (World.gameResolution.X == 800) game.ChangeResolution(1024, 768, false);
+                    else game.ChangeResolution(800, 600, false);
+                }
+            }
 
             if (Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.N))
-                game.ChangeResolution(800, 600, false);
+            {
+                Engine.Camera.Mode = (CameraCropMode)((int)(Engine.Camera.Mode + 1) % 3);
+            }
+
+            if (Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.Enter) && Input.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftAlt))
+            {
+                if (game.GraphicsDeviceManager.IsFullScreen) game.ChangeResolution(800, 600, false);
+                else game.SetDefaultResolution();
+            }
+            
         }
 
         public static Tile GetTileFromSpritesheet(Sprite sourceArt, Rectangle rect)
