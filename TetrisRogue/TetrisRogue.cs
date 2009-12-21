@@ -39,32 +39,30 @@ namespace TetrisRogue
                 new DungeonTile(environment, new Rectangle(144, 0, 24, 24), Navigability.Navigable),
             };
 
-            Chunk c = new StupidChunkGenerator().GenerateChunk(tiles, 9999);
+            activeChunk = new StupidChunkGenerator().GenerateChunk(tiles, 9999);
 
             //Chunk will be responsible for drawing its own DungeonTile set.
-            l.Add(c);
+            l.Add(activeChunk);
 
             //this will go away after Chunk has an OnDraw implemented.
-            for (int x = 0; x < 4; x++)
+            /*for (int x = 0; x < 4; x++)
             {
                 for (int y = 0; y < 4; y++)
                 {
                     c[x, y].Transformation.Position = new Vector2(40 + 24 * x, -60 - 24 * y);
                     l.Add(c[x, y]);
                 }
-            }
+            }*/
 
-            Console.WriteLine(c.ToString() + "\n\n");
-
-            for (int i = 0; i < 3; i++)
-            {
-                c.Rotate(Direction.Counterclockwise);
-                Console.WriteLine(c.ToString() + "\n\n");
-            }
+            activeChunk.Position = new Vector2(100, -100);
         }
+
+        Chunk activeChunk;
 
         void Update(GameTime time)
         {
+            if (Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.R))
+                activeChunk.Rotate(Direction.Clockwise);
         }
 
         public static Tile GetTileFromSpritesheet(Sprite sourceArt, Rectangle rect)

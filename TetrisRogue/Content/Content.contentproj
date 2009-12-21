@@ -74,8 +74,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="zaratustra_assemblee.spritefont">
-      <Name>zaratustra_assemblee</Name>
+    <Compile Include="zaratustra_assemblee_16.spritefont">
+      <Name>zaratustra_assemblee_16</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="zaratustra_assemblee_32.spritefont">
+      <Name>zaratustra_assemblee_32</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>
