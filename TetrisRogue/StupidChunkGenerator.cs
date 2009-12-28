@@ -5,9 +5,14 @@ using System.Text;
 
 namespace TetrisRogue 
 {
-    class StupidChunkGenerator : ChunkGenerator 
+    class StupidChunkGenerator : IChunkGenerator 
     {
-        public Chunk GenerateChunk(IList<DungeonTile> tileDatabase, long seed) 
+        public StupidChunkGenerator(IList<DungeonTile> tileDatabase)
+        {
+            TileDatabase = tileDatabase;
+        }
+
+        public Chunk GenerateChunk(long seed) 
         {
             Chunk c = new Chunk();
             Random r = new Random((int)seed);
@@ -16,12 +21,13 @@ namespace TetrisRogue
             {
                 for (int y = 0; y < 4; y++)
                 {
-                    //c[x,y] = tileDatabase[r.Next(tileDatabase.Count)];
-                    c[x, y] = new DungeonTile(tileDatabase[r.Next(tileDatabase.Count)]);
+                    c[x, y] = new DungeonTile(TileDatabase[r.Next(TileDatabase.Count)]);
                 }
             }
 
             return c;
         }
+
+        public IList<DungeonTile> TileDatabase { get; private set; }
     }
 }

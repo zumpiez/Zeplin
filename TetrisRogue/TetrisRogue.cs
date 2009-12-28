@@ -53,15 +53,25 @@ namespace TetrisRogue
 
             DungeonTile[] tiles = 
             {
+                new DungeonTile(environment, OryxTile(0, 0), TileType.Rock),
+                new DungeonTile(environment, OryxTile(3, 0), TileType.Rock),
                 new DungeonTile(environment, OryxTile(0, 0), TileType.Wall),
-                //new DungeonTile(environment, OryxTile(1, 0), TileType.Wall),
                 new DungeonTile(environment, OryxTile(1, 0, 2, 1), TileType.Wall, new AnimationScript(new int[]{0, 1}, 1)),
                 new DungeonTile(environment, OryxTile(3, 0), TileType.Wall),
                 new DungeonTile(environment, OryxTile(5, 0), TileType.Floor),
                 new DungeonTile(environment, OryxTile(6, 0), TileType.Floor),
+                new DungeonTile(environment, OryxTile(7, 0), TileType.StairsUp),
+                new DungeonTile(environment, OryxTile(8, 0), TileType.StairsDown),
+                new DungeonTile(environment, OryxTile(9, 0), TileType.Pit),
+                new DungeonTile(environment, OryxTile(10, 0), TileType.TrapDoorClosed),
+                new DungeonTile(environment, OryxTile(11, 0), TileType.TrapDoorOpen),
+                new DungeonTile(environment, OryxTile(12, 0), TileType.Threshold),
+                new DungeonTile(environment, OryxTile(0, 5), TileType.Threshold),
+                new DungeonTile(environment, OryxTile(1, 5), TileType.Threshold),
+                new DungeonTile(environment, OryxTile(1, 6), TileType.Threshold),
             };
 
-            tiles[1].FrameSize = new Vector2(24, 24);
+            tiles[3].FrameSize = new Vector2(24, 24);
 
             TextWidget tw = new TextWidget("whoa I'm some text");
             tw.Position = new Vector2(100, 100);
@@ -72,7 +82,7 @@ namespace TetrisRogue
             tw.Foreground = Color.White;
             hud.Add(tw);
 
-            activeChunk = new StupidChunkGenerator().GenerateChunk(tiles, DateTime.Now.Ticks);
+            activeChunk = new ChunkTemplateGenerator(tiles).GenerateChunk(DateTime.Now.Ticks);
 
             l.Add(activeChunk);
 
