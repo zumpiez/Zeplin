@@ -43,7 +43,7 @@ namespace Zeplin
             Rectangle sourceRect;
             if (AnimationScript != null)
             {
-                sourceRect = AnimationScript.ProcessAnimation(gameTime, FrameSize, Sprite, SubRect);
+                sourceRect = AnimationScript.ProcessAnimation(gameTime, FrameSize);
                 Sprite.Draw(Transformation, sourceRect);
             }
             else

@@ -56,7 +56,7 @@ namespace TetrisRogue
                 new DungeonTile(environment, OryxTile(0, 0), TileType.Rock),
                 new DungeonTile(environment, OryxTile(3, 0), TileType.Rock),
                 new DungeonTile(environment, OryxTile(0, 0), TileType.Wall),
-                new DungeonTile(environment, OryxTile(1, 0, 2, 1), TileType.Wall, new AnimationScript(new int[]{0, 1}, 1)),
+                new DungeonTile(environment, OryxTile(1, 0, 2, 1), TileType.Wall, new AnimationScript(new Point[]{new Point(0,0), new Point(0,1)}, TimeSpan.FromSeconds(1))),
                 new DungeonTile(environment, OryxTile(3, 0), TileType.Wall),
                 new DungeonTile(environment, OryxTile(5, 0), TileType.Floor),
                 new DungeonTile(environment, OryxTile(6, 0), TileType.Floor),
@@ -68,10 +68,10 @@ namespace TetrisRogue
                 new DungeonTile(environment, OryxTile(12, 0), TileType.Threshold),
                 new DungeonTile(environment, OryxTile(0, 5), TileType.Threshold),
                 new DungeonTile(environment, OryxTile(1, 5), TileType.Threshold),
-                new DungeonTile(environment, OryxTile(1, 6), TileType.Threshold),
+                new DungeonTile(environment, OryxTile(1, 6), TileType.Threshold)
             };
 
-            tiles[3].FrameSize = new Vector2(24, 24);
+            tiles[3].FrameSize = new Point(24, 24);
 
             TextWidget tw = new TextWidget("whoa I'm some text");
             tw.Position = new Vector2(100, 100);
