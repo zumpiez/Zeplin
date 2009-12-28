@@ -17,9 +17,6 @@ namespace TetrisRogue
             chunks = new Chunk[width, height];
         }
 
-        private Chunk nextChunk;
-
-
         private Chunk[,] chunks;
     }
 }
