@@ -88,7 +88,8 @@ namespace Zeplin
         {
             //Determine the frame number to use based on duration and current time
             Point frame;
-            animationIndex = (int)((time.TotalGameTime - beginTime).TotalMilliseconds * frames.Count / Duration.Milliseconds);
+            
+            animationIndex = (int)((time.TotalRealTime - beginTime).TotalMilliseconds * (frames.Count / Duration.TotalMilliseconds));
             if (Loop)
             {
                 animationIndex %= frames.Count;

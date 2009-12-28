@@ -59,11 +59,11 @@ namespace TetrisRogue
 
                 // gray unfinished
                 new DungeonTile(environment, OryxTile(0, 0), TileType.Wall),
-                new DungeonTile(environment, OryxTile(1, 0, 2, 1), TileType.Wall, new AnimationScript(new Point[]{new Point(0,0), new Point(0,1)}, TimeSpan.FromSeconds(1))),
+                new DungeonTile(environment, OryxTile(1, 0, 2, 1), TileType.Wall, new AnimationScript(new Point[]{new Point(0,0), new Point(1,0)}, TimeSpan.FromSeconds(1))),
                 new DungeonTile(environment, OryxTile(3, 0), TileType.Wall),
                 // gray w/brown box
                 new DungeonTile(environment, OryxTile(0, 11), TileType.Wall),
-                new DungeonTile(environment, OryxTile(1, 11, 2, 1), TileType.Wall, new AnimationScript(new Point[]{new Point(0,0), new Point(0,1)}, TimeSpan.FromSeconds(1))),
+                new DungeonTile(environment, OryxTile(1, 11, 2, 1), TileType.Wall, new AnimationScript(new Point[]{new Point(0,0), new Point(1,0)}, TimeSpan.FromSeconds(1))),
                 new DungeonTile(environment, OryxTile(3, 11), TileType.Wall),
                 // gray w/gray box
                 new DungeonTile(environment, OryxTile(4, 11), TileType.Wall),
@@ -99,7 +99,7 @@ namespace TetrisRogue
             tw.Foreground = Color.White;
             hud.Add(tw);
 
-            activeChunk = new ChunkTemplateGenerator(tiles).GenerateChunk(9999);
+            activeChunk = new ChunkTemplateGenerator(tiles).GenerateChunk(DateTime.Now.Millisecond);
 
             l.Add(activeChunk);
 
