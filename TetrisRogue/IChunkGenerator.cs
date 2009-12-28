@@ -5,12 +5,10 @@ using System.Text;
 
 namespace TetrisRogue 
 {
-    public class ChunkGenerator 
+    internal interface IChunkGenerator 
     {
-        public ChunkGenerator()
-        {
-        }
+        Chunk GenerateChunk(long seed);
 
-        public byte Evilness { get; set; }
+        IList<DungeonTile> TileDatabase { get; }
     }
 }

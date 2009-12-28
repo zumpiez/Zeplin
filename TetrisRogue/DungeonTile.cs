@@ -10,6 +10,7 @@ namespace TetrisRogue {
     {
         Floor,
         Wall,
+        Rock,
         StairsUp,
         StairsDown,
         Pit,

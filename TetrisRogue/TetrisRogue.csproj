@@ -87,7 +87,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chunk.cs" />
-    <Compile Include="ChunkGenerator.cs" />
+    <Compile Include="IChunkGenerator.cs" />
+    <Compile Include="ChunkTemplateGenerator.cs" />
+    <Compile Include="GameBoard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="TetrisRogue.cs" />
