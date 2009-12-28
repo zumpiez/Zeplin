@@ -59,11 +59,11 @@ namespace TetrisRogue
 
                 // gray unfinished
                 new DungeonTile(environment, OryxTile(0, 0), TileType.Wall),
-                new DungeonTile(environment, OryxTile(1, 0, 2, 1), TileType.Wall, new AnimationScript(new int[]{0, 1}, 1)),
+                new DungeonTile(environment, OryxTile(1, 0, 2, 1), TileType.Wall, new AnimationScript(new Point[]{new Point(0,0), new Point(1,0)}, TimeSpan.FromSeconds(1))),
                 new DungeonTile(environment, OryxTile(3, 0), TileType.Wall),
                 // gray w/brown box
                 new DungeonTile(environment, OryxTile(0, 11), TileType.Wall),
-                new DungeonTile(environment, OryxTile(1, 11, 2, 1), TileType.Wall, new AnimationScript(new int[]{0, 1}, 1)),
+                new DungeonTile(environment, OryxTile(1, 11, 2, 1), TileType.Wall, new AnimationScript(new Point[]{new Point(0,0), new Point(1,0)}, TimeSpan.FromSeconds(1))),
                 new DungeonTile(environment, OryxTile(3, 11), TileType.Wall),
                 // gray w/gray box
                 new DungeonTile(environment, OryxTile(4, 11), TileType.Wall),
@@ -87,12 +87,8 @@ namespace TetrisRogue
                 new DungeonTile(environment, OryxTile(12, 0), TileType.Threshold),
                 new DungeonTile(environment, OryxTile(0, 5), TileType.Threshold),
                 new DungeonTile(environment, OryxTile(1, 5), TileType.Threshold),
-                new DungeonTile(environment, OryxTile(1, 6), TileType.Threshold),
+                new DungeonTile(environment, OryxTile(1, 6), TileType.Threshold)
             };
-
-            tiles[4].FrameSize = new Vector2(24, 24);
-            tiles[7].FrameSize = new Vector2(24, 24);
-            //tiles[10].FrameSize = new Vector2(24, 24);
 
             TextWidget tw = new TextWidget("whoa I'm some text");
             tw.Position = new Vector2(100, 100);
@@ -104,20 +100,21 @@ namespace TetrisRogue
             hud.Add(tw);
 
             ChunkTemplateGenerator ctg = new ChunkTemplateGenerator(tiles);
-            GameBoard gb = new GameBoard(6, 8, 4);
+            GameBoard gb = new GameBoard(6, 9, 4);
             long seed = DateTime.Now.Ticks;
 
             for (int i = 0; i < 6; i++)
             {
-                for (int j = 0; j < 8; j++)
+                for (int j = 0; j < 9; j++)
                 {
                     gb[i, j] = ctg.GenerateChunk(seed);
-
+                    seed <<= 2;
+                    seed ^= DateTime.Now.Ticks;
                 }
             }
 
             l.Add(gb);
-            gb.Position = new Vector2(200, -100);
+            gb.Position = new Vector2(40, 40);
         }
 
         Rectangle OryxTile(int left, int top) { return OryxTile(left, top, 1, 1, 3); }
@@ -180,7 +177,7 @@ namespace TetrisRogue
             SpriteBatch batch = new SpriteBatch(game.GraphicsDevice);
             batch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
             game.GraphicsDevice.SamplerStates[0].MagFilter = TextureFilter.None;
-            batch.Draw(sourceImage, new Rectangle(0, 0, scaled.Width, scaled.Height), Color.White);
+            batch.Draw(sourceImage, new Rectangle(0, 0, sourceImage.Width * scale, sourceImage.Height * scale), Color.White);
             batch.End();
 
             //restore original settings

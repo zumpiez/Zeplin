@@ -30,8 +30,8 @@ namespace Zeplin
             image = Engine.Content.Load<Texture2D>(resource);
             Color = Color.White;
 
-            frameSize.Width = image.Width;
-            frameSize.Height = image.Height;
+            FrameSize.X = image.Width;
+            FrameSize.Y = image.Height;
         }
 
         public Sprite(Texture2D texture)
@@ -39,8 +39,8 @@ namespace Zeplin
             image = texture;
             Color = Color.White;
 
-            frameSize.Width = image.Width;
-            frameSize.Height = image.Height;
+            FrameSize.X = image.Width;
+            FrameSize.Y = image.Height;
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Zeplin
         /// <returns>The vector point of the sprite frame's center point in texture space.</returns>
         public Vector2 Center
         {
-            get { return new Vector2(frameSize.Width / 2, frameSize.Height / 2); }
+            get { return new Vector2(FrameSize.X / 2, FrameSize.Y / 2); }
         }
 
         /// <summary>
@@ -91,12 +91,12 @@ namespace Zeplin
             {
                 Rectangle texelRect = sourceRectangle.Value;
 
-                Engine.spriteBatch.Draw(image, new Vector2(transformation.Position.X, -transformation.Position.Y), texelRect, 
+                ZeplinGame.spriteBatch.Draw(image, new Vector2(transformation.Position.X, -transformation.Position.Y), texelRect, 
                     color, transformation.Rotation, transformation.Pivot, transformation.Scale, Facing, transformation.Depth);
             }
             else
             {
-                Engine.spriteBatch.Draw(image, new Vector2(transformation.Position.X, -transformation.Position.Y), null, 
+                ZeplinGame.spriteBatch.Draw(image, new Vector2(transformation.Position.X, -transformation.Position.Y), null, 
                     color, transformation.Rotation, transformation.Pivot, transformation.Scale, Facing, transformation.Depth);
             }
         }
@@ -136,23 +136,10 @@ namespace Zeplin
         }
         
         
-        
-        Rectangle frameSize = new Rectangle();
         /// <summary>
         /// Gets or sets the dimensions of a frame's size on the sprite
         /// </summary>
         /// <remarks>This is used for animations that are composed of smaller images within the texture, known either as sprite sheet or filmstrip animation.</remarks>
-        public Vector2 FrameSize
-        {
-            get
-            {
-                return new Vector2(frameSize.Width, frameSize.Height);
-            }
-            set
-            {
-                frameSize.Width = (int)value.X;
-                frameSize.Height = (int)value.Y;
-            }
-        }
+        public Point FrameSize;
     }
 }

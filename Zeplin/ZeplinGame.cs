@@ -23,7 +23,7 @@ namespace Zeplin
             get { return graphics; }
         }
 
-        SpriteBatch spriteBatch;
+        public static SpriteBatch spriteBatch;
         
         public static ResourceContentManager ResourceContent { get; private set; }
 
@@ -48,7 +48,7 @@ namespace Zeplin
         /// </summary>
         protected override void Initialize()
         {
-            //testMap is obviously going to be replaced by a map loading function.
+            //todo: testMap is obviously going to be replaced by a map loading function.
             testMap = new Map();
             base.Initialize();
         }

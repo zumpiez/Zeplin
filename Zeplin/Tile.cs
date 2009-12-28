@@ -58,11 +58,11 @@ namespace Zeplin
         /// <param name="gameTime"></param>
         public void Draw(GameTime gameTime)
         {
-            Rectangle sourceRect;
             if (AnimationScript != null)
             {
+                Rectangle sourceRect;
                 Console.WriteLine("going into ProcessAnimation with {0} {1} {2}", gameTime, FrameSize, Sprite);
-                sourceRect = AnimationScript.ProcessAnimation(gameTime, FrameSize, Sprite, SubRect);
+                sourceRect = AnimationScript.ProcessAnimation(gameTime, FrameSize, SubRect);
                 Console.WriteLine("drawing tile with subrect {0}", sourceRect);
 
                 Sprite.Draw(Transformation, sourceRect);
@@ -96,7 +96,7 @@ namespace Zeplin
         /// </summary>
         protected AnimationScript AnimationScript { get; set; }
 
-        public Vector2 FrameSize { get; set; }
+        public Point FrameSize { get; set; }
 
         public Rectangle SubRect { get; set; }
 

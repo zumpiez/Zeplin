@@ -19,16 +19,16 @@ namespace Zeplin
         /// <summary>
         /// Constructs an animation sequence
         /// </summary>
-        /// <param name="frames">0-based list of frames in the animation</param>
-        /// <param name="duration">The amount of time, in seconds, the animation will take to play to completion</param>
-        public AnimationScript(int[] frames, float duration)
+        /// <param name="frames">A collection of frames, in frame  </param>
+        /// <param name="duration">The amount of time the animation will take to play to completion</param>
+        public AnimationScript(IList<Point> frames, TimeSpan duration)
         {
-            this.frames = frames.ToList<int>();
+            this.frames = frames;
             this.Duration = duration;
         }
         
-        List<int> frames;
-        double beginTime = 0;
+        IList<Point> frames;
+        TimeSpan beginTime;
         
         /// <summary>
         /// Sets the animation to start from the beginning during the next draw.
@@ -36,19 +36,14 @@ namespace Zeplin
         /// <param name="time">The current time</param>
         public void PlayFromBeginning(GameTime time)
         {
-            beginTime = time.TotalGameTime.TotalMilliseconds;
+            beginTime = time.TotalGameTime;
         }
 
-        bool loop = false;
         int animationIndex = 0;
         /// <summary>
         /// Gets or sets the animation's loop setting
         /// </summary>
-        public bool Loop
-        {
-            get { return loop; }
-            set { loop = value; }
-        }
+        public bool Loop { get; set; }
         
         /// <summary>
         /// Gets whether the animation has reached the end of its playback.
@@ -58,7 +53,7 @@ namespace Zeplin
         {
             get
             {
-                if (loop == true)
+                if (Loop == true)
                     return false;
                 else if (animationIndex >= frames.Count)
                     return true;
@@ -67,25 +62,20 @@ namespace Zeplin
             }
         }
 
-        int totalMilliseconds;
         /// <summary>
-        /// Gets or sets the amount of time (in seconds) that the animation should take to complete.
+        /// Gets or sets the amount of time that the animation will take to complete.
         /// </summary>
-        public float Duration
-        {
-            get { return totalMilliseconds / 1000f; }
-            set { totalMilliseconds = (int)(value * 1000); }
-        }
+        public TimeSpan Duration { get; set; }
 
-        int padding = 0;
         /// <summary>
         /// Gets or sets the number of pixels that are padding the animation frames.
         /// </summary>
-        public int Padding
-        {
-            get { return padding; }
-            set { padding = value; }
-        }
+        public int Padding { get; set; }
+
+        /// <summary>
+        /// Gets or sets the number of frames in a row (X) and the number of rows (Y).
+        /// </summary>
+        public Point FramesPerSide { get; set; }
 
         /// <summary>
         /// Computes a rectangle that contains the current animation frame in the passed sprite.
@@ -94,12 +84,13 @@ namespace Zeplin
         /// <param name="sprite">The sprite being drawn</param>
         /// <returns>A rectangle containing the correct frame</returns>
         /// <remarks>You can use this method on any sprite and it will generate a result, but it for correct results the Sprite should have a framesize defined, and the order of animation frames should match those of the AnimationScript.</remarks>
-        internal Rectangle ProcessAnimation(GameTime time, Vector2 framesize, Sprite sprite, Rectangle subRect)
+        internal Rectangle ProcessAnimation(GameTime time, Point framesize, Rectangle? subrect)
         {
             //Determine the frame number to use based on duration and current time
-            int frame;
-            animationIndex = (int)((time.TotalGameTime.TotalMilliseconds - beginTime) * frames.Count / totalMilliseconds);
-            if (loop)
+            Point frame;
+            
+            animationIndex = (int)((time.TotalRealTime - beginTime).TotalMilliseconds * (frames.Count / Duration.TotalMilliseconds));
+            if (Loop)
             {
                 animationIndex %= frames.Count;
                 frame = frames[animationIndex];
@@ -113,18 +104,23 @@ namespace Zeplin
             }
 
             //Locate the rectangle containing that frame number based on the sprite's frame size
-            Rectangle sourceRect = new Rectangle(0,0,(int)framesize.X, (int)framesize.Y);
+            Rectangle sourceRect = new Rectangle(0, 0, framesize.X, framesize.Y);
+            
+            sourceRect.X = frame.X * framesize.X + Padding * frame.X + Padding;
+            sourceRect.Y = frame.Y * framesize.Y + Padding * frame.Y + Padding;
 
-            sourceRect.X = subRect.X + frame * sourceRect.Width + (padding * frame) + padding;
-            int yOffsetFactor = 0;
-            while (sourceRect.X >= sprite.Image.Width)
+            if (subrect.HasValue)
             {
-                sourceRect.X -= sprite.Image.Width - 1;
-                yOffsetFactor += 1;
+                sourceRect.X += subrect.Value.X;
+                sourceRect.Y += subrect.Value.Y;
             }
-            sourceRect.Y = subRect.Y + sourceRect.Height * yOffsetFactor + (padding * yOffsetFactor) + padding;
 
             return sourceRect;
+        }
+
+        internal Rectangle ProcessAnimation(GameTime time, Point framesize)
+        {
+            return ProcessAnimation(time, framesize, null);
         }
     }
 }
