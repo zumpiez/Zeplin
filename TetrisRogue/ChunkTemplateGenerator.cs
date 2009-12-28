@@ -44,7 +44,7 @@ namespace TetrisRogue
 
         private readonly TileType[,,] TEMPLATE_DB = new TileType[,,] { 
             { // corner
-              { t.Wall, t.Wall,  t.Wall,  t.Wall  },
+              { t.Rock, t.Wall,  t.Wall,  t.Wall  },
               { t.Wall, t.Floor, t.Floor, t.Floor },
               { t.Wall, t.Floor, t.Floor, t.Floor },
               { t.Wall, t.Floor, t.Floor, t.Floor }
@@ -61,14 +61,14 @@ namespace TetrisRogue
               { t.Wall, t.Floor, t.Floor, t.Wall },
               { t.Wall, t.Floor, t.Floor, t.Wall },
               { t.Wall, t.Floor, t.Floor, t.Wall },
-              { t.Wall, t.Wall,  t.Wall,  t.Rock }
+              { t.Rock, t.Wall,  t.Wall,  t.Rock }
             },
 
             { // entryway 2: electric boogaloo
               { t.Wall, t.Floor,     t.Floor,     t.Wall },
               { t.Wall, t.Floor,     t.Floor,     t.Wall },
               { t.Wall, t.Threshold, t.Threshold, t.Wall },
-              { t.Wall, t.Wall,      t.Wall,      t.Rock }
+              { t.Rock, t.Wall,      t.Wall,      t.Rock }
             },
 
             { // hall

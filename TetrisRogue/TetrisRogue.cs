@@ -37,7 +37,7 @@ namespace TetrisRogue
             game.GraphicsDeviceManager.DeviceReset += new EventHandler(GraphicsDevice_DeviceReset);
 
             characters = new Sprite(PointScale(3, Engine.Content.Load<Texture2D>(@"characters")));
-            environment = new Sprite(PointScale(3, Engine.Content.Load<Texture2D>(@"environment")));            
+            environment = new Sprite(PointScale(3, Engine.Content.Load<Texture2D>(@"environment")));
             MetaFont za = new MetaFont("Zaratustra Assemblee", game.Content.RootDirectory);
             
             Layer l = Engine.CurrentMap.NewLayer();
@@ -53,25 +53,46 @@ namespace TetrisRogue
 
             DungeonTile[] tiles = 
             {
-                new DungeonTile(environment, OryxTile(0, 0), TileType.Rock),
                 new DungeonTile(environment, OryxTile(3, 0), TileType.Rock),
+                new DungeonTile(environment, OryxTile(3, 11), TileType.Rock),
+                new DungeonTile(environment, OryxTile(7, 11), TileType.Rock),
+
+                // gray unfinished
                 new DungeonTile(environment, OryxTile(0, 0), TileType.Wall),
                 new DungeonTile(environment, OryxTile(1, 0, 2, 1), TileType.Wall, new AnimationScript(new int[]{0, 1}, 1)),
                 new DungeonTile(environment, OryxTile(3, 0), TileType.Wall),
+                // gray w/brown box
+                new DungeonTile(environment, OryxTile(0, 11), TileType.Wall),
+                new DungeonTile(environment, OryxTile(1, 11, 2, 1), TileType.Wall, new AnimationScript(new int[]{0, 1}, 1)),
+                new DungeonTile(environment, OryxTile(3, 11), TileType.Wall),
+                // gray w/gray box
+                new DungeonTile(environment, OryxTile(4, 11), TileType.Wall),
+                // these tiles look like someone took a bite out of the bottom
+                //new DungeonTile(environment, OryxTile(5, 11, 2, 1), TileType.Wall, new AnimationScript(new int[]{0, 1}, 1)),
+                new DungeonTile(environment, OryxTile(7, 11), TileType.Wall),
+
                 new DungeonTile(environment, OryxTile(5, 0), TileType.Floor),
                 new DungeonTile(environment, OryxTile(6, 0), TileType.Floor),
+
                 new DungeonTile(environment, OryxTile(7, 0), TileType.StairsUp),
+
                 new DungeonTile(environment, OryxTile(8, 0), TileType.StairsDown),
+
                 new DungeonTile(environment, OryxTile(9, 0), TileType.Pit),
+
                 new DungeonTile(environment, OryxTile(10, 0), TileType.TrapDoorClosed),
+
                 new DungeonTile(environment, OryxTile(11, 0), TileType.TrapDoorOpen),
+
                 new DungeonTile(environment, OryxTile(12, 0), TileType.Threshold),
                 new DungeonTile(environment, OryxTile(0, 5), TileType.Threshold),
                 new DungeonTile(environment, OryxTile(1, 5), TileType.Threshold),
                 new DungeonTile(environment, OryxTile(1, 6), TileType.Threshold),
             };
 
-            tiles[3].FrameSize = new Vector2(24, 24);
+            tiles[4].FrameSize = new Vector2(24, 24);
+            tiles[7].FrameSize = new Vector2(24, 24);
+            //tiles[10].FrameSize = new Vector2(24, 24);
 
             TextWidget tw = new TextWidget("whoa I'm some text");
             tw.Position = new Vector2(100, 100);
