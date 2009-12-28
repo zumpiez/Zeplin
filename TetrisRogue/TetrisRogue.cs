@@ -103,14 +103,22 @@ namespace TetrisRogue
             tw.Foreground = Color.White;
             hud.Add(tw);
 
-            activeChunk = new ChunkTemplateGenerator(tiles).GenerateChunk(DateTime.Now.Ticks);
+            ChunkTemplateGenerator ctg = new ChunkTemplateGenerator(tiles);
+            GameBoard gb = new GameBoard(6, 8, 4);
+            long seed = DateTime.Now.Ticks;
 
-            l.Add(activeChunk);
+            for (int i = 0; i < 6; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    gb[i, j] = ctg.GenerateChunk(seed);
 
-            activeChunk.Position = Vector2.Zero;
+                }
+            }
+
+            l.Add(gb);
+            gb.Position = new Vector2(200, -100);
         }
-
-        Chunk activeChunk;
 
         Rectangle OryxTile(int left, int top) { return OryxTile(left, top, 1, 1, 3); }
         Rectangle OryxTile(int left, int top, int width, int height) { return OryxTile(left, top, width, height, 3); }
@@ -129,8 +137,8 @@ namespace TetrisRogue
 
         void Update(GameTime time)
         {
-            if (Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.R))
-                activeChunk.Rotate(Direction.Clockwise);
+            //if (Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.R))
+            //    activeChunk.Rotate(Direction.Clockwise);
 
             if (Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.M))
             {
