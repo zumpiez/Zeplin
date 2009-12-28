@@ -30,6 +30,7 @@ namespace TetrisRogue {
             _extent = extent;
             _type = type;
             if (script != null) script.Loop = true; // hack: this really shouldn't beee heeeeere
+            FrameSize = new Point(24, 24);
         }
 
         public DungeonTile(DungeonTile copy) : base(copy)

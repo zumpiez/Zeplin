@@ -91,12 +91,12 @@ namespace Zeplin
             {
                 Rectangle texelRect = sourceRectangle.Value;
 
-                Engine.spriteBatch.Draw(image, new Vector2(transformation.Position.X, -transformation.Position.Y), texelRect, 
+                ZeplinGame.spriteBatch.Draw(image, new Vector2(transformation.Position.X, -transformation.Position.Y), texelRect, 
                     color, transformation.Rotation, transformation.Pivot, transformation.Scale, Facing, transformation.Depth);
             }
             else
             {
-                Engine.spriteBatch.Draw(image, new Vector2(transformation.Position.X, -transformation.Position.Y), null, 
+                ZeplinGame.spriteBatch.Draw(image, new Vector2(transformation.Position.X, -transformation.Position.Y), null, 
                     color, transformation.Rotation, transformation.Pivot, transformation.Scale, Facing, transformation.Depth);
             }
         }

@@ -63,7 +63,7 @@ namespace TetrisRogue
                 new DungeonTile(environment, OryxTile(3, 0), TileType.Wall),
                 // gray w/brown box
                 new DungeonTile(environment, OryxTile(0, 11), TileType.Wall),
-                new DungeonTile(environment, OryxTile(1, 11, 2, 1), TileType.Wall, new AnimationScript(new int[]{0, 1}, 1)),
+                new DungeonTile(environment, OryxTile(1, 11, 2, 1), TileType.Wall, new AnimationScript(new Point[]{new Point(0,0), new Point(0,1)}, TimeSpan.FromSeconds(1))),
                 new DungeonTile(environment, OryxTile(3, 11), TileType.Wall),
                 // gray w/gray box
                 new DungeonTile(environment, OryxTile(4, 11), TileType.Wall),
@@ -90,10 +90,6 @@ namespace TetrisRogue
                 new DungeonTile(environment, OryxTile(1, 6), TileType.Threshold)
             };
 
-            tiles[4].FrameSize = new Vector2(24, 24);
-            tiles[7].FrameSize = new Vector2(24, 24);
-            //tiles[10].FrameSize = new Vector2(24, 24);
-
             TextWidget tw = new TextWidget("whoa I'm some text");
             tw.Position = new Vector2(100, 100);
             tw.HorizontalAlignment = Alignment.Near;
@@ -103,7 +99,7 @@ namespace TetrisRogue
             tw.Foreground = Color.White;
             hud.Add(tw);
 
-            activeChunk = new ChunkTemplateGenerator(tiles).GenerateChunk(DateTime.Now.Ticks);
+            activeChunk = new ChunkTemplateGenerator(tiles).GenerateChunk(9999);
 
             l.Add(activeChunk);
 
@@ -172,7 +168,7 @@ namespace TetrisRogue
             SpriteBatch batch = new SpriteBatch(game.GraphicsDevice);
             batch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
             game.GraphicsDevice.SamplerStates[0].MagFilter = TextureFilter.None;
-            batch.Draw(sourceImage, new Rectangle(0, 0, scaled.Width, scaled.Height), Color.White);
+            batch.Draw(sourceImage, new Rectangle(0, 0, sourceImage.Width * scale, sourceImage.Height * scale), Color.White);
             batch.End();
 
             //restore original settings
