@@ -38,6 +38,17 @@ namespace TetrisRogue {
             this._type = copy._type;
         }
 
+        Rotation _rotation;
+        public Rotation Rotation
+        {
+            get { return _rotation; }
+            set
+            {
+                _rotation = value;
+                //todo: implement different extent/animationscript for different directions as necessary
+            }
+        }
+
         public Rectangle Extent { get { return _extent; } }
         public TileType Type { get { return _type; } }
 
