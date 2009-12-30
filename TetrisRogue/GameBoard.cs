@@ -55,6 +55,19 @@ namespace TetrisRogue
             }
         }
 
+        internal Vector2 GetLogicalChunkCoordinate(int x, int y)
+        {
+            return this.Position + new Vector2(24 * 4 * x, -24 * 4 * y);
+        }
+
+        internal Point Size
+        {
+            get
+            {
+                return new Point(chunks.GetLength(0), chunks.GetLength(1));
+            }
+        }
+
         private Chunk[,] chunks;
     }
 }

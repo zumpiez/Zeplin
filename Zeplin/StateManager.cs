@@ -6,11 +6,12 @@ using Microsoft.Xna.Framework;
 
 namespace Zeplin
 {
-    class StateManager
+    public class StateManager
     {
         public StateManager(ZeplinGame game) 
         {
             stateQueue = new Queue<State>();
+            CurrentState = new State(string.Empty, TimeSpan.Zero);
             game.OnUpdate += this.ProcessState;
         }
 
@@ -40,13 +41,14 @@ namespace Zeplin
         /// <param name="duration">The amount of time it will take to transition to this state.</param>
         public void AddState(String name, TimeSpan duration)
         {
+            stateQueue.Enqueue(new State(String.Format("transition {0} to {1}", CurrentState, name)));
             stateQueue.Enqueue(new State(name, duration));
         }
 
         internal void ProcessState(GameTime time)
         {
             currentTime = time.TotalRealTime;
-            if ((time.TotalRealTime - transitionBeginTimestamp) > NextState.Duration)
+            if (Transitioning && (time.TotalRealTime - transitionBeginTimestamp) > NextState.Duration)
             {
                 CurrentState = stateQueue.Dequeue();
                 transitionBeginTimestamp = time.TotalRealTime;
@@ -58,7 +60,7 @@ namespace Zeplin
         {
             get
             {
-                return stateQueue.Count >= 1;
+                return stateQueue.Count > 0;
             }
         }
 
@@ -124,19 +126,30 @@ namespace Zeplin
         TimeSpan currentTime;
     }
 
-    struct State
+    public struct State
     {
         public State(string name, TimeSpan duration) : this()
         {
             Name = name;
             Duration = duration;
         }
-        
+
+        public State(string name) : this(name, TimeSpan.Zero) { }
+
         public string Name { get; internal set; }
         
         public override string ToString()
         {
             return Name;
+        }
+
+        public static bool operator ==(State left, State right)
+        {
+            return left.Name.Equals(right.Name);
+        }
+        public static bool operator !=(State left, State right)
+        {
+            return !(left == right);
         }
 
         internal TimeSpan Duration;

@@ -61,9 +61,9 @@ namespace Zeplin
             if (AnimationScript != null)
             {
                 Rectangle sourceRect;
-                Console.WriteLine("going into ProcessAnimation with {0} {1} {2}", gameTime, FrameSize, Sprite);
+                //Console.WriteLine("going into ProcessAnimation with {0} {1} {2}", gameTime, FrameSize, Sprite);
                 sourceRect = AnimationScript.ProcessAnimation(gameTime, FrameSize, SubRect);
-                Console.WriteLine("drawing tile with subrect {0}", sourceRect);
+                //Console.WriteLine("drawing tile with subrect {0}", sourceRect);
 
                 Sprite.Draw(Transformation, sourceRect);
             }

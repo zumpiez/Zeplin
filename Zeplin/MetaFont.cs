@@ -28,7 +28,7 @@ namespace Zeplin
 
                 if (match.Groups.Count < 3)
                 {
-                    Console.WriteLine("candidate turned out not to match regex; so sad :(");
+                    //Console.WriteLine("candidate turned out not to match regex; so sad :(");
                     continue;
                 }
 

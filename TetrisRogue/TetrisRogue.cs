@@ -29,6 +29,9 @@ namespace TetrisRogue
             environment.Image = PointScale(3, Engine.Content.Load<Texture2D>(@"environment"));
         }
 
+        StateManager tileFallState;
+
+
         //doing this lazy-style to get it working. we can engineer something if we care to.
         Sprite characters;
         Sprite environment;
@@ -39,7 +42,10 @@ namespace TetrisRogue
             characters = new Sprite(PointScale(3, Engine.Content.Load<Texture2D>(@"characters")));
             environment = new Sprite(PointScale(3, Engine.Content.Load<Texture2D>(@"environment")));
             MetaFont za = new MetaFont("Zaratustra Assemblee", game.Content.RootDirectory);
-            
+
+            tileFallState = new StateManager(game);
+            tileFallState.AddState("spawning");
+
             Layer l = Engine.CurrentMap.NewLayer();
             Layer hud = Engine.CurrentMap.NewLayer(100);
             
@@ -99,22 +105,23 @@ namespace TetrisRogue
             tw.Foreground = Color.Black;
             hud.Add(tw);
 
-            ChunkTemplateGenerator ctg = new ChunkTemplateGenerator(tiles);
-            GameBoard gb = new GameBoard(6, 8, 4);
-            long seed = DateTime.Now.Ticks;
+            generator = new ChunkTemplateGenerator(tiles);
+            gameboard = new GameBoard(6, 8, 4);
+            
+            /*long seed = DateTime.Now.Ticks;
 
             for (int i = 0; i < 6; i++)
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    gb[i, j] = ctg.GenerateChunk(seed);
+                    gameboard[i, j] = ctg.GenerateChunk(seed);
                     seed <<= 2;
                     seed ^= DateTime.Now.Ticks;
                 }
-            }
+            }*/
 
-            l.Add(gb);
-            gb.Position = new Vector2(20, 20);
+            l.Add(gameboard);
+            gameboard.Position = new Vector2(20, 20);
         }
 
         Rectangle OryxTile(int left, int top) { return OryxTile(left, top, 1, 1, 3); }
@@ -132,31 +139,69 @@ namespace TetrisRogue
             return subrect;
         }
 
+        GameBoard gameboard;
+        ChunkTemplateGenerator generator;
+        Chunk activeChunk;
+        Point chunkLogicalPosition = Point.Zero;
+        Random rng = new Random();
         void Update(GameTime time)
         {
-            //if (Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.R))
-            //    activeChunk.Rotate(Direction.Clockwise);
-
-            if (Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.M))
+            //Untested! This is currently probably horribly broken and is also currently 50% imaginary.
+            switch (tileFallState.CurrentState.Name)
             {
-                if(!game.GraphicsDeviceManager.IsFullScreen)
-                {
-                    if (World.gameResolution.X == 800) game.ChangeResolution(1280, 800, false);
-                    else game.ChangeResolution(800, 500, false);
-                }
+                case "fallingToNextSpot":
+                    //Set up timed transition to changedSpot, to simulate the chunk "falling" between spaces
+                    //over a period of time.
+                    tileFallState.AddState("chankedSpot", TimeSpan.FromSeconds(2));
+                    break;
+
+                case "transition fallingToNextSpot to changedSpot":
+                    //lerp chunk position for drawin'
+                    Vector2 lastPosition = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition.X, chunkLogicalPosition.Y);
+                    Vector2 nextPosition = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition.X, chunkLogicalPosition.Y - 1);
+                    activeChunk.Position = Vector2.Lerp(lastPosition, nextPosition, tileFallState.TransitionPercentComplete);
+                    break;
+
+                case "changedSpot":
+                    //we have made it to the next space!
+                    chunkLogicalPosition.Y--;
+                    //check to see if the spot below is full or not
+                    if (gameboard[chunkLogicalPosition.X, chunkLogicalPosition.Y - 1] == null)
+                        tileFallState.AddState("fallingToNextSpot");
+                    break;
+
+                case "landed":
+                    //add the piece to the gameboard at the current logcal position
+                    gameboard[chunkLogicalPosition.X, chunkLogicalPosition.Y] = activeChunk;
+                    //prepare to spawn a new tile next update
+                    tileFallState.AddState("spawning");
+                    break;
+
+                case "spawning":
+                    activeChunk = generator.GenerateChunk(rng.Next());
+                    //piece will spawn in the top-center of the game board
+                    chunkLogicalPosition = new Point(gameboard.Size.X / 2, 0);
+                    
+                    if (gameboard[chunkLogicalPosition.X, chunkLogicalPosition.Y] != null) 
+                    {
+                        //there is a tile here! player dies.
+                        //todo: gamestate = "failure"
+                    }
+                    else
+                    {
+                        //perform the usual check next update before the piece starts falling
+                        tileFallState.AddState("changedSpot");
+                    }
+
+                    break;
             }
 
-            if (Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.N))
-            {
-                Engine.Camera.Mode = (CameraCropMode)((int)(Engine.Camera.Mode + 1) % 3);
-            }
 
-            if (Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.Enter) && Input.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftAlt))
+            if (Input.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftAlt) && Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.Enter))
             {
-                if (game.GraphicsDeviceManager.IsFullScreen) game.ChangeResolution(800, 500, false);
-                else game.SetDefaultResolution();
+                if (!game.GraphicsDeviceManager.IsFullScreen) game.SetDefaultResolution();
+                else game.ChangeResolution(800, 600, false);
             }
-            
         }
 
         public Texture2D PointScale(int scale, Texture2D sourceImage)
