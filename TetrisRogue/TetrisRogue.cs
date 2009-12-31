@@ -46,7 +46,7 @@ namespace TetrisRogue
             tileFallState = new StateManager(game);
             tileFallState.AddState("spawning");
 
-            Layer l = Engine.CurrentMap.NewLayer();
+            boardLayer = Engine.CurrentMap.NewLayer();
             Layer hud = Engine.CurrentMap.NewLayer(100);
             
             Engine.Camera.Dimensions = new Vector2(1280, 720);
@@ -148,24 +148,25 @@ namespace TetrisRogue
         void Update(GameTime time)
         {
             //Untested! This is currently probably horribly broken and is also currently 50% imaginary.
+            Console.WriteLine(tileFallState.CurrentState);
             switch (tileFallState.CurrentState.Name)
             {
                 case "fallingToNextSpot":
                     //Set up timed transition to changedSpot, to simulate the chunk "falling" between spaces
                     //over a period of time.
-                    tileFallState.AddState("chankedSpot", TimeSpan.FromSeconds(2));
+                    tileFallState.AddState("changedSpot", TimeSpan.FromSeconds(2));
                     break;
 
                 case "transition fallingToNextSpot to changedSpot":
                     //lerp chunk position for drawin'
                     Vector2 lastPosition = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition.X, chunkLogicalPosition.Y);
-                    Vector2 nextPosition = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition.X, chunkLogicalPosition.Y - 1);
+                    Vector2 nextPosition = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition.X, chunkLogicalPosition.Y + 1);
                     activeChunk.Position = Vector2.Lerp(lastPosition, nextPosition, tileFallState.TransitionPercentComplete);
                     break;
 
                 case "changedSpot":
                     //we have made it to the next space!
-                    chunkLogicalPosition.Y--;
+                    chunkLogicalPosition.Y++;
                     //check to see if the spot below is full or not
                     if (gameboard[chunkLogicalPosition.X, chunkLogicalPosition.Y + 1] == null)
                         tileFallState.AddState("fallingToNextSpot");
@@ -183,7 +184,8 @@ namespace TetrisRogue
                     activeChunk = generator.GenerateChunk(rng.Next());
                     //piece will spawn in the top-center of the game board
                     chunkLogicalPosition = new Point(gameboard.Size.X / 2, 0);
-                    
+                    activeChunk.Position = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition.X, chunkLogicalPosition.Y);
+                    boardLayer.Add(activeChunk);
 
                     
                     if (gameboard[chunkLogicalPosition.X, chunkLogicalPosition.Y] != null) 
