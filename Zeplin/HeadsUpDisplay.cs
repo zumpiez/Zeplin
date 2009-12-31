@@ -29,7 +29,7 @@ namespace Zeplin
         /// </summary>
         /// <param name="removedObject">The IGameObjectProvider to be removed</param>
         /// <returns>True if the object was removed, false if it was not found</returns>
-        internal override bool Remove(GameObject removedObject)
+        public override bool Remove(GameObject removedObject)
         {
             bool result = false;
 

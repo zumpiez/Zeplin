@@ -120,7 +120,7 @@ namespace TetrisRogue
                 }
             }*/
 
-            l.Add(gameboard);
+            boardLayer.Add(gameboard);
             gameboard.Position = new Vector2(20, 20);
         }
 
@@ -144,6 +144,7 @@ namespace TetrisRogue
         Chunk activeChunk;
         Point chunkLogicalPosition = Point.Zero;
         Random rng = new Random();
+        Layer boardLayer;
         void Update(GameTime time)
         {
             //Untested! This is currently probably horribly broken and is also currently 50% imaginary.
@@ -166,12 +167,13 @@ namespace TetrisRogue
                     //we have made it to the next space!
                     chunkLogicalPosition.Y--;
                     //check to see if the spot below is full or not
-                    if (gameboard[chunkLogicalPosition.X, chunkLogicalPosition.Y - 1] == null)
+                    if (gameboard[chunkLogicalPosition.X, chunkLogicalPosition.Y + 1] == null)
                         tileFallState.AddState("fallingToNextSpot");
                     break;
 
                 case "landed":
                     //add the piece to the gameboard at the current logcal position
+                    boardLayer.Remove(activeChunk);
                     gameboard[chunkLogicalPosition.X, chunkLogicalPosition.Y] = activeChunk;
                     //prepare to spawn a new tile next update
                     tileFallState.AddState("spawning");
@@ -181,6 +183,8 @@ namespace TetrisRogue
                     activeChunk = generator.GenerateChunk(rng.Next());
                     //piece will spawn in the top-center of the game board
                     chunkLogicalPosition = new Point(gameboard.Size.X / 2, 0);
+                    
+
                     
                     if (gameboard[chunkLogicalPosition.X, chunkLogicalPosition.Y] != null) 
                     {

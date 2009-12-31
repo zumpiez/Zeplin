@@ -24,7 +24,10 @@ namespace TetrisRogue
         public void Draw(GameTime time)
         {
             foreach (Chunk d in chunks)
-                d.Draw(time);
+            {
+                if (d != null)
+                    d.Draw(time);
+            }
         }
 
         public Vector2 Position { get; set; }
@@ -49,8 +52,11 @@ namespace TetrisRogue
                 for (int y = 0; y < chunks.GetLength(1); y++)
                 {
                     //Console.WriteLine("chunk {0}, {1} is at {2}, {3}", x, y, Position.X + 24 * 4 * x, Position.Y + -24 * 4 * y);
-                    chunks[x, y].Position = this.Position + new Vector2(24 * 4 * x, -24 * 4 * y);
-                    chunks[x, y].Update(time);
+                    if (chunks[x, y] != null)
+                    {
+                        chunks[x, y].Position = this.Position + new Vector2(24 * 4 * x, -24 * 4 * y);
+                        chunks[x, y].Update(time);
+                    }
                 }
             }
         }

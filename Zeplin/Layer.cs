@@ -39,7 +39,7 @@ namespace Zeplin
         /// </summary>
         /// <param name="removedObject">The IGameObjectProvider to be removed</param>
         /// <returns>True if the object was removed, false if it was not found</returns>
-        internal virtual bool Remove(GameObject removedObject)
+        public virtual bool Remove(GameObject removedObject)
         {
             return gameObjectList.Remove(removedObject);
         }
@@ -50,7 +50,7 @@ namespace Zeplin
         /// <param name="movedActor">The actor to be moved</param>
         /// <param name="destinationLayer">The layer to move the actor to</param>
         /// <returns>True if the operation was successful, otherwise false</returns>
-        internal bool MoveTo(GameObject movedObject, Layer destinationLayer)
+        public bool MoveTo(GameObject movedObject, Layer destinationLayer)
         {
             bool result = Remove(movedObject);
             if (result) destinationLayer.Add(movedObject);
