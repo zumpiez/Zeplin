@@ -148,7 +148,7 @@ namespace TetrisRogue
         void Update(GameTime time)
         {
             //Untested! This is currently probably horribly broken and is also currently 50% imaginary.
-            Console.WriteLine(tileFallState.CurrentState);
+            //Console.WriteLine(tileFallState.CurrentState);
             switch (tileFallState.CurrentState.Name)
             {
                 case "fallingToNextSpot":
@@ -162,6 +162,7 @@ namespace TetrisRogue
                     Vector2 lastPosition = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition.X, chunkLogicalPosition.Y);
                     Vector2 nextPosition = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition.X, chunkLogicalPosition.Y + 1);
                     activeChunk.Position = Vector2.Lerp(lastPosition, nextPosition, tileFallState.TransitionPercentComplete);
+                    Console.WriteLine(tileFallState.TransitionPercentComplete);
                     break;
 
                 case "changedSpot":
@@ -170,6 +171,7 @@ namespace TetrisRogue
                     //check to see if the spot below is full or not
                     if (gameboard[chunkLogicalPosition.X, chunkLogicalPosition.Y + 1] == null)
                         tileFallState.AddState("fallingToNextSpot");
+                    activeChunk.Position = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition.X, chunkLogicalPosition.Y);
                     break;
 
                 case "landed":
@@ -183,12 +185,11 @@ namespace TetrisRogue
                 case "spawning":
                     activeChunk = generator.GenerateChunk(rng.Next());
                     //piece will spawn in the top-center of the game board
-                    chunkLogicalPosition = new Point(gameboard.Size.X / 2, 0);
-                    activeChunk.Position = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition.X, chunkLogicalPosition.Y);
+                    chunkLogicalPosition = new Point(gameboard.Size.X / 2, -1);
                     boardLayer.Add(activeChunk);
 
                     
-                    if (gameboard[chunkLogicalPosition.X, chunkLogicalPosition.Y] != null) 
+                    if (gameboard[chunkLogicalPosition.X, chunkLogicalPosition.Y+1] != null) 
                     {
                         //there is a tile here! player dies.
                         //todo: gamestate = "failure"

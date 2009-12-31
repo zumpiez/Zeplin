@@ -48,7 +48,7 @@ namespace Zeplin
         internal void ProcessState(GameTime time)
         {
             currentTime = time.TotalRealTime;
-            if (Transitioning && (time.TotalRealTime - transitionBeginTimestamp) > NextState.Duration)
+            if (Transitioning && (time.TotalRealTime - transitionBeginTimestamp) >= NextState.Duration)
             {
                 CurrentState = stateQueue.Dequeue();
                 transitionBeginTimestamp = time.TotalRealTime;
@@ -115,7 +115,7 @@ namespace Zeplin
         {
             get
             {
-                return (float)(currentTime.TotalSeconds / (transitionBeginTimestamp + NextState.Duration).TotalSeconds);
+                return (float)((currentTime - transitionBeginTimestamp).TotalSeconds / NextState.Duration.TotalSeconds);
             }
         }
 
