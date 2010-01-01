@@ -159,7 +159,7 @@ namespace TetrisRogue
 
                 case "transition fallingToNextSpot to changedSpot":
                     //lerp chunk position for drawin'
-                    Vector2 lastPosition = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition.X, chunkLogicalPosition.Y);
+                    Vector2 lastPosition = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition);
                     Vector2 nextPosition = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition.X, chunkLogicalPosition.Y + 1);
                     activeChunk.Position = Vector2.Lerp(lastPosition, nextPosition, tileFallState.TransitionPercentComplete);
                     Console.WriteLine(tileFallState.TransitionPercentComplete);
@@ -168,16 +168,27 @@ namespace TetrisRogue
                 case "changedSpot":
                     //we have made it to the next space!
                     chunkLogicalPosition.Y++;
-                    //check to see if the spot below is full or not
-                    if (gameboard[chunkLogicalPosition.X, chunkLogicalPosition.Y + 1] == null)
-                        tileFallState.AddState("fallingToNextSpot");
                     activeChunk.Position = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition.X, chunkLogicalPosition.Y);
+
+                    //make sure we haven't reached the bottom of the board
+                    if (chunkLogicalPosition.Y + 1 != gameboard.Size.Y)
+                    {
+                        //check to see if the spot below is full or not
+                        if (gameboard[chunkLogicalPosition.X, chunkLogicalPosition.Y + 1] == null)
+                        {
+                            tileFallState.AddState("fallingToNextSpot");
+                            break;
+                        }
+                    }
+                    
+                    //Default case: bottom of board, or spot below is filled
+                    tileFallState.AddState("landed");
                     break;
 
                 case "landed":
                     //add the piece to the gameboard at the current logcal position
                     boardLayer.Remove(activeChunk);
-                    gameboard[chunkLogicalPosition.X, chunkLogicalPosition.Y] = activeChunk;
+                    gameboard[chunkLogicalPosition] = activeChunk;
                     //prepare to spawn a new tile next update
                     tileFallState.AddState("spawning");
                     break;
@@ -192,7 +203,7 @@ namespace TetrisRogue
                     if (gameboard[chunkLogicalPosition.X, chunkLogicalPosition.Y+1] != null) 
                     {
                         //there is a tile here! player dies.
-                        //todo: gamestate = "failure"
+                        //todo: gamestate = failure
                     }
                     else
                     {
