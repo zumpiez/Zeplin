@@ -66,6 +66,11 @@ namespace TetrisRogue
             return this.Position + new Vector2(24 * 4 * x, -24 * 4 * y);
         }
 
+        internal Vector2 GetLogicalChunkCoordinate(Point point)
+        {
+            return GetLogicalChunkCoordinate(point.X, point.Y);
+        }
+
         internal Point Size
         {
             get
