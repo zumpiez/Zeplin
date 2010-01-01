@@ -44,6 +44,18 @@ namespace TetrisRogue
             }
         }
 
+        public Chunk this[Point point]
+        {
+            get
+            {
+                return chunks[point.X, point.Y];
+            }
+            set
+            {
+                chunks[point.X, point.Y] = value;
+            }
+        }
+
         public void Update(GameTime time)
         {
             //todo: put dirty flag here so we aren't doing 5million translations a second
