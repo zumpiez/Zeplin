@@ -29,8 +29,6 @@ namespace TetrisRogue
             environment.Image = PointScale(3, Engine.Content.Load<Texture2D>(@"environment"));
         }
 
-        StateManager tileFallState;
-
 
         //doing this lazy-style to get it working. we can engineer something if we care to.
         Sprite characters;
@@ -45,6 +43,9 @@ namespace TetrisRogue
 
             tileFallState = new StateManager(game);
             tileFallState.AddState("spawning");
+
+            lateralTileMoveState = new StateManager(game);
+            lateralTileMoveState.AddState("nada");
 
             boardLayer = Engine.CurrentMap.NewLayer();
             Layer hud = Engine.CurrentMap.NewLayer(100);
@@ -145,10 +146,13 @@ namespace TetrisRogue
         Point chunkLogicalPosition = Point.Zero;
         Random rng = new Random();
         Layer boardLayer;
+        StateManager tileFallState;
+        StateManager lateralTileMoveState;
         void Update(GameTime time)
         {
             //Untested! This is currently probably horribly broken and is also currently 50% imaginary.
             //Console.WriteLine(tileFallState.CurrentState);
+            #region tile falling logic (I wish outlining would let you collapse switch blocks)
             switch (tileFallState.CurrentState.Name)
             {
                 case "fallingToNextSpot":
@@ -213,6 +217,46 @@ namespace TetrisRogue
 
                     break;
             }
+            #endregion
+
+            #region lateral tile movement logic
+            if(Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.Left))
+            {
+                //todo check for obstruction in x- direction
+
+                //no obstruction! move left.
+                lateralTileMoveState.AddState("left", TimeSpan.FromSeconds(0.2));
+            }
+            if(Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.Right))
+            {
+                //todo check for obstruction in x+ direction
+
+                //no obstruction! move right.
+                lateralTileMoveState.AddState("right", TimeSpan.FromSeconds(0.2));
+            }
+
+            switch (lateralTileMoveState.CurrentState.Name)
+            {
+                case "transition nada to left":
+                        
+                    //todo: lerp activeChunk to next-left spot
+                    break;
+                case "transition nada to right":
+                    //todo: lerp activeChunk to next-right spot
+                    break;
+                case "right":
+                    chunkLogicalPosition.X++;
+                    //return to not doing anything.
+                    lateralTileMoveState.AddState("nada");
+                    break;
+                case "left":
+                    chunkLogicalPosition.Y++;
+                    //return to not doing anything.
+                    lateralTileMoveState.AddState("nada");
+                    break;
+            }
+
+            #endregion
 
 
             if (Input.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftAlt) && Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.Enter))
