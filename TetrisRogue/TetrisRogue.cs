@@ -165,14 +165,15 @@ namespace TetrisRogue
                     //lerp chunk position for drawin'
                     Vector2 lastPosition = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition);
                     Vector2 nextPosition = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition.X, chunkLogicalPosition.Y + 1);
-                    activeChunk.Position = Vector2.Lerp(lastPosition, nextPosition, tileFallState.TransitionPercentComplete);
-                    Console.WriteLine(tileFallState.TransitionPercentComplete);
+
+                    activeChunk.Position.Y = Vector2.Lerp(lastPosition, nextPosition, tileFallState.TransitionPercentComplete).Y;
+                    //Console.WriteLine(tileFallState.TransitionPercentComplete);
                     break;
 
                 case "changedSpot":
                     //we have made it to the next space!
                     chunkLogicalPosition.Y++;
-                    activeChunk.Position = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition.X, chunkLogicalPosition.Y);
+                    activeChunk.Position.Y = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition.X, chunkLogicalPosition.Y).Y;
 
                     //make sure we haven't reached the bottom of the board
                     if (chunkLogicalPosition.Y + 1 != gameboard.Size.Y)
@@ -222,35 +223,53 @@ namespace TetrisRogue
             #region lateral tile movement logic
             if(Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.Left))
             {
-                //todo check for obstruction in x- direction
-
-                //no obstruction! move left.
-                lateralTileMoveState.AddState("left", TimeSpan.FromSeconds(0.2));
+                if (chunkLogicalPosition.X != 0) //not at left edge of board
+                {
+                    //chunk space to left is open
+                    if (gameboard[chunkLogicalPosition.X - 1, chunkLogicalPosition.Y] == null)
+                    {
+                        //no obstruction! move left.
+                        lateralTileMoveState.AddState("left", TimeSpan.FromSeconds(0.05));
+                    }
+                }
             }
+
             if(Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.Right))
             {
-                //todo check for obstruction in x+ direction
-
-                //no obstruction! move right.
-                lateralTileMoveState.AddState("right", TimeSpan.FromSeconds(0.2));
+                if (chunkLogicalPosition.X != gameboard.Size.X - 1) //not at right edge of board
+                {
+                    //chunk space to right is open
+                    if (gameboard[chunkLogicalPosition.X + 1, chunkLogicalPosition.Y] == null)
+                    {
+                        //no obstruction! move right.
+                        lateralTileMoveState.AddState("right", TimeSpan.FromSeconds(0.05));
+                    }
+                }
             }
 
+            
             switch (lateralTileMoveState.CurrentState.Name)
             {
+                    
                 case "transition nada to left":
-                        
-                    //todo: lerp activeChunk to next-left spot
+                    Vector2 lastPosition = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition);
+                    Vector2 nextPosition = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition.X - 1, chunkLogicalPosition.Y);
+                    activeChunk.Position.X = Vector2.Lerp(lastPosition, nextPosition, lateralTileMoveState.TransitionPercentComplete).X;
                     break;
                 case "transition nada to right":
-                    //todo: lerp activeChunk to next-right spot
+                    lastPosition = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition);
+                    nextPosition = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition.X + 1, chunkLogicalPosition.Y);
+                    activeChunk.Position.X = Vector2.Lerp(lastPosition, nextPosition, lateralTileMoveState.TransitionPercentComplete).X;
                     break;
                 case "right":
                     chunkLogicalPosition.X++;
+                    activeChunk.Position.X = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition).X;
                     //return to not doing anything.
                     lateralTileMoveState.AddState("nada");
                     break;
                 case "left":
-                    chunkLogicalPosition.Y++;
+                    chunkLogicalPosition.X--;
+                    activeChunk.Position.X = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition).X;
                     //return to not doing anything.
                     lateralTileMoveState.AddState("nada");
                     break;
