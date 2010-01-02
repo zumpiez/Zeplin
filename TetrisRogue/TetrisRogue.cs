@@ -203,6 +203,7 @@ namespace TetrisRogue
                     //piece will spawn in the top-center of the game board
                     chunkLogicalPosition = new Point(gameboard.Size.X / 2, -1);
                     boardLayer.Add(activeChunk);
+                    activeChunk.Position = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition);
 
                     
                     if (gameboard[chunkLogicalPosition.X, chunkLogicalPosition.Y+1] != null) 
