@@ -208,7 +208,8 @@ namespace TetrisRogue
                     if (gameboard[chunkLogicalPosition.X, chunkLogicalPosition.Y+1] != null) 
                     {
                         //there is a tile here! player dies.
-                        //todo: gamestate = failure
+                        //todo: game state = failure
+                        tileFallState.AddState("ur ded");
                     }
                     else
                     {
@@ -226,7 +227,7 @@ namespace TetrisRogue
                 if (chunkLogicalPosition.X != 0) //not at left edge of board
                 {
                     //chunk space to left is open
-                    if (gameboard[chunkLogicalPosition.X - 1, chunkLogicalPosition.Y] == null)
+                    if (gameboard[chunkLogicalPosition.X - 1, chunkLogicalPosition.Y+1] == null)
                     {
                         //no obstruction! move left.
                         lateralTileMoveState.AddState("left", TimeSpan.FromSeconds(0.05));
@@ -239,7 +240,7 @@ namespace TetrisRogue
                 if (chunkLogicalPosition.X != gameboard.Size.X - 1) //not at right edge of board
                 {
                     //chunk space to right is open
-                    if (gameboard[chunkLogicalPosition.X + 1, chunkLogicalPosition.Y] == null)
+                    if (gameboard[chunkLogicalPosition.X + 1, chunkLogicalPosition.Y+1] == null)
                     {
                         //no obstruction! move right.
                         lateralTileMoveState.AddState("right", TimeSpan.FromSeconds(0.05));
