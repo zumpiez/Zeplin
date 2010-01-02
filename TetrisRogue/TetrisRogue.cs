@@ -162,10 +162,15 @@ namespace TetrisRogue
                     break;
 
                 case "transition fallingToNextSpot to changedSpot":
+                    if (Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.Down))
+                    {
+                        tileFallState.ForceState("fastfall");
+                        break;
+                    }
+                
                     //lerp chunk position for drawin'
                     Vector2 lastPosition = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition);
-                    Vector2 nextPosition = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition.X, chunkLogicalPosition.Y + 1);
-
+                    Vector2 nextPosition = gameboard.GetLogicalChunkCoordinate(chunkLogicalPosition.X, chunkLogicalPosition.Y + 1);                    
                     activeChunk.Position.Y = Vector2.Lerp(lastPosition, nextPosition, tileFallState.TransitionPercentComplete).Y;
                     //Console.WriteLine(tileFallState.TransitionPercentComplete);
                     break;
@@ -192,7 +197,7 @@ namespace TetrisRogue
 
                 case "landed":
                     //add the piece to the gameboard at the current logcal position
-                    boardLayer.Remove(activeChunk);
+                    //boardLayer.Remove(activeChunk);
                     gameboard[chunkLogicalPosition] = activeChunk;
                     //prepare to spawn a new tile next update
                     tileFallState.AddState("spawning");
@@ -217,7 +222,26 @@ namespace TetrisRogue
                         //perform the usual check next update before the piece starts falling
                         tileFallState.AddState("changedSpot");
                     }
+                    break;
 
+                case "fastfall":
+                    for (int y = chunkLogicalPosition.Y; y < gameboard.Size.Y; y++)
+                    {
+                        //probe for a piece until bottom of board reached
+                        if (gameboard[chunkLogicalPosition.X, y] != null) //piece found
+                        {
+                            tileFallState.AddState("landed"); //after this, it's touching something or something is fucked up.
+                            chunkLogicalPosition.Y = y - 1;
+                            break;
+                        }
+                    }
+
+                    //looped until bottom of board reached. land chunk on bottom.
+                    if (!tileFallState.Transitioning) //this will be true if "landed" was added above.
+                    {
+                        tileFallState.AddState("landed");
+                        chunkLogicalPosition.Y = gameboard.Size.Y - 1;
+                    }
                     break;
             }
             #endregion
@@ -279,6 +303,10 @@ namespace TetrisRogue
 
             #endregion
 
+            if (Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.Up))
+            {
+                activeChunk.Rotate(Direction.Clockwise);
+            }
 
             if (Input.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftAlt) && Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.Enter))
             {

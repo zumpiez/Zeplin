@@ -45,6 +45,16 @@ namespace Zeplin
             stateQueue.Enqueue(new State(name, duration));
         }
 
+        /// <summary>
+        /// Immediately changes the state and destroys the queue.
+        /// </summary>
+        /// <param name="name"></param>
+        public void ForceState(String name)
+        {
+            stateQueue.Clear();
+            stateQueue.Enqueue(new State(name));
+        }
+
         internal void ProcessState(GameTime time)
         {
             currentTime = time.TotalRealTime;
@@ -148,6 +158,15 @@ namespace Zeplin
             return left.Name.Equals(right.Name);
         }
         public static bool operator !=(State left, State right)
+        {
+            return !(left == right);
+        }
+
+        public static bool operator ==(State left, string right)
+        {
+            return left.Name.Equals(right);
+        }
+        public static bool operator !=(State left, string right)
         {
             return !(left == right);
         }
