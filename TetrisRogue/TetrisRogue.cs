@@ -33,6 +33,7 @@ namespace TetrisRogue
         //doing this lazy-style to get it working. we can engineer something if we care to.
         Sprite characters;
         Sprite environment;
+        
         void Load()
         {
             game.GraphicsDeviceManager.DeviceReset += new EventHandler(GraphicsDevice_DeviceReset);
@@ -127,7 +128,6 @@ namespace TetrisRogue
 
         Rectangle OryxTile(int left, int top) { return OryxTile(left, top, 1, 1, 3); }
         Rectangle OryxTile(int left, int top, int width, int height) { return OryxTile(left, top, width, height, 3); }
-
         Rectangle OryxTile(int left, int top, int width, int height, int scale)
         {
             Rectangle subrect = new Rectangle();

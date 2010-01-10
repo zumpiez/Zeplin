@@ -43,7 +43,6 @@ namespace TetrisRogue
                 chunks[x, y] = value;
             }
         }
-
         public Chunk this[Point point]
         {
             get
@@ -54,6 +53,15 @@ namespace TetrisRogue
             {
                 chunks[point.X, point.Y] = value;
             }
+        }
+
+        public DungeonTile GetDungeonTile(int x, int y)
+        {
+            return chunks[x / 4, y / 4][x % 4, y % 4];
+        }
+        public DungeonTile GetDungeonTile(Point p)
+        {
+            return GetDungeonTile(p.X, p.Y);
         }
 
         public void Update(GameTime time)
@@ -73,16 +81,43 @@ namespace TetrisRogue
             }
         }
 
+        /// <summary>
+        /// Gets world coordinates for a chunk in the GameBoard.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         internal Vector2 GetLogicalChunkCoordinate(int x, int y)
         {
             return this.Position + new Vector2(24 * 4 * x, -24 * 4 * y);
         }
-
+        /// <summary>
+        /// Gets world coordinates for a chunk in the GameBoard.
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
         internal Vector2 GetLogicalChunkCoordinate(Point point)
         {
             return GetLogicalChunkCoordinate(point.X, point.Y);
         }
 
+        //Segments the gameboard into logical rooms, containing chunks.
+        private void Roomify()
+        {
+            Random r = new Random();
+            List<Chunk> openSet = new List<Chunk>();
+            foreach (Chunk c in chunks)
+            {
+                openSet.Add(c);
+            }
+
+            while (openSet.Count > 0)
+            {
+                Chunk c = openSet[r.Next(openSet.Count)];
+
+            }
+        }
+        
         internal Point Size
         {
             get
@@ -90,7 +125,8 @@ namespace TetrisRogue
                 return new Point(chunks.GetLength(0), chunks.GetLength(1));
             }
         }
-
+        
+        private List<Room> rooms;
         private Chunk[,] chunks;
     }
 }

@@ -92,6 +92,7 @@
     <Compile Include="GameBoard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Room.cs" />
     <Compile Include="TetrisRogue.cs" />
     <Compile Include="DungeonTile.cs" />
     <Compile Include="StupidChunkGenerator.cs" />

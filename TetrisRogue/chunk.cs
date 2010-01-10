@@ -49,6 +49,17 @@ namespace TetrisRogue
                 _tiles[x, y] = value;
             }
         }
+        public DungeonTile this[Point p]
+        {
+            get
+            {
+                return this[p.X, p.Y];
+            }
+            set
+            {
+                this[p.X, p.Y] = value;
+            }
+        }
 
         public void Rotate(Direction direction)
         {
@@ -95,6 +106,51 @@ namespace TetrisRogue
             y = newY;
         }
 
+        public ExitDirection Exits
+        {
+            //todo test this
+            get
+            {
+                ExitDirection result = new ExitDirection();
+
+                for (int i = 0; i < 3; i++)
+                {
+                    if (this[i, 0].Type == TileType.Floor)
+                    {
+                        result |= ExitDirection.North;
+                        break;
+                    }
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    if (this[3, i].Type == TileType.Floor)
+                    {
+                        result |= ExitDirection.East;
+                        break;
+                    }
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    if (this[i, 3].Type == TileType.Floor)
+                    {
+                        result |= ExitDirection.South;
+                        break;
+                    }
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    if (this[0, i].Type == TileType.Floor)
+                    {
+                        result |= ExitDirection.West;
+                        break;
+                    }
+                }
+                
+                return result;
+            }
+
+        }
+
         public override string ToString()
         {
             String result = String.Empty;
@@ -121,5 +177,11 @@ namespace TetrisRogue
     public enum Rotation
     {
         None, Cw90, Cw180, Cw270
+    }
+
+    [Flags]
+    public enum ExitDirection
+    {
+        None = 0, North = 1, East = 2, South = 4, West = 8
     }
 }
