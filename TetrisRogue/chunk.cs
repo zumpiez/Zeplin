@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Zeplin;
+using Zeplin.Utilities;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace TetrisRogue
 {
@@ -19,8 +21,16 @@ namespace TetrisRogue
         public void Draw(GameTime time)
         {
             foreach (DungeonTile d in _tiles)
-                d.Draw(time);
+            {
+                //d.Draw(time);
+                d.Draw(time, Tint.XNAColor); //todo switch this back to untinted version when no longer debugging
+            }
         }
+
+        /// <summary>
+        /// For room debugging
+        /// </summary>
+        public HSVColor Tint = Color.White;
 
         public void Update(GameTime time)
         {
@@ -108,12 +118,15 @@ namespace TetrisRogue
 
         public ExitDirection Exits
         {
-            //todo test this
+            //This is a pretty verbose implementation. I had one for loop with four lines
+            //but discarded it because this is easier to short circuit cleanly.
+            #warning This implementation leaks "roominess" from burrowing. Let us solve that!
             get
             {
                 ExitDirection result = new ExitDirection();
+                int i;
 
-                for (int i = 0; i < 3; i++)
+                for (i = 0; i <= 3; i++)
                 {
                     if (this[i, 0].Type == TileType.Floor)
                     {
@@ -121,7 +134,7 @@ namespace TetrisRogue
                         break;
                     }
                 }
-                for (int i = 0; i < 3; i++)
+                for (i = 0; i <= 3; i++)
                 {
                     if (this[3, i].Type == TileType.Floor)
                     {
@@ -129,7 +142,7 @@ namespace TetrisRogue
                         break;
                     }
                 }
-                for (int i = 0; i < 3; i++)
+                for (i = 0; i <= 3; i++)
                 {
                     if (this[i, 3].Type == TileType.Floor)
                     {
@@ -137,7 +150,7 @@ namespace TetrisRogue
                         break;
                     }
                 }
-                for (int i = 0; i < 3; i++)
+                for (i = 0; i <= 3; i++)
                 {
                     if (this[0, i].Type == TileType.Floor)
                     {

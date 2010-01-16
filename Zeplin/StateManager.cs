@@ -153,6 +153,11 @@ namespace Zeplin
             return Name;
         }
 
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         public static bool operator ==(State left, State right)
         {
             return left.Name.Equals(right.Name);

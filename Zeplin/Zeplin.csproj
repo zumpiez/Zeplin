@@ -110,6 +110,7 @@
     <Compile Include="UIMiscellany.cs" />
     <Compile Include="Utilities\ExtensionMethods.cs" />
     <Compile Include="Utilities\GraphicsHelper.cs" />
+    <Compile Include="Utilities\HSVColor.cs" />
     <Compile Include="Utilities\RectangleF.cs" />
     <Compile Include="World.cs" />
     <Compile Include="Engine.cs" />
@@ -154,6 +155,9 @@
       <LastGenOutput>EngineResources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace Zeplin.Utilities
 {
@@ -28,6 +29,20 @@ namespace Zeplin.Utilities
             else if (value > target)
                 return (Math.Max(value - rate, target));
             else return target;
+        }
+
+        /// <summary>Adds addition to XNA points.</summary>
+        /// <remarks>Why the HELL can't you add XNA points</remarks>
+        /// <param name="value"></param>
+        /// <param name="addend"></param>
+        /// <returns></returns>
+        public static Point Add(this Point value, Point addend)
+        {
+            return new Point(value.X + addend.X, value.Y + addend.Y);
+        }
+        public static Point Subtract(this Point value, Point addend)
+        {
+            return new Point(value.X - addend.X, value.Y - addend.Y);
         }
     }
 }

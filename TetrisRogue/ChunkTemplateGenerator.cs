@@ -18,7 +18,8 @@ namespace TetrisRogue
             Chunk c = new Chunk();
             Random r = new Random((int)seed);
 
-            int templateIdx = r.Next(TEMPLATE_DB.GetLength(0));
+            //int templateIdx = r.Next(TEMPLATE_DB.GetLength(0));
+            int templateIdx = 0; //for debugging
 
             for (int x = 0; x < 4; x++)
             {

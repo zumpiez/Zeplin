@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Zeplin.CollisionShapes;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Zeplin
 {
@@ -74,6 +75,13 @@ namespace Zeplin
 
             if(CollisionVolume != null)
                 (CollisionVolume as SATCollisionVolume).Draw();
+        }
+
+        public void Draw(GameTime gameTime, Color color)
+        {
+            Sprite.Color = color;
+            Draw(gameTime);
+            Sprite.Color = Color.White;
         }
 
         /// <summary>

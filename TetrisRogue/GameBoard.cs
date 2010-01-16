@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Zeplin;
+using Zeplin.Utilities;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace TetrisRogue
 {
@@ -64,6 +66,26 @@ namespace TetrisRogue
             return GetDungeonTile(p.X, p.Y);
         }
 
+        /// <summary>
+        /// Locates a specific chunk instance on the board and returns its GameBoard coordinates.
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        public Point? FindChunk(Chunk c)
+        {
+            for (int x = 0; x < chunks.GetLength(0); x++)
+            {
+                //start from bottom: most likely to have chunks
+                for (int y = chunks.GetLength(1) - 1; y >= 0; y--)
+                {
+                    if (chunks[x, y] == c) return new Point(x, y);
+                }
+            }
+
+            //nothing found
+            return null;
+        }
+
         public void Update(GameTime time)
         {
             //todo: put dirty flag here so we aren't doing 5million translations a second
@@ -102,19 +124,102 @@ namespace TetrisRogue
         }
 
         //Segments the gameboard into logical rooms, containing chunks.
-        private void Roomify()
+        internal void Roomify()
         {
+            /* DISCLAIMER
+             * This is a HELLA naive implementation for the sake of being able to more quickly
+             * start implementing things that depend on it. No consideration for speed or memory 
+             * usage taken, and liberal copypasta was employed to avoid creating support methods
+             * for an implementation that is going to be gutted anyway.
+             * I only added classes and class members that I feel will be useful for the final
+             * version.
+             * todo colin replace this with your fun low complexity version.
+             * 
+             * yours truly,
+             * jeffrey
+             */
+
             Random r = new Random();
             List<Chunk> openSet = new List<Chunk>();
+            Point north = new Point(0,-1);
+            Point east = new Point(1,0);
+            Point south = new Point(0,1);
+            Point west = new Point(-1,0);
+
+            rooms.Clear(); //TIME FOR FRESH ROOMS
+
             foreach (Chunk c in chunks)
             {
-                openSet.Add(c);
+                if(c != null && c.Exits != ExitDirection.None)
+                    openSet.Add(c);
             }
+
+            Queue<Chunk> exploreQueue = new Queue<Chunk>();
 
             while (openSet.Count > 0)
             {
-                Chunk c = openSet[r.Next(openSet.Count)];
+                Room room = new Room();
+                
+                //pick a random chunk from the open set
+                Chunk seed = openSet[r.Next(openSet.Count)];
+                exploreQueue.Enqueue(seed);
 
+                while (exploreQueue.Count > 0)
+                {
+                    Chunk exploring = exploreQueue.Dequeue();
+                    Point cLocation = FindChunk(exploring).Value; //null crash! fortunately if this is ever null, something is fucking wrong.
+
+                    //assign this to a room and then prevent it from being tested again.
+                    room.AddChunk(exploring);
+                    openSet.Remove(exploring);
+
+                    //this is the ugliest logic test I have ever written. And then I copy pasted it three more times. #hahawoo
+                    if ((exploring.Exits & ExitDirection.North) == ExitDirection.North
+                        && cLocation.Y != 0 //top of board: north is out of bounds
+                        && this[cLocation.Add(north)] != null //north contains a chunk
+                        && openSet.Contains(this[cLocation.Add(north)]) //chunk to north is still in the open set
+                        && !exploreQueue.Contains(this[cLocation.Add(north)]) //chunk to north is not already in explore queue
+                        && (this[cLocation.Add(north)].Exits & ExitDirection.South) == ExitDirection.South) //chunk opens into this chunk
+                    {
+                        exploreQueue.Enqueue(this[cLocation.Add(north)]);
+                    }
+
+                    if ((exploring.Exits & ExitDirection.East) == ExitDirection.East
+                        && cLocation.X != chunks.GetLength(0) - 1 //right edge of board: east is out of bounds
+                        && this[cLocation.Add(east)] != null //east contains a chunk
+                        && openSet.Contains(this[cLocation.Add(east)]) //chunk to east is still in the open set
+                        && !exploreQueue.Contains(this[cLocation.Add(east)]) //chunk to east is not already in explore queue
+                        && (this[cLocation.Add(east)].Exits & ExitDirection.West) == ExitDirection.West) //chunk opens into this chunk
+                    {
+                        exploreQueue.Enqueue(this[cLocation.Add(east)]);
+                    }
+
+                    if ((exploring.Exits & ExitDirection.South) == ExitDirection.South
+                        && cLocation.Y != chunks.GetLength(1) - 1 //bottom of board: south is out of bounds
+                        && this[cLocation.Add(south)] != null //south contains a chunk
+                        && openSet.Contains(this[cLocation.Add(south)]) //chunk to south is still in the open set
+                        && !exploreQueue.Contains(this[cLocation.Add(south)]) //chunk to south is not already in explore queue
+                        && (this[cLocation.Add(south)].Exits & ExitDirection.North) == ExitDirection.North) //chunk opens into this chunk
+                    {
+                        exploreQueue.Enqueue(this[cLocation.Add(south)]);
+                    }
+
+                    if((exploring.Exits & ExitDirection.West) == ExitDirection.West
+                        && cLocation.X != 0 //left edge of board: west is out of bounds
+                        && this[cLocation.Add(west)] != null //west contains a chunk
+                        && openSet.Contains(this[cLocation.Add(west)]) //chunk to west is still in the open set
+                        && !exploreQueue.Contains(this[cLocation.Add(west)]) //chunk to west is not already in explore queue
+                        && (this[cLocation.Add(west)].Exits & ExitDirection.East) == ExitDirection.East) //chunk opens into this chunk
+                    {
+                        exploreQueue.Enqueue(this[cLocation.Add(west)]);
+                    }
+                }
+                rooms.Add(room);
+            }
+
+            for(int i = 0; i < rooms.Count; i++)
+            {
+                rooms[i].Tint = new HSVColor(i / (float)rooms.Count, 0.5f, 1, 1);
             }
         }
         
@@ -126,7 +231,7 @@ namespace TetrisRogue
             }
         }
         
-        private List<Room> rooms;
+        private List<Room> rooms = new List<Room>();
         private Chunk[,] chunks;
     }
 }

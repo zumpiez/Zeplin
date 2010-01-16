@@ -110,18 +110,6 @@ namespace TetrisRogue
             generator = new ChunkTemplateGenerator(tiles);
             gameboard = new GameBoard(6, 8, 4);
             
-            /*long seed = DateTime.Now.Ticks;
-
-            for (int i = 0; i < 6; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    gameboard[i, j] = ctg.GenerateChunk(seed);
-                    seed <<= 2;
-                    seed ^= DateTime.Now.Ticks;
-                }
-            }*/
-
             boardLayer.Add(gameboard);
             gameboard.Position = new Vector2(20, 20);
         }
@@ -150,8 +138,6 @@ namespace TetrisRogue
         StateManager lateralTileMoveState;
         void Update(GameTime time)
         {
-            //Untested! This is currently probably horribly broken and is also currently 50% imaginary.
-            //Console.WriteLine(tileFallState.CurrentState);
             #region tile falling logic (I wish outlining would let you collapse switch blocks)
             switch (tileFallState.CurrentState.Name)
             {
@@ -199,6 +185,7 @@ namespace TetrisRogue
                     //add the piece to the gameboard at the current logcal position
                     //boardLayer.Remove(activeChunk);
                     gameboard[chunkLogicalPosition] = activeChunk;
+                    gameboard.Roomify();
                     //prepare to spawn a new tile next update
                     tileFallState.AddState("spawning");
                     break;
