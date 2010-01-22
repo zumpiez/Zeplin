@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Zeplin;
 using Zeplin.Utilities;
 using Microsoft.Xna.Framework.Graphics;
+using TetrisRogue.Entities;
 
 namespace TetrisRogue
 {
@@ -123,7 +124,9 @@ namespace TetrisRogue
             return GetLogicalChunkCoordinate(point.X, point.Y);
         }
 
-        //Segments the gameboard into logical rooms, containing chunks.
+        /// <summary>
+        /// Segments the gameboard into logical rooms, containing chunks.
+        /// </summary>
         internal void Roomify()
         {
             /* DISCLAIMER
@@ -233,5 +236,59 @@ namespace TetrisRogue
         
         private List<Room> rooms = new List<Room>();
         private Chunk[,] chunks;
+
+        #region Roguelike stuff
+        /// <summary>
+        /// Based on a type of target, will return the "most interesting" target from the board.
+        /// </summary>
+        /// <param name="me">The entity that is seeking a target.</param>
+        /// <param name="targetType">The kind of entity the entity is seeking.</param>
+        /// <returns>A specific entity reference</returns>
+        Entity GetTarget(Entity me, EntityClass targetType)
+        {
+            throw new NotImplementedException(); //todo implement me
+        }
+
+        /// <summary>
+        /// performs pathfinding and returns the first step.
+        /// </summary>
+        /// <param name="me">The entity that defines the starting point of the path</param>
+        /// <param name="target">The entity that defines the end of the path</param>
+        /// <returns>The first step of the best calculated path, as North, East, South or West.</returns>
+        CardinalDirection GetPathToTarget(Entity me, Entity target) 
+        {
+            throw new NotImplementedException(); //todo implement me
+        }
+
+        /// <summary>
+        /// Performs pathfinding and returns the complete path.
+        /// </summary>
+        /// <param name="me">The entity that defines the starting point of the path</param>
+        /// <param name="target">The stationary entity that defines the end of the path</param>
+        /// <returns>An ordered list of cardinal directions that define the best calculated path</returns>
+        /// <remarks>This should only be used on entities with (stationary == true) to avoid logic errors. If used on a target that can move, the returned path is not guaranteed to be accurate after the update in which it was generated.</remarks>
+        IList<CardinalDirection> GetPathToStationaryTarget(Entity me, Entity target)
+        {
+            throw new NotImplementedException(); //todo implement me
+        }
+
+        /// <summary>
+        /// Gets the EntityClass for a hero in trouble, prioritized by remaining HP.
+        /// </summary>
+        /// <remarks>Use GetTarget/GetPath methods to get to him</remarks>
+        EntityClass FriendInTrouble
+        {
+            get
+            {
+                throw new NotImplementedException(); //todo implement me
+            }
+        }
+
+        #endregion
+    }
+
+    public enum CardinalDirection
+    {
+        North, East, South, West
     }
 }

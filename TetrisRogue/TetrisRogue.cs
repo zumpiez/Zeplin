@@ -292,7 +292,7 @@ namespace TetrisRogue
 
             if (Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.Up))
             {
-                activeChunk.Rotate(Direction.Clockwise);
+                activeChunk.Rotate(RotationDirection.Clockwise);
             }
 
             if (Input.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftAlt) && Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.Enter))

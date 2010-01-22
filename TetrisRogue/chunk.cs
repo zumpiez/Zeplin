@@ -71,15 +71,15 @@ namespace TetrisRogue
             }
         }
 
-        public void Rotate(Direction direction)
+        public void Rotate(RotationDirection direction)
         {
             switch(direction)
             {
-                case Direction.Clockwise:
+                case RotationDirection.Clockwise:
                     this._rotation = (Rotation)(((int)_rotation + 1) % 4);
                     break;
 
-                case Direction.Counterclockwise:
+                case RotationDirection.Counterclockwise:
                     if (_rotation == Rotation.None) _rotation = Rotation.Cw270;
                     else _rotation = (Rotation)((int)_rotation - 1);
                     break;
@@ -182,7 +182,7 @@ namespace TetrisRogue
         protected Rotation _rotation;
     }
 
-    public enum Direction
+    public enum RotationDirection
     {
         Clockwise, Counterclockwise
     }

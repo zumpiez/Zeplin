@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Zeplin.Utilities
 {
-    public struct HSVColor
+    public struct HSVColor //todo make me immutable
     {
         public HSVColor(float h, float s, float v, float a)
         {
