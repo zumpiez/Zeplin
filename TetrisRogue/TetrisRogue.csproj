@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chunk.cs" />
+    <Compile Include="Entities\Bestiary.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="IChunkGenerator.cs" />
     <Compile Include="ChunkTemplateGenerator.cs" />
@@ -101,6 +102,9 @@
   <ItemGroup>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
+    <Content Include="Monsters.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <NestedContentProject Include="Content\Content.contentproj">

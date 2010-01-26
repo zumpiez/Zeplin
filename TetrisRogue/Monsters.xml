@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<monsters>
+
+  <monster>
+    <name>Skeleton</name>
+    <stats>
+      <wizzin>1</wizzin>
+      <wile>2</wile>
+      <whale>3</whale>
+      <hpmax>4</hpmax>
+      <level>5</level>
+    </stats>
+    <class>Melee</class>
+    <style>Dirty</style>
+  </monster>
+
+  <monster>
+    <name>Doogie Howser</name>
+    <stats>
+      <wizzin>1</wizzin>
+      <wile>2</wile>
+      <whale>3</whale>
+      <hpmax>4</hpmax>
+      <level>5</level>
+    </stats>
+    <class>Melee</class>
+    <style>Dirty</style>
+  </monster>
+
+</monsters>

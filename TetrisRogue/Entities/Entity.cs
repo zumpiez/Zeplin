@@ -3,14 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using System.Xml.Serialization;
 
 namespace TetrisRogue.Entities
 {
     public class Entity
     {
-        CombatStyle combatStyle;
-        CombatClass combatClass;
-        Stats stats;
+        [XmlElement("name")]
+        public string name;
+
+        [XmlElement("stats")]
+        public Stats stats;
+
+        [XmlElement("style")]
+        public CombatStyle combatStyle;
+        
+        [XmlElement("class")]
+        public CombatClass combatClass;
+
+        Personality personality = Personality.Monster;
+        int InfluenceThreshold;
+
         Entity target; //gameboard tile coordinate
 
         bool stationary; //true if this entity can never move (Treasure, Door)
@@ -26,19 +39,27 @@ namespace TetrisRogue.Entities
             //if in range: act
         }
 
-        Personality personality;
-        int InfluenceThreshold;
+        Rectangle extent;
     }
 
     public struct Stats
     {
-        int Wizzin;
-        int Wile;
-        int Whale;
-        int HP;
-        int HPMax;
-        int Level;
+        [XmlElement("wizzin")]
+        public int Wizzin;
 
+        [XmlElement("wile")]
+        public int Wile;
+
+        [XmlElement("whale")]
+        public int Whale;
+
+        [XmlElement("hpmax")]
+        public int HPMax;
+        int HP;
+
+        [XmlElement("level")]
+        public int Level;
+        
         //these are ignored for non-heroes
         int XP;
         int NextLevelXP;

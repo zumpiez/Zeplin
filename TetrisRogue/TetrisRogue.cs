@@ -5,6 +5,7 @@ using Zeplin;
 using Zeplin.Utilities;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using TetrisRogue.Entities;
 
 namespace TetrisRogue
 {
@@ -112,6 +113,8 @@ namespace TetrisRogue
             
             boardLayer.Add(gameboard);
             gameboard.Position = new Vector2(20, 20);
+
+            Bestiary b = Bestiary.Create("Monsters.xml");
         }
 
         Rectangle OryxTile(int left, int top) { return OryxTile(left, top, 1, 1, 3); }
