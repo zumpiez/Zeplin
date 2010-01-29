@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using System.Xml.Serialization;
+using Zeplin;
 
 namespace TetrisRogue.Entities
 {
     public class Entity
     {
+        public Entity() { }
+
         [XmlElement("name")]
         public string name;
 
@@ -20,6 +23,41 @@ namespace TetrisRogue.Entities
         
         [XmlElement("class")]
         public CombatClass combatClass;
+
+        [XmlAttribute("x")]
+        public int X
+        {
+            set
+            {
+                Extent.X = value * 3;
+            }
+        }
+        [XmlAttribute("y")]
+        public int Y
+        {
+            set
+            {
+                Extent.Y = value * 3;
+            }
+        }
+
+        [XmlAttribute("w")]
+        public int W
+        {
+            set
+            {
+                Extent.Width = value;
+            }
+        }
+
+        [XmlAttribute("h")]
+        public int H
+        {
+            set
+            {
+                Extent.Height = value;
+            }
+        }
 
         Personality personality = Personality.Monster;
         int InfluenceThreshold;
@@ -39,7 +77,10 @@ namespace TetrisRogue.Entities
             //if in range: act
         }
 
-        Rectangle extent;
+        /// <summary>
+        /// This is a subrect for sprite drawin'. Blown up sprites are 24x24
+        /// </summary>
+        public Rectangle Extent = new Rectangle(0, 0, 24, 24);
     }
 
     public struct Stats

@@ -67,6 +67,15 @@ namespace TetrisRogue
             return GetDungeonTile(p.X, p.Y);
         }
 
+        public Entity GetEntity(int x, int y)
+        {
+            throw new NotImplementedException();
+        }
+        public Entity GetEntity(Point p)
+        {
+            return GetEntity(p.X, p.Y);
+        }
+
         /// <summary>
         /// Locates a specific chunk instance on the board and returns its GameBoard coordinates.
         /// </summary>

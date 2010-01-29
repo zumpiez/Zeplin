@@ -15,7 +15,7 @@ namespace TetrisRogue.Entities
         {
             XmlRootAttribute root = new XmlRootAttribute("monsters");
             XmlSerializer serializer = new XmlSerializer(typeof(Bestiary), root);
-
+            
             //XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
             //ns.Add("", "");
             Bestiary b = (Bestiary)serializer.Deserialize(XmlReader.Create(filename));

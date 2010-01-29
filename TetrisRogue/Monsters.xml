@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <monsters>
 
-  <monster>
+  <monster x="0" y="6">
     <name>Skeleton</name>
     <stats>
       <wizzin>1</wizzin>
