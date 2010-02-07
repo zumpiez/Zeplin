@@ -17,11 +17,13 @@ namespace Zeplin
     /// </summary>
     public class ZeplinGame : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
-        public GraphicsDeviceManager GraphicsDeviceManager
+        static GraphicsDeviceManager graphics;
+        public static GraphicsDeviceManager GraphicsDeviceManager
         {
             get { return graphics; }
         }
+
+        public static ContentManager ContentManager;
 
         public static SpriteBatch spriteBatch;
         
@@ -34,6 +36,7 @@ namespace Zeplin
         public ZeplinGame()
         {
             graphics = new GraphicsDeviceManager(this);
+            ContentManager = Content;
             Content.RootDirectory = "Content";
             ResourceContent = new ResourceContentManager(this.Services, EngineResources.ResourceManager);
             //this.IsFixedTimeStep = false;

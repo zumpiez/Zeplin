@@ -86,6 +86,7 @@
     <Compile Include="Actor.cs" />
     <Compile Include="AnimationScript.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="DrawQueue.cs" />
     <Compile Include="HeadsUpDisplay.cs" />
     <Compile Include="ICollisionVolume.cs" />
     <Compile Include="EngineResources.Designer.cs">
@@ -95,6 +96,7 @@
     </Compile>
     <Compile Include="GameObject.cs" />
     <Compile Include="ICollisionVolumeProvider.cs" />
+    <Compile Include="Image.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="CollisionShapes\SATCollisionVolume.cs" />
     <Compile Include="Layer.cs" />

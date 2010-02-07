@@ -29,7 +29,7 @@ namespace Zeplin
                 Vector2 size = bestFont.MeasureString(Text);
 
                 Vector2 topLeft = PinSizeAndAlignmentToTopLeft(Position, size, HorizontalAlignment, VerticalAlignment);
-                Engine.spriteBatch.DrawString(bestFont, Text, topLeft, Foreground, 0.0f, Vector2.Zero, scale, SpriteEffects.None, 0);
+                ZeplinGame.spriteBatch.DrawString(bestFont, Text, topLeft, Foreground, 0.0f, Vector2.Zero, scale, SpriteEffects.None, 0);
             }
         }
 

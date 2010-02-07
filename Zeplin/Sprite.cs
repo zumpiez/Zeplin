@@ -27,7 +27,7 @@ namespace Zeplin
         /// <param name="resource">The name of a Texture2D resource</param>
         public Sprite(string resource)
         {
-            image = Engine.Content.Load<Texture2D>(resource);
+            image = ZeplinGame.ContentManager.Load<Texture2D>(resource);
             Color = Color.White;
 
             FrameSize.X = image.Width;

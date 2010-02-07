@@ -36,7 +36,7 @@ namespace Zeplin
 
                 int sz = Int32.Parse(match.Groups[2].Value);
 
-                _baseFonts.Add(sz, Engine.Content.Load<SpriteFont>(match.Groups[1].Value));
+                _baseFonts.Add(sz, ZeplinGame.ContentManager.Load<SpriteFont>(match.Groups[1].Value));
             }
         }
 

@@ -22,7 +22,7 @@ namespace Zeplin
         /// <param name="resourceName">The name of a SoundEffect resource</param>
         public Sound(string resourceName)
         {
-            soundEffect = Engine.Content.Load<SoundEffect>(resourceName);
+            soundEffect = ZeplinGame.ContentManager.Load<SoundEffect>(resourceName);
         }
 
         /// <summary>

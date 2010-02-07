@@ -17,14 +17,36 @@ namespace Zeplin.Utilities
 
             if (device.GraphicsDeviceCapabilities.TextureCapabilities.RequiresPower2)
             {
-                double exponent = Math.Ceiling(Math.Log(width) / Math.Log(2));
-                width = (int)Math.Pow(2, exponent);
-
-                exponent = Math.Ceiling(Math.Log(height) / Math.Log(2));
-                height = (int)Math.Pow(2, exponent);
+                width = NextBiggestPow2(width);
+                height = NextBiggestPow2(height);
             }
 
-            return new RenderTarget2D(device, width, height, 0, outputFormat);
+            if (device.GraphicsDeviceCapabilities.TextureCapabilities.RequiresSquareOnly)
+            {
+                if (width > height) height = width;
+                if (width < height) width = height;
+            }
+
+            //todo maybe don't use PreserveContents here. Might have xbox performance problems.
+            return new RenderTarget2D(device, width, height, 0, outputFormat, RenderTargetUsage.PreserveContents);
+        }
+
+        public static RenderTarget2D CreateRenderTarget(int width, int height)
+        {
+            return CreateRenderTarget(ZeplinGame.GraphicsDeviceManager.GraphicsDevice, width, height);
+        }
+
+        public static int NextBiggestPow2(int value)
+        {
+            value--;
+            value = (value >> 1) | value;
+            value = (value >> 2) | value;
+            value = (value >> 4) | value;
+            value = (value >> 8) | value;
+            value = (value >> 16) | value;
+            value++;
+
+            return value;
         }
     }
 }

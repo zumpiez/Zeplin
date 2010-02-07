@@ -68,6 +68,14 @@ namespace Zeplin
             return !(left == right);
         }
 
+        public static Transformation Identity
+        {
+            get
+            {
+                return new Transformation(Vector2.Zero, Vector2.One, 0f, Vector2.Zero);
+            }
+        }
+
         public override int GetHashCode()
         {
             // this isn't the best hash code method ever written, but whatever

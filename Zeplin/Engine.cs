@@ -23,9 +23,9 @@ namespace Zeplin
         /// </summary>
         internal static void Initialize(ContentManager contentManager, SpriteBatch spriteBatch, GraphicsDeviceManager gdm, Map map)
         {
-            Engine.Content = contentManager;
-            Engine.spriteBatch = spriteBatch;
-            Engine.graphicsDeviceManager = gdm;
+            //Engine.Content = contentManager;
+            //Engine.spriteBatch = spriteBatch;
+            //Engine.graphicsDeviceManager = gdm;
             World.gameResolution = new Vector2(gdm.PreferredBackBufferWidth, gdm.PreferredBackBufferHeight);
             
             //camera defaults to the size of the world. User can set this to the desired dimensions.
@@ -56,7 +56,7 @@ namespace Zeplin
             rotation = (float)Math.Atan2((double)tweenVector.Y, (double)tweenVector.X);
 
             //Some of these values were inverted to deal with the fact that world coordinate's y-growth is the opposite of the screen's. Without it, the lines were drawing upside-down.
-            spriteBatch.Draw(square, new Vector2(p1.X, -p1.Y), null, color, -rotation, Vector2.Zero, scaleFactor, SpriteEffects.None, 0);
+            ZeplinGame.spriteBatch.Draw(square, new Vector2(p1.X, -p1.Y), null, color, -rotation, Vector2.Zero, scaleFactor, SpriteEffects.None, 0);
         }
 
         /// <summary>
@@ -94,9 +94,9 @@ namespace Zeplin
         /// </summary>
         public static Map CurrentMap { get; private set; }
 
-        public static ContentManager Content;
-        internal static SpriteBatch spriteBatch;
-        public static GraphicsDeviceManager graphicsDeviceManager;
+        //public static ContentManager Content;
+        //internal static SpriteBatch spriteBatch;
+        //public static GraphicsDeviceManager graphicsDeviceManager;
 
         public static Camera Camera { get; private set; }
     }

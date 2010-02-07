@@ -83,16 +83,15 @@ namespace Zeplin
                 viewMatrix = Engine.Camera.ComputeViewMatrix(Parallax);
             }
 
-            Engine.spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront, SaveStateMode.None, viewMatrix);
+            ZeplinGame.spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.BackToFront, SaveStateMode.None, viewMatrix);
 
             foreach (GameObject o in GameObjects)
             {
                 if (o.OnDraw != null)
                     o.OnDraw(gameTime);
-
             }
 
-            Engine.spriteBatch.End();
+            ZeplinGame.spriteBatch.End();
         }
 
         /// <summary>

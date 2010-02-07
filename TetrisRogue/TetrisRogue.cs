@@ -26,8 +26,8 @@ namespace TetrisRogue
 
         void GraphicsDevice_DeviceReset(object sender, EventArgs e)
         {
-            characters.Image = PointScale(3, Engine.Content.Load<Texture2D>(@"characters"));
-            environment.Image = PointScale(3, Engine.Content.Load<Texture2D>(@"environment"));
+            characters.Image = PointScale(3, ZeplinGame.ContentManager.Load<Texture2D>(@"characters"));
+            environment.Image = PointScale(3, ZeplinGame.ContentManager.Load<Texture2D>(@"environment"));
         }
 
 
@@ -37,10 +37,10 @@ namespace TetrisRogue
         
         void Load()
         {
-            game.GraphicsDeviceManager.DeviceReset += new EventHandler(GraphicsDevice_DeviceReset);
+            ZeplinGame.GraphicsDeviceManager.DeviceReset += new EventHandler(GraphicsDevice_DeviceReset);
 
-            characters = new Sprite(PointScale(3, Engine.Content.Load<Texture2D>(@"characters")));
-            environment = new Sprite(PointScale(3, Engine.Content.Load<Texture2D>(@"environment")));
+            characters = new Sprite(PointScale(3, ZeplinGame.ContentManager.Load<Texture2D>(@"characters")));
+            environment = new Sprite(PointScale(3, ZeplinGame.ContentManager.Load<Texture2D>(@"environment")));
             MetaFont za = new MetaFont("Zaratustra Assemblee", game.Content.RootDirectory);
 
             tileFallState = new StateManager(game);
@@ -300,7 +300,7 @@ namespace TetrisRogue
 
             if (Input.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftAlt) && Input.WasKeyPressed(Microsoft.Xna.Framework.Input.Keys.Enter))
             {
-                if (!game.GraphicsDeviceManager.IsFullScreen) game.SetDefaultResolution();
+                if (!ZeplinGame.GraphicsDeviceManager.IsFullScreen) game.SetDefaultResolution();
                 else game.ChangeResolution(800, 600, false);
             }
         }
