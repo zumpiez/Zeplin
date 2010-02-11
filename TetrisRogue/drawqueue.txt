@@ -1,0 +1,19 @@
+ZEPLIN DrawQueue
+
+DrawQueue stores references to images, their targets, and optionally any transformation 
+information. A new method, Zeplin.Graphics.Draw, will accept these parameters and store
+them appropriately in the DrawQueue container. During XNA's draw phase, instead of actively
+drawing the Map as it traverses it as part of one big spritebatch, it now adds all of the
+objects to the DrawQueue as appropriate, with the proper settings. The last step of XNA draw
+is to execute all of the actions in the DrawQueue.
+
+With the introduction of Image, and the ability for one Image to draw onto another, we now
+have a problem of SpriteBatches being created and destroyed during each one of those operations.
+DrawQueue allows these to all be batched intelligently and performed in one fell swoop.
+
+DrawQueue will perform all pending draws in the order that they were registered. I was considering
+batching them by target, but I realized that would cause things to happen out of order, with
+potentially incorrect results in cases like "Draw A to B, do something to B, draw B to A". I don't
+know if this is slower, it probably is, but it probably doesn't matter for now.
+
+Queue<Queue<DrawCommand>> 
