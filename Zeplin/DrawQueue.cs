@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace Zeplin
 {
-    class DrawQueue
+    internal class DrawQueue
     {
         public DrawQueue()
         {
@@ -42,6 +42,7 @@ namespace Zeplin
             while (drawQueue.Count > 0)
             {
                 currentDrawLayer = drawQueue.Dequeue();
+                if (parallaxQueue.Count == 0) parallaxQueue.Enqueue(Vector2.One);
                 var parallaxFactors = parallaxQueue.Dequeue();
                 var lastDestination = currentDrawLayer.Peek().destination; //initialize to the first RenderTarget in this layer's queue
                 
@@ -75,6 +76,7 @@ namespace Zeplin
             System.Diagnostics.Debug.Assert(currentDrawLayer.Count == 0);
             System.Diagnostics.Debug.Assert(drawQueue.Count == 0);
             System.Diagnostics.Debug.Assert(parallaxQueue.Count == 0);
+            ZeplinGame.spriteBatch.End();
         }
 
         /// <summary>

@@ -20,6 +20,7 @@ namespace Zeplin
             Width = source.Width;
             Height = source.Height;
             renderTarget = GraphicsHelper.CreateRenderTarget(Width, Height);
+            //don't set XNASafe at all here since we can't be sure where the tex came from.
         }
 
         public void Load(Image source)
@@ -27,23 +28,25 @@ namespace Zeplin
             throw new NotImplementedException();
             //todo do we want to COPY the texture and rendertarget, or reference them?
             //what is the best way to copy a texture and render target?
+            //(if we copy, xnasafe = false. if we reference, xnasafe = source.xnasafe)
         }
 
         public void Load(string resource)
         {
-            this.texture = ZeplinGame.ResourceContent.Load<Texture2D>(resource);
+            this.texture = ZeplinGame.ContentManager.Load<Texture2D>(resource);
             Width = texture.Width;
             Height = texture.Height;
             renderTarget = GraphicsHelper.CreateRenderTarget(Width, Height);
+            operatingMode = OperatingMode.Safe; //XNA will re-load this for us.
         }
 
         /// <summary>
         /// Draws an image into another image.
         /// </summary>
         /// <param name="otherImage"></param>
-        public void Draw(Image otherImage)
+        public void Draw(Image destinationImage)
         {
-            this.Draw(otherImage, Transformation.Identity);
+            this.Draw(destinationImage, Transformation.Identity);
         }
 
         /// <summary>
@@ -51,7 +54,7 @@ namespace Zeplin
         /// </summary>
         /// <param name="otherImage"></param>
         /// <param name="transformation"></param>
-        public void Draw(Image otherImage, Transformation transformation)
+        public void Draw(Image destinationImage, Transformation transformation)
         {
             throw new NotImplementedException();
         }
@@ -62,7 +65,7 @@ namespace Zeplin
         /// <param name="transformation"></param>
         public void Draw(Transformation transformation)
         {
-            throw new NotImplementedException();
+            ZeplinGame.drawQueue.AddCommand(new DrawCommand(this.Texture, transformation));
         }
 
         /// <summary>
@@ -83,7 +86,7 @@ namespace Zeplin
 #endif
         }
 
-        public void RestoreFromCache(Object sender, EventArgs e)
+        void RestoreFromCache(Object sender, EventArgs e)
         {
 #if !XBOX360
             if (cache != null)
@@ -97,7 +100,7 @@ namespace Zeplin
 #endif
         }
 
-        internal void FlushCache()
+        void FlushCache()
         {
             if (cache != null)
             {
@@ -106,17 +109,33 @@ namespace Zeplin
             }
         }
 
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public int Width
+        {
+            get;
+            set;
+        }
+        public int Height
+        {
+            get;
+            set;
+        }
 
+        public Texture2D Texture
+        {
+            get
+            {
+                if (operatingMode == OperatingMode.Volatile)
+                    texture = renderTarget.GetTexture();
 
+                return texture;
+            }
+        }
+        
+        Texture2D texture;
+        RenderTarget2D renderTarget;
+        Texture2D cache;
 
-        internal Texture2D texture;
-        internal RenderTarget2D renderTarget;
-        internal Texture2D cache;
-
-        bool XNASafe; //todo do something with this to make sure that we don't lost textures that XNA should
-                      //be able to fix for us.
+        OperatingMode operatingMode; 
 
         EventHandler ContentLostEventHandler;
 
@@ -130,5 +149,10 @@ namespace Zeplin
         }
 
         #endregion
+    }
+
+    enum OperatingMode
+    {
+        Safe, Volatile
     }
 }

@@ -26,6 +26,8 @@ namespace Zeplin
         public static ContentManager ContentManager;
 
         public static SpriteBatch spriteBatch;
+
+        internal static DrawQueue drawQueue { get; private set; }
         
         public static ResourceContentManager ResourceContent { get; private set; }
 
@@ -37,6 +39,7 @@ namespace Zeplin
         {
             graphics = new GraphicsDeviceManager(this);
             ContentManager = Content;
+            drawQueue = new DrawQueue();
             Content.RootDirectory = "Content";
             ResourceContent = new ResourceContentManager(this.Services, EngineResources.ResourceManager);
             //this.IsFixedTimeStep = false;
@@ -101,7 +104,8 @@ namespace Zeplin
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            testMap.Draw(gameTime);
+            //testMap.Draw(gameTime);
+            drawQueue.Draw();
 
             base.Draw(gameTime);
         }

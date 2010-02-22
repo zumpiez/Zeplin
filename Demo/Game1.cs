@@ -24,9 +24,23 @@ namespace Demo
         public Demo()
         {
             game = new ZeplinGame();
-            game.OnUpdate += DemoUpdateEveryFrame; //optionally inject custom code into the update call
-            game.OnLoad += LoadContent; //optionally inject custom code into the content load
+            //game.OnUpdate += DemoUpdateEveryFrame; //optionally inject custom code into the update call
+            //game.OnLoad += LoadContent; //optionally inject custom code into the content load
+            game.OnUpdate += UpdateImageTest;
+            game.OnLoad += LoadImageTest;
             game.Run();
+        }
+
+        Image sn;
+        void LoadImageTest()
+        {
+            sn = new Image();
+            sn.Load(@"Images\stickninja");
+        }
+
+        void UpdateImageTest(GameTime time)
+        {
+            sn.Draw(new Transformation(new Vector2(-400, -300), new Vector2(0.6f), 0f));
         }
 
         /// <summary>
