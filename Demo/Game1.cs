@@ -31,16 +31,53 @@ namespace Demo
             game.Run();
         }
 
-        Image sn;
+        Image contentManager;
+        Image texture2d;
+        Image anotherimage;
+        Image targetImage;
         void LoadImageTest()
         {
-            sn = new Image();
-            sn.Load(@"Images\stickninja");
+            //load image from content manager
+            contentManager = new Image();
+            contentManager.Load(@"contentmanager");
+
+            //load texture from content manager, load image from texture
+            texture2d = new Image();
+            Texture2D texture2dtex = ZeplinGame.ContentManager.Load<Texture2D>(@"texture2d");
+            texture2d.Load(texture2dtex);
+
+            //load image from content manager, load image from image
+            var initialImage = new Image();
+            initialImage.Load(@"anotherimage");
+            anotherimage = new Image();
+            anotherimage.Load(initialImage);
+
+            //test for reference between textures from previous test case
+            Texture2D refleak = ZeplinGame.ContentManager.Load<Texture2D>(@"refleak");
+            Color[] refleakdata = new Color[refleak.Height * refleak.Width];
+            refleak.GetData<Color>(refleakdata);
+            initialImage.Texture.SetData<Color>(refleakdata);
+
+            //draw onto another image
+            targetImage = new Image();
+            var sourceImage = new Image();
+            sourceImage.Load(@"drawnby");
+            sourceImage.Draw(targetImage, Transformation.Identity);
         }
 
         void UpdateImageTest(GameTime time)
         {
-            sn.Draw(new Transformation(new Vector2(-400, -300), new Vector2(0.6f), 0f));
+            contentManager.Draw(new Transformation(new Vector2(-400, -300), Vector2.One, 0f));
+            texture2d.Draw(new Transformation(new Vector2(-400 + 256, -300), Vector2.One, 0f));
+            anotherimage.Draw(new Transformation(new Vector2(-400 + 256 * 2, -300), Vector2.One, 0f));
+            //targetImage.Draw(new Transformation(new Vector2(-400 + 256 * 3, -300), Vector2.One, 0f));
+            
+            //press R to trash the render device. use this to break the test cases.
+            if (Input.WasKeyPressed(Keys.R))
+            {
+                game.ChangeResolution(1024, 768, true);
+                game.ChangeResolution(800, 600, false); 
+            }
         }
 
         /// <summary>

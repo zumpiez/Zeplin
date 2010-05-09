@@ -12,6 +12,7 @@ namespace Zeplin
         public Image()
         {
             ContentLostEventHandler = new EventHandler(RestoreFromCache);
+            //renderTarget = GraphicsHelper.CreateRenderTarget(0, 0);
         }
 
         public void Load(Texture2D source)
@@ -23,12 +24,31 @@ namespace Zeplin
             //don't set XNASafe at all here since we can't be sure where the tex came from.
         }
 
+        /// <summary>
+        /// Deep-copies an image into this one
+        /// </summary>
+        /// <param name="source"></param>
         public void Load(Image source)
         {
-            throw new NotImplementedException();
-            //todo do we want to COPY the texture and rendertarget, or reference them?
-            //what is the best way to copy a texture and render target?
-            //(if we copy, xnasafe = false. if we reference, xnasafe = source.xnasafe)
+            //deep copy the texture data
+            Color[] textureData = new Color[source.texture.Width * source.texture.Height];
+            source.texture.GetData<Color>(textureData);
+            this.texture = new Texture2D(ZeplinGame.GraphicsDeviceManager.GraphicsDevice, source.Width, source.Height);
+            this.texture.SetData<Color>(textureData);
+            //this.texture = source.texture;
+            //this.renderTarget = GraphicsHelper.CreateRenderTarget(this.texture.Width, this.texture.Height);
+
+            /*if (source.cache != null)
+            {
+                source.cache.GetData<Color>(textureData);
+                this.cache.SetData<Color>(textureData);
+            }*/
+            this.cache = source.cache;
+
+            this.Width = source.Width;
+            this.Height = source.Height;
+
+            this.operatingMode = OperatingMode.Volatile;
         }
 
         public void Load(string resource)
@@ -56,7 +76,7 @@ namespace Zeplin
         /// <param name="transformation"></param>
         public void Draw(Image destinationImage, Transformation transformation)
         {
-            throw new NotImplementedException();
+            ZeplinGame.drawQueue.AddCommand(new DrawCommand(this.Texture, transformation, destinationImage.renderTarget));
         }
 
         /// <summary>
@@ -124,8 +144,8 @@ namespace Zeplin
         {
             get
             {
-                if (operatingMode == OperatingMode.Volatile)
-                    texture = renderTarget.GetTexture();
+                //if (operatingMode == OperatingMode.Volatile)
+                    //texture = renderTarget.GetTexture();
 
                 return texture;
             }

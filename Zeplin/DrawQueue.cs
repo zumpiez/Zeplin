@@ -44,7 +44,8 @@ namespace Zeplin
                 currentDrawLayer = drawQueue.Dequeue();
                 if (parallaxQueue.Count == 0) parallaxQueue.Enqueue(Vector2.One);
                 var parallaxFactors = parallaxQueue.Dequeue();
-                var lastDestination = currentDrawLayer.Peek().destination; //initialize to the first RenderTarget in this layer's queue
+                RenderTarget2D lastDestination = null;
+                if(currentDrawLayer.Count > 0) lastDestination = currentDrawLayer.Peek().destination; //initialize to the first RenderTarget in this layer's queue
                 
                 var parallaxMatrix = ComputeParallax(lastDestination, parallaxFactors);
 
@@ -72,10 +73,6 @@ namespace Zeplin
                 //this layer is done, loop back to dequeue next layer, compute parallax, etc
             }
 
-            //make sure all the queues are empty
-            System.Diagnostics.Debug.Assert(currentDrawLayer.Count == 0);
-            System.Diagnostics.Debug.Assert(drawQueue.Count == 0);
-            System.Diagnostics.Debug.Assert(parallaxQueue.Count == 0);
             ZeplinGame.spriteBatch.End();
         }
 
