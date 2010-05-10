@@ -7,9 +7,9 @@ using Zeplin.Utilities;
 
 namespace Zeplin
 {
-    public class Image : IDisposable
+    public class HybridImage : IDisposable
     {
-        public Image()
+        public HybridImage()
         {
             ContentLostEventHandler = new EventHandler(RestoreFromCache);
             //renderTarget = GraphicsHelper.CreateRenderTarget(0, 0);
@@ -28,7 +28,7 @@ namespace Zeplin
         /// Deep-copies an image into this one
         /// </summary>
         /// <param name="source"></param>
-        public void Load(Image source)
+        public void Load(HybridImage source)
         {
             //deep copy the texture data
             Color[] textureData = new Color[source.texture.Width * source.texture.Height];
@@ -64,7 +64,7 @@ namespace Zeplin
         /// Draws an image into another image.
         /// </summary>
         /// <param name="otherImage"></param>
-        public void Draw(Image destinationImage)
+        public void Draw(HybridImage destinationImage)
         {
             this.Draw(destinationImage, Transformation.Identity);
         }
@@ -74,7 +74,7 @@ namespace Zeplin
         /// </summary>
         /// <param name="otherImage"></param>
         /// <param name="transformation"></param>
-        public void Draw(Image destinationImage, Transformation transformation)
+        public void Draw(HybridImage destinationImage, Transformation transformation)
         {
             ZeplinGame.drawQueue.AddCommand(new DrawCommand(this.Texture, transformation, destinationImage.renderTarget));
         }
