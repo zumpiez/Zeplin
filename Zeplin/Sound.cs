@@ -30,8 +30,9 @@ namespace Zeplin
         /// </summary>
         public void Play()
         {
-            if(instance == null || instance.State != SoundState.Playing)
-                instance = soundEffect.Play();
+            throw new NotImplementedException();
+            //if(instance == null || instance.State != SoundState.Playing)
+                //instance = soundEffect.Play();
         }
 
         /// <summary>
@@ -52,8 +53,9 @@ namespace Zeplin
         /// <param name="loop">Whether to continue playing the song indefinitely, until stopped or paused manually, or set to no longer loop.</param>
         public void Play(float volume, float pitch, float pan, bool loop)
         {
-            if (instance == null || instance.State != SoundState.Playing)
-                instance = soundEffect.Play(volume, pitch , pan, loop);
+            throw new NotImplementedException();
+            //if (instance == null || instance.State != SoundState.Playing)
+                //instance = soundEffect.Play(volume, pitch , pan, loop);
         }
 
         /// <summary>
