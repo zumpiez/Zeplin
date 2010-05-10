@@ -9,7 +9,7 @@ namespace Demo.Actors
 {
     public class Logo : Actor
     {
-        private static Sprite ball = new Sprite(@"Images\ball");
+        private static Image ball = new Image(@"Images\ball");
 
         public float offset = 0;
         public float rotationSpeed = 1;

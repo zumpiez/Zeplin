@@ -31,25 +31,25 @@ namespace Demo
             game.Run();
         }
 
-        Image contentManager;
-        Image texture2d;
-        Image anotherimage;
-        Image targetImage;
+        HybridImage contentManager;
+        HybridImage texture2d;
+        HybridImage anotherimage;
+        HybridImage targetImage;
         void LoadImageTest()
         {
             //load image from content manager
-            contentManager = new Image();
+            contentManager = new HybridImage();
             contentManager.Load(@"contentmanager");
 
             //load texture from content manager, load image from texture
-            texture2d = new Image();
+            texture2d = new HybridImage();
             Texture2D texture2dtex = ZeplinGame.ContentManager.Load<Texture2D>(@"texture2d");
             texture2d.Load(texture2dtex);
 
             //load image from content manager, load image from image
-            var initialImage = new Image();
+            var initialImage = new HybridImage();
             initialImage.Load(@"anotherimage");
-            anotherimage = new Image();
+            anotherimage = new HybridImage();
             anotherimage.Load(initialImage);
 
             //test for reference between textures from previous test case
@@ -59,8 +59,8 @@ namespace Demo
             initialImage.Texture.SetData<Color>(refleakdata);
 
             //draw onto another image
-            targetImage = new Image();
-            var sourceImage = new Image();
+            targetImage = new HybridImage();
+            var sourceImage = new HybridImage();
             sourceImage.Load(@"drawnby");
             sourceImage.Draw(targetImage, Transformation.Identity);
         }

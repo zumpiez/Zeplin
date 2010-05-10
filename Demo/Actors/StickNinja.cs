@@ -12,7 +12,7 @@ namespace Demo.Actors
 {
     public class StickNinja : Actor
     {
-        public StickNinja(Vector2 position) : base(new Sprite(@"Images\stickninja"), new Transformation(position, new Vector2(0.75f, 0.75f), 0, new Vector2(80,95)), new SATCollisionVolume(Vector2.Zero, new Vector2(99,77)))
+        public StickNinja(Vector2 position) : base(new Image(@"Images\stickninja"), new Transformation(position, new Vector2(0.75f, 0.75f), 0, new Vector2(80,95)), new SATCollisionVolume(Vector2.Zero, new Vector2(99,77)))
         {
             Transformation.Scale = new Vector2(0.75f);
             Transformation.Depth = 0;

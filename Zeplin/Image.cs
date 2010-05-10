@@ -19,28 +19,28 @@ namespace Zeplin
     /// <summary>
     /// Defines a texture resource, animation data, and drawing instructions. Wraps a Texture2D.
     /// </summary>
-    public class Sprite
+    public class Image
     {
         /// <summary>
         /// Constructs a Sprite from the specified Texture2D resource
         /// </summary>
         /// <param name="resource">The name of a Texture2D resource</param>
-        public Sprite(string resource)
+        public Image(string resource)
         {
-            image = ZeplinGame.ContentManager.Load<Texture2D>(resource);
+            texture = ZeplinGame.ContentManager.Load<Texture2D>(resource);
             Color = Color.White;
 
-            FrameSize.X = image.Width;
-            FrameSize.Y = image.Height;
+            FrameSize.X = texture.Width;
+            FrameSize.Y = texture.Height;
         }
 
-        public Sprite(Texture2D texture)
+        public Image(Texture2D texture)
         {
-            image = texture;
+            texture = texture;
             Color = Color.White;
 
-            FrameSize.X = image.Width;
-            FrameSize.Y = image.Height;
+            FrameSize.X = texture.Width;
+            FrameSize.Y = texture.Height;
         }
 
         /// <summary>
@@ -91,12 +91,12 @@ namespace Zeplin
             {
                 Rectangle texelRect = sourceRectangle.Value;
 
-                ZeplinGame.spriteBatch.Draw(image, new Vector2(transformation.Position.X, -transformation.Position.Y), texelRect, 
+                ZeplinGame.spriteBatch.Draw(texture, new Vector2(transformation.Position.X, -transformation.Position.Y), texelRect, 
                     color, transformation.Rotation, transformation.Pivot, transformation.Scale, Facing, transformation.Depth);
             }
             else
             {
-                ZeplinGame.spriteBatch.Draw(image, new Vector2(transformation.Position.X, -transformation.Position.Y), null, 
+                ZeplinGame.spriteBatch.Draw(texture, new Vector2(transformation.Position.X, -transformation.Position.Y), null, 
                     color, transformation.Rotation, transformation.Pivot, transformation.Scale, Facing, transformation.Depth);
             }
         }
@@ -107,20 +107,20 @@ namespace Zeplin
         /// <remarks>Hacked in late. This will be changed to a property and wrapped into Transformation and not require importing XNA.Graphics to set.</remarks>
         public SpriteEffects Facing { get; set; }
 
-        Texture2D image;
+        Texture2D texture;
         /// <summary>
         /// Gets a reference to the Texture2D component of the Sprite.
         /// </summary>
         /// <remarks>Not certain this is needed public</remarks>
-        public Texture2D Image
+        public Texture2D Texture
         {
             get
             {
-                return image;
+                return texture;
             }
             set
             {
-                image = value;
+                texture = value;
             }
         }
 

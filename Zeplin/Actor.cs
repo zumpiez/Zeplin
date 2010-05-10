@@ -22,7 +22,7 @@ namespace Zeplin
         /// <param name="sprite">The artwork the actor will use during Draw.</param>
         /// <param name="transformation">Positioning information.</param>
         /// <param name="collider">A collision shape that mirrors the transformation.</param>
-        public Actor(Sprite sprite, Transformation transformation, SATCollisionVolume collider) : base(sprite, transformation, collider)
+        public Actor(Image sprite, Transformation transformation, SATCollisionVolume collider) : base(sprite, transformation, collider)
         {
         }
 
@@ -31,7 +31,7 @@ namespace Zeplin
         /// </summary>
         /// <param name="sprite">The artwork the actor will use during Draw.</param>
         /// <param name="transformation">Positioning information.</param>
-        public Actor(Sprite sprite, Transformation transformation) : this(sprite, transformation, new SATCollisionVolume()) { }
+        public Actor(Image sprite, Transformation transformation) : this(sprite, transformation, new SATCollisionVolume()) { }
 
         /// <summary>
         /// This is called for you once per map draw by Zeplin. 

@@ -18,21 +18,21 @@ namespace Zeplin
     public class Tile : GameObject, ICollisionVolumeProvider
     {
         public Tile() : this(null, new Transformation(), null, null) { }
-        public Tile(Sprite sprite) : this(sprite, new Transformation(), null, null) { }
+        public Tile(Image sprite) : this(sprite, new Transformation(), null, null) { }
 
         /// <summary>
         /// Constructs a tile with a sprite and a transformation
         /// </summary>
         /// <param name="sprite"></param>
         /// <param name="transformation"></param>
-        public Tile(Sprite sprite, Transformation transformation) : this(sprite, transformation, null, null) {}
-        public Tile(Sprite sprite, AnimationScript animation) : this(sprite, new Transformation(), animation, null) {}
-        public Tile(Sprite sprite, Transformation transformation, SATCollisionVolume collider) : this(sprite, transformation, null, collider) { }
+        public Tile(Image sprite, Transformation transformation) : this(sprite, transformation, null, null) {}
+        public Tile(Image sprite, AnimationScript animation) : this(sprite, new Transformation(), animation, null) {}
+        public Tile(Image sprite, Transformation transformation, SATCollisionVolume collider) : this(sprite, transformation, null, collider) { }
 
-        public Tile(Sprite sprite, Transformation transformation, AnimationScript animation, SATCollisionVolume collider)
+        public Tile(Image sprite, Transformation transformation, AnimationScript animation, SATCollisionVolume collider)
         {
             this.Sprite = sprite;
-            SubRect = new Rectangle(0, 0, sprite.Image.Width, sprite.Image.Height);
+            SubRect = new Rectangle(0, 0, sprite.Texture.Width, sprite.Texture.Height);
 
             this.Transformation = new Transformation(transformation);
             this.AnimationScript = animation;
@@ -95,7 +95,7 @@ namespace Zeplin
         /// <summary>
         /// Gets or sets the sprite asset associated with this tile
         /// </summary>
-        public Sprite Sprite { get; protected set; }
+        public Image Sprite { get; protected set; }
         
         public Transformation Transformation;
 
