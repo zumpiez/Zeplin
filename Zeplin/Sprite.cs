@@ -15,23 +15,23 @@ namespace Zeplin
     /// <summary>
     /// Defines a Tile, which can be positioned and drawn in the world and is compatible with collision
     /// </summary>
-    public class Tile : GameObject, ICollisionVolumeProvider
+    public class Sprite : GameObject, ICollisionVolumeProvider
     {
-        public Tile() : this(null, new Transformation(), null, null) { }
-        public Tile(Image sprite) : this(sprite, new Transformation(), null, null) { }
+        public Sprite() : this(null, new Transformation(), null, null) { }
+        public Sprite(Image sprite) : this(sprite, new Transformation(), null, null) { }
 
         /// <summary>
         /// Constructs a tile with a sprite and a transformation
         /// </summary>
         /// <param name="sprite"></param>
         /// <param name="transformation"></param>
-        public Tile(Image sprite, Transformation transformation) : this(sprite, transformation, null, null) {}
-        public Tile(Image sprite, AnimationScript animation) : this(sprite, new Transformation(), animation, null) {}
-        public Tile(Image sprite, Transformation transformation, SATCollisionVolume collider) : this(sprite, transformation, null, collider) { }
+        public Sprite(Image sprite, Transformation transformation) : this(sprite, transformation, null, null) {}
+        public Sprite(Image sprite, AnimationScript animation) : this(sprite, new Transformation(), animation, null) {}
+        public Sprite(Image sprite, Transformation transformation, SATCollisionVolume collider) : this(sprite, transformation, null, collider) { }
 
-        public Tile(Image sprite, Transformation transformation, AnimationScript animation, SATCollisionVolume collider)
+        public Sprite(Image sprite, Transformation transformation, AnimationScript animation, SATCollisionVolume collider)
         {
-            this.Sprite = sprite;
+            this.Image = sprite;
             SubRect = new Rectangle(0, 0, sprite.Texture.Width, sprite.Texture.Height);
 
             this.Transformation = new Transformation(transformation);
@@ -46,7 +46,7 @@ namespace Zeplin
             }
         }
 
-        public Tile(Tile oldTile) : this(oldTile.Sprite, oldTile.Transformation, oldTile.AnimationScript, oldTile.collider)
+        public Sprite(Sprite oldTile) : this(oldTile.Image, oldTile.Transformation, oldTile.AnimationScript, oldTile.collider)
         {
             this.FrameSize = oldTile.FrameSize;
             this.SubRect = oldTile.SubRect;
@@ -66,11 +66,11 @@ namespace Zeplin
                 sourceRect = AnimationScript.ProcessAnimation(gameTime, FrameSize, SubRect);
                 //Console.WriteLine("drawing tile with subrect {0}", sourceRect);
 
-                Sprite.Draw(Transformation, sourceRect);
+                Image.Draw(Transformation, sourceRect);
             }
             else
             {
-                Sprite.Draw(Transformation, SubRect);
+                Image.Draw(Transformation, SubRect);
             }
 
             if(CollisionVolume != null)
@@ -79,9 +79,9 @@ namespace Zeplin
 
         public void Draw(GameTime gameTime, Color color)
         {
-            Sprite.Color = color;
+            Image.Color = color;
             Draw(gameTime);
-            Sprite.Color = Color.White;
+            Image.Color = Color.White;
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace Zeplin
         /// <summary>
         /// Gets or sets the sprite asset associated with this tile
         /// </summary>
-        public Image Sprite { get; protected set; }
+        public Image Image { get; protected set; }
         
         public Transformation Transformation;
 

@@ -14,7 +14,7 @@ namespace Zeplin
     /// <summary>
     /// Defines an interactive component in the game world
     /// </summary>
-    public class Actor : Tile
+    public class Actor : Sprite
     {
         /// <summary>
         /// An Actor can be drawn on screen, translated around arbitrarily, collide with other game objects, and process update logic every frame.
@@ -44,11 +44,11 @@ namespace Zeplin
             if (AnimationScript != null)
             {
                 sourceRect = AnimationScript.ProcessAnimation(gameTime, FrameSize);
-                Sprite.Draw(Transformation, sourceRect);
+                Image.Draw(Transformation, sourceRect);
             }
             else
             {
-                Sprite.Draw(Transformation, null);
+                Image.Draw(Transformation, null);
             }
             ((SATCollisionVolume)CollisionVolume).Draw();
         }

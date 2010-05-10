@@ -121,7 +121,7 @@ namespace Demo
             near.Add(animationGuy);
 
             Tiles.GrassBrick distantGrassBrick = new Tiles.GrassBrick(new Vector2(350, 250));
-            distantGrassBrick.Sprite.Color = new Color(Color.White, 150);
+            distantGrassBrick.Image.Color = new Color(Color.White, 150);
             distantGrassBrick.Transformation.Scale = new Vector2(0.25f);
             skybox.Add(distantGrassBrick);
 
